@@ -1,0 +1,7 @@
+[
+  { "id": "aquila_pendant", "name": "Aquila Pendant", "description": "A small golden Aquila. A symbol of faith in the God-Emperor.", "category": "key_item", "weight": 0.1, "basePrice": 0, "rarity": "common", "stackable": false, "maxStack": 1, "requirements": {}, "properties": {} },
+  { "id": "rosette_inquisition", "name": "Inquisitorial Rosette", "description": "The seal of the Inquisition. Opens any door in the Imperium.", "category": "key_item", "weight": 0.1, "basePrice": 0, "rarity": "legendary", "stackable": false, "maxStack": 1, "requirements": {}, "properties": {} },
+  { "id": "data_slate", "name": "Data-Slate", "description": "Portable cogitator used for storing and reading information.", "category": "key_item", "weight": 0.5, "basePrice": 20, "rarity": "common", "stackable": false, "maxStack": 1, "requirements": {}, "properties": {} },
+  { "id": "chrono", "name": "Chrono", "description": "Imperial timekeeping device worn on the wrist.", "category": "key_item", "weight": 0.1, "basePrice": 15, "rarity": "common", "stackable": false, "maxStack": 1, "requirements": {}, "properties": {} },
+  { "id": "vox_caster", "name": "Vox-Caster", "description": "Short-range communication device.", "category": "key_item", "weight": 1.0, "basePrice": 50, "rarity": "uncommon", "stackable": false, "maxStack": 1, "requirements": {}, "properties": {} }
+]

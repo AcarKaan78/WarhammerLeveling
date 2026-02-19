@@ -1,0 +1,86 @@
+{
+  "_comment": "Scene Template — Place scene files in data/story/{chapter}/ as {scene_id}.json. Files starting with _ are ignored by the loader.",
+  "id": "chapter1_opening",
+  "chapter": "chapter1",
+  "title": "The Arrival",
+  "conditions": {
+    "minLevel": 1,
+    "maxLevel": 50,
+    "requiredFlags": [],
+    "forbiddenFlags": ["chapter1_opening_seen"],
+    "minStat": { "willpower": 20 },
+    "minReputation": { "inquisition": 10 },
+    "npcAlive": ["commissar_dreyfus"],
+    "npcDead": [],
+    "minSanity": 0,
+    "maxSanity": 100,
+    "minCorruption": 0,
+    "maxCorruption": 100,
+    "hasMutation": [],
+    "questActive": [],
+    "questComplete": [],
+    "systemLevel": 1
+  },
+  "blocks": [
+    {
+      "type": "description",
+      "text": "The shuttle shudders as it descends through the ash-choked atmosphere of Hive Tertium."
+    },
+    {
+      "type": "dialogue",
+      "text": "Welcome to the end of the galaxy, recruit. Try not to die on your first day.",
+      "speaker": "Commissar Dreyfus",
+      "speakerMood": "sardonic"
+    },
+    {
+      "type": "system_message",
+      "text": "[SYSTEM] New location discovered: Hive Tertium.",
+      "systemLevel": 2
+    }
+  ],
+  "choices": [
+    {
+      "id": "salute",
+      "text": "Snap a crisp salute.",
+      "skillCheck": null,
+      "effects": {
+        "flags": ["respectful_arrival"],
+        "factionRep": { "imperial_guard": 5 },
+        "npcRelationship": { "commissar_dreyfus": { "respect": 10 } }
+      },
+      "nextScene": "chapter1_barracks"
+    },
+    {
+      "id": "question",
+      "text": "Ask about the local situation.",
+      "skillCheck": { "skill": "investigation", "difficulty": 15 },
+      "successEffects": {
+        "flags": ["knows_local_intel"],
+        "xp": 10
+      },
+      "failureEffects": {
+        "npcRelationship": { "commissar_dreyfus": { "respect": -5 } }
+      },
+      "nextScene": "chapter1_barracks"
+    },
+    {
+      "id": "defiant",
+      "text": "Mutter something disrespectful under your breath.",
+      "conditions": { "minStat": { "willpower": 30 } },
+      "effects": {
+        "flags": ["defiant_arrival"],
+        "factionRep": { "imperial_guard": -10 },
+        "npcRelationship": { "commissar_dreyfus": { "fear": 5, "respect": -15 } },
+        "corruption": 2
+      },
+      "nextScene": "chapter1_barracks"
+    }
+  ],
+  "onEnterEffects": {
+    "flags": ["chapter1_opening_seen"],
+    "xp": 5
+  },
+  "isHub": false,
+  "tags": ["intro", "military", "hive"],
+  "location": "hive_tertium_landing_pad"
+}

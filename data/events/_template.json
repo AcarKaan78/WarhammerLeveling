@@ -1,0 +1,70 @@
+[
+  {
+    "_comment": "Event Template — Place event files in data/events/ as {category}.json (e.g. daily.json, crisis.json). Files starting with _ are ignored by the loader. Each file contains an array of events.",
+    "id": "daily_patrol_encounter",
+    "title": "Patrol Encounter",
+    "description": "During your routine patrol of the lower hive, you spot something unusual.",
+    "category": "daily",
+    "conditions": {
+      "minLevel": 1,
+      "maxLevel": 20,
+      "flags": ["assigned_patrol_duty"],
+      "forbiddenFlags": ["patrol_encounter_today"],
+      "minSanity": 30,
+      "maxSanity": 100,
+      "minCorruption": 0,
+      "maxCorruption": 50,
+      "factionRep": {
+        "imperial_guard": { "min": 10 },
+        "cultists": { "max": 30 }
+      },
+      "season": "any"
+    },
+    "weight": 5,
+    "outcomes": [
+      {
+        "description": "You discover a hidden cache of supplies left by a previous patrol.",
+        "effects": {
+          "xp": 15,
+          "thrones": 50,
+          "sanity": 2,
+          "corruption": 0,
+          "factionRep": { "imperial_guard": 5 },
+          "items": ["medkit_basic"],
+          "flags": ["patrol_encounter_today"],
+          "startQuest": null,
+          "triggerCombat": null
+        }
+      },
+      {
+        "description": "A group of desperate hivers ambush you in the dark corridors.",
+        "effects": {
+          "xp": 25,
+          "sanity": -5,
+          "flags": ["patrol_encounter_today"],
+          "triggerCombat": {
+            "enemies": [
+              { "name": "Desperate Hiver", "count": 3, "template": "hiver_basic" }
+            ],
+            "difficulty": "easy"
+          }
+        }
+      }
+    ],
+    "choices": [
+      {
+        "id": "investigate",
+        "text": "Investigate carefully.",
+        "outcomeIndex": 0,
+        "skillCheck": { "skill": "investigation", "difficulty": 20 }
+      },
+      {
+        "id": "push_through",
+        "text": "Push through quickly.",
+        "outcomeIndex": 1
+      }
+    ],
+    "unique": false,
+    "cooldownDays": 3
+  }
+]

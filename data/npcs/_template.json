@@ -1,0 +1,63 @@
+{
+  "_comment": "NPC Template — Place NPC files in data/npcs/ as {npc_id}.json. Files starting with _ are ignored by the loader.",
+  "id": "commissar_dreyfus",
+  "name": "Commissar Dreyfus",
+  "title": "Commissar of the 42nd Tertium Regiment",
+  "role": "quest_giver",
+  "personality": "Stern but pragmatic. Values discipline above all but recognizes talent. Carries a burden of guilt over past losses.",
+  "description": "A weathered man in his fifties, his commissar's coat is immaculate despite years of service. A las-burn scar runs from his left temple to his jaw. His eyes are cold but not cruel.",
+  "location": "hive_tertium_command",
+  "factionId": "imperial_guard",
+  "relationship": {
+    "affinity": 0,
+    "respect": 20,
+    "fear": 10,
+    "knowledge": 5,
+    "loyalty": 0
+  },
+  "romanceEligible": false,
+  "romanceStage": 0,
+  "secrets": [
+    {
+      "id": "dreyfus_past",
+      "description": "Dreyfus ordered the execution of his own brother during the Cadian Fall for suspected heresy.",
+      "knowledgeRequired": 60,
+      "revealed": false,
+      "effectOnReveal": {
+        "npcRelationship": { "affinity": -10, "fear": 20 },
+        "flags": ["knows_dreyfus_secret"]
+      }
+    }
+  ],
+  "breakingPoints": [
+    {
+      "id": "dreyfus_betrayal",
+      "condition": "player_corruption_above_60",
+      "description": "If Dreyfus learns of your deep corruption, he will attempt to execute you.",
+      "consequence": "Dreyfus becomes hostile. Imperial Guard reputation drops by 30.",
+      "triggered": false
+    },
+    {
+      "id": "dreyfus_loyalty",
+      "condition": "saved_dreyfus_life",
+      "description": "If you save his life, Dreyfus becomes unshakeably loyal.",
+      "consequence": "Dreyfus becomes a permanent companion option. +30 loyalty.",
+      "triggered": false
+    }
+  ],
+  "companion": {
+    "available": true,
+    "loyaltyRequired": 50,
+    "combatStats": {
+      "weaponSkill": 40,
+      "ballisticSkill": 45,
+      "hp": 30,
+      "armor": 4,
+      "weapons": ["bolt_pistol", "power_sword"]
+    },
+    "combatStyle": "ranged_support",
+    "specialAbility": "commissar_rally"
+  },
+  "isAlive": true,
+  "dialogueTreeId": "dreyfus_dialogue"
+}
