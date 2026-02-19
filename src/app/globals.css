@@ -1,0 +1,75 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700&family=Inter:wght@300;400;500;600;700&family=Fira+Code:wght@400;500&display=swap');
+
+@layer base {
+  :root {
+    --color-void-black: #0A0A0F;
+    --color-dark-slate: #1A1A2E;
+    --color-panel: #16213E;
+    --color-imperial-gold: #C9A84C;
+    --color-parchment: #D4C5A9;
+    --color-system-green: #00FF41;
+    --color-blood: #8B0000;
+    --color-warp-purple: #6B0099;
+  }
+
+  * {
+    scrollbar-width: thin;
+    scrollbar-color: #C9A84C #1A1A2E;
+  }
+
+  *::-webkit-scrollbar {
+    width: 6px;
+  }
+
+  *::-webkit-scrollbar-track {
+    background: #1A1A2E;
+  }
+
+  *::-webkit-scrollbar-thumb {
+    background-color: #C9A84C;
+    border-radius: 3px;
+  }
+
+  ::selection {
+    background-color: rgba(201, 168, 76, 0.3);
+    color: #D4C5A9;
+  }
+}
+
+@layer components {
+  .gothic-border {
+    @apply border border-imperial-gold/30 rounded-sm;
+  }
+
+  .panel-bg {
+    @apply bg-panel/80 backdrop-blur-sm;
+  }
+
+  .glow-gold {
+    box-shadow: 0 0 10px rgba(201, 168, 76, 0.3);
+  }
+
+  .glow-system {
+    box-shadow: 0 0 10px rgba(0, 255, 65, 0.3);
+    text-shadow: 0 0 5px rgba(0, 255, 65, 0.5);
+  }
+
+  .glow-warp {
+    box-shadow: 0 0 15px rgba(107, 0, 153, 0.4);
+  }
+
+  .text-system {
+    @apply font-mono text-system-green;
+    text-shadow: 0 0 5px rgba(0, 255, 65, 0.5);
+  }
+}
+
+@layer utilities {
+  .text-shadow-glow {
+    text-shadow: 0 0 10px currentColor;
+  }
+}
