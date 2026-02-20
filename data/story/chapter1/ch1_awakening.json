@@ -1,0 +1,88 @@
+{
+  "id": "ch1_awakening",
+  "chapter": "chapter1",
+  "title": "The Emperor's Leash",
+  "conditions": {
+    "minLevel": 1,
+    "forbiddenFlags": ["ch1_awakening_seen"]
+  },
+  "blocks": [
+    {
+      "type": "description",
+      "text": "You dream of the Black Ships again. The cold iron walls. The screaming of unsanctioned psykers dragged to their fate. The Astropaths who welcomed you with blind, weeping eyes. The brand they pressed into your soul — the Sanctioning — still burns in your memory like a wound that refuses to heal."
+    },
+    {
+      "type": "description",
+      "text": "You wake gasping in your hab-block. The recycled air tastes of rust and old sweat. The lumen-strip on the ceiling flickers — it always flickers, like everything in Hive Tertium's mid-levels. Your anxiety ring digs into your finger where you've been twisting it in your sleep."
+    },
+    {
+      "type": "description",
+      "text": "Your North Star necklace — the eight-pointed star of the Emperor's Light, the one thing you kept from before the Black Ships — rests cold against your chest. For a moment, you think you feel it pulse. A warmth. A reassurance. Or perhaps just your own psychic resonance echoing back at you."
+    },
+    {
+      "type": "description",
+      "text": "Then the knock comes. Three heavy impacts on your hab door. Not the knock of a neighbor or a rent-collector. This is the knock of authority. The knock of someone who knows exactly what you are."
+    },
+    {
+      "type": "system_message",
+      "text": "[SYSTEM] Your story begins. Every choice you make will shape your fate in the Imperium."
+    }
+  ],
+  "choices": [
+    {
+      "id": "open_door",
+      "text": "Open the door immediately. You've learned that when authority knocks, you answer.",
+      "visibleWhenLocked": false,
+      "effects": {
+        "setFlags": ["obedient_opener"],
+        "nextScene": "ch1_the_messenger"
+      }
+    },
+    {
+      "id": "psychic_sense",
+      "text": "Reach out with your mind — feel who stands beyond the door before opening it.",
+      "visibleWhenLocked": true,
+      "conditions": {
+        "minStat": { "willpower": 30 }
+      },
+      "lockReason": "Requires Willpower 30+",
+      "skillCheck": {
+        "stat": "willpower",
+        "difficulty": -20,
+        "successScene": "ch1_the_messenger",
+        "failureScene": "ch1_the_messenger"
+      },
+      "effects": {
+        "setFlags": ["psychic_sense_used", "sensed_visitor"],
+        "corruptionChange": 1,
+        "sanityChange": -2,
+        "xpGain": 10,
+        "nextScene": "ch1_the_messenger"
+      }
+    },
+    {
+      "id": "grab_knife",
+      "text": "Grab the combat knife from under your cot. Approach the door cautiously.",
+      "visibleWhenLocked": false,
+      "skillCheck": {
+        "stat": "agility",
+        "difficulty": -30,
+        "successScene": "ch1_the_messenger",
+        "failureScene": "ch1_the_messenger"
+      },
+      "effects": {
+        "setFlags": ["armed_opener", "cautious_nature"],
+        "addItems": ["combat_knife"],
+        "xpGain": 5,
+        "nextScene": "ch1_the_messenger"
+      }
+    }
+  ],
+  "onEnterEffects": {
+    "setFlags": ["ch1_awakening_seen", "chapter1_started"],
+    "xpGain": 5
+  },
+  "isHub": false,
+  "tags": ["intro", "personal", "psyker", "grimdark"],
+  "location": "hab_block"
+}

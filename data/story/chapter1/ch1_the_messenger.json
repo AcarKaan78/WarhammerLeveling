@@ -1,0 +1,102 @@
+{
+  "id": "ch1_the_messenger",
+  "chapter": "chapter1",
+  "title": "The Interrogator",
+  "conditions": {
+    "requiredFlags": ["ch1_awakening_seen"],
+    "forbiddenFlags": ["ch1_messenger_seen"]
+  },
+  "blocks": [
+    {
+      "type": "description",
+      "text": "The door grinds open on corroded hinges. A woman stands in the dim corridor, dressed in a long storm coat of dark grey. She is lean, sharp-featured, with close-cropped auburn hair and eyes that catalogue you the way a chirurgeon catalogues a body on the slab."
+    },
+    {
+      "type": "description",
+      "text": "She wears no visible insignia, but your eyes — trained or otherwise — catch the glint of something beneath her collar. An Inquisitorial Rosette. The seal that opens every door in the Imperium. The seal that closes them, too — permanently."
+    },
+    {
+      "type": "dialogue",
+      "text": "Acar Kaan Şenel. Sanctioned Psyker, Grade Epsilon. Registered asset of the Adeptus Astra Telepathica, on detached duty, Hive Tertium. Current psy-rating: one.",
+      "speaker": "Interrogator Lira",
+      "speakerMood": "clinical"
+    },
+    {
+      "type": "dialogue",
+      "text": "She recites your identity like a death sentence. Every word precise. Every fact correct.",
+      "speaker": "",
+      "speakerMood": ""
+    },
+    {
+      "type": "dialogue",
+      "text": "My name is Interrogator Lira Castiel, Ordo Hereticus. You are hereby requisitioned under the authority of the Holy Ordos of the Emperor's Inquisition. You will come with me. Now.",
+      "speaker": "Interrogator Lira",
+      "speakerMood": "authoritative"
+    }
+  ],
+  "choices": [
+    {
+      "id": "go_willingly",
+      "text": "\"I am at the Emperor's service.\" Go without question.",
+      "visibleWhenLocked": false,
+      "effects": {
+        "setFlags": ["went_willingly", "obedient_to_inquisition"],
+        "factionRepChanges": { "inquisition": 5 },
+        "npcRelationshipChanges": { "interrogator_lira": { "respect": 5, "loyalty": 5 } },
+        "xpGain": 5,
+        "nextScene": "ch1_black_transport"
+      }
+    },
+    {
+      "id": "ask_why",
+      "text": "\"Requisitioned for what purpose, Interrogator?\" You need to know what you're walking into.",
+      "visibleWhenLocked": false,
+      "skillCheck": {
+        "stat": "intelligence",
+        "difficulty": -25,
+        "successScene": "ch1_black_transport",
+        "failureScene": "ch1_black_transport"
+      },
+      "effects": {
+        "setFlags": ["asked_purpose", "curious_nature"],
+        "xpGain": 10,
+        "nextScene": "ch1_black_transport"
+      }
+    },
+    {
+      "id": "demand_papers",
+      "text": "\"I'll need to see authorization beyond a rosette. Even the Inquisition has protocols.\"",
+      "visibleWhenLocked": true,
+      "conditions": {
+        "minStat": { "intelligence": 30 }
+      },
+      "lockReason": "Requires Intelligence 30+",
+      "effects": {
+        "setFlags": ["demanded_proof", "knows_protocols"],
+        "npcRelationshipChanges": { "interrogator_lira": { "respect": 10, "affinity": -5 } },
+        "factionRepChanges": { "inquisition": -5 },
+        "xpGain": 15,
+        "nextScene": "ch1_black_transport"
+      }
+    },
+    {
+      "id": "attempt_refuse",
+      "text": "\"And if I refuse?\" Test her reaction.",
+      "visibleWhenLocked": false,
+      "effects": {
+        "setFlags": ["attempted_refusal", "defiant_nature"],
+        "npcRelationshipChanges": { "interrogator_lira": { "fear": 5, "respect": -10, "affinity": -10 } },
+        "factionRepChanges": { "inquisition": -15 },
+        "sanityChange": -3,
+        "xpGain": 10,
+        "nextScene": "ch1_black_transport"
+      }
+    }
+  ],
+  "onEnterEffects": {
+    "setFlags": ["ch1_messenger_seen"]
+  },
+  "isHub": false,
+  "tags": ["intro", "inquisition", "social", "npc_introduction"],
+  "location": "hab_block"
+}

@@ -1,0 +1,72 @@
+{
+  "id": "astropath_seren",
+  "name": "Astropath Seren",
+  "title": "Soul-Bound Astropath, Adeptus Astra Telepathica",
+  "role": "mentor",
+  "personality": "Gentle but ancient. She has served as an astropath for over a century, her life sustained by the faintest echo of the Emperor's light that burned her eyes during the Soul Binding. She speaks in metaphors and fragments, her mind partly in the Warp at all times. She is the closest thing to a maternal figure the player may encounter — but she is also terrifyingly powerful, and her kindness should not be mistaken for weakness. She sees the potential in the player and fears it in equal measure.",
+  "description": "Small, ancient, draped in cream-colored robes that have yellowed with decades of service. Her eyes are gone — smooth pale skin covers the sockets, a mark of the Soul Binding ritual where she stood before the Emperor Himself and was remade. Despite her blindness, she navigates with preternatural awareness, her psychic senses painting the world in ways sighted people cannot comprehend. A faint golden light sometimes flickers around her fingers when she speaks — residual psychic energy that she no longer bothers to suppress.",
+  "location": "psyker_sanctum",
+  "factionId": "imperium",
+  "relationship": {
+    "affinity": 15,
+    "respect": 10,
+    "fear": 0,
+    "knowledge": 20,
+    "loyalty": 10
+  },
+  "romanceEligible": false,
+  "romanceStage": 0,
+  "secrets": [
+    {
+      "id": "seren_dying",
+      "description": "Seren is dying. The Soul Binding is failing — the Emperor's light that sustains her is fading. She has perhaps months left. She wants to find a worthy successor to her knowledge before she passes.",
+      "knowledgeRequired": 40,
+      "revealed": false,
+      "effectOnReveal": {
+        "npcRelationship": { "affinity": 20, "knowledge": 15 },
+        "flags": ["knows_seren_dying"]
+      }
+    },
+    {
+      "id": "seren_vision",
+      "description": "Seren has foreseen two possible futures for the player: one where they become a beacon of the Emperor's light, and one where they fall to Chaos and become a vessel for something terrible. She has told no one of this vision.",
+      "knowledgeRequired": 80,
+      "revealed": false,
+      "effectOnReveal": {
+        "npcRelationship": { "knowledge": 25, "fear": 15 },
+        "flags": ["knows_seren_prophecy"]
+      }
+    }
+  ],
+  "breakingPoints": [
+    {
+      "id": "seren_sacrifice",
+      "condition": "player_corruption_critical_and_seren_loves",
+      "description": "If the player reaches critical corruption but Seren cares for them, she will sacrifice her remaining life force to burn the corruption from them.",
+      "consequence": "Seren dies. Player corruption reset to 0. Permanent +10 Willpower. Devastating emotional consequences.",
+      "triggered": false
+    },
+    {
+      "id": "seren_mentor",
+      "condition": "completed_psychic_training_arc",
+      "description": "If the player consistently trains with Seren and maintains low corruption, she passes on her deepest knowledge.",
+      "consequence": "+1 Psy Rating. Unlocks unique psychic power: 'Emperor's Light.' Seren becomes companion for final mission.",
+      "triggered": false
+    }
+  ],
+  "companion": {
+    "available": true,
+    "loyaltyRequired": 60,
+    "combatStats": {
+      "weaponSkill": 10,
+      "ballisticSkill": 10,
+      "hp": 15,
+      "armor": 1,
+      "weapons": []
+    },
+    "combatStyle": "psychic_support",
+    "specialAbility": "soul_bound_barrier"
+  },
+  "isAlive": true,
+  "dialogueTreeId": "seren_dialogue"
+}

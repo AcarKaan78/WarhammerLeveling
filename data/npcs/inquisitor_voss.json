@@ -1,0 +1,72 @@
+{
+  "id": "inquisitor_voss",
+  "name": "Inquisitor Mordecai Voss",
+  "title": "Inquisitor of the Ordo Hereticus",
+  "role": "quest_giver",
+  "personality": "Coldly brilliant and ruthlessly pragmatic. Views psykers as tools — useful but inherently dangerous. Has served the Ordo Hereticus for forty years and has personally overseen the destruction of seventeen cults. Believes that the ends always justify the means, and that sentiment is a luxury the Imperium cannot afford. Respects competence above all else.",
+  "description": "A gaunt man in his late sixties with silver hair cropped close to his skull. His eyes are the color of spent ammunition casings — flat grey, devoid of warmth. He wears a simple black coat over carapace armor, with no visible ornamentation save the Inquisitorial Rosette at his throat. A servo-skull named Macharius hovers perpetually at his shoulder, its red augmetic eye recording everything. His hands are steady, unmarked — the hands of a man who orders violence rather than performs it.",
+  "location": "inquisitorial_fortress",
+  "factionId": "inquisition",
+  "relationship": {
+    "affinity": 0,
+    "respect": 10,
+    "fear": 30,
+    "knowledge": 5,
+    "loyalty": 0
+  },
+  "romanceEligible": false,
+  "romanceStage": 0,
+  "secrets": [
+    {
+      "id": "voss_daughter",
+      "description": "Voss had a daughter who manifested psychic powers. He turned her over to the Black Ships himself. She did not survive the Sanctioning. This drives his complicated relationship with psykers — he uses them because he must, but each one reminds him of what he sacrificed.",
+      "knowledgeRequired": 70,
+      "revealed": false,
+      "effectOnReveal": {
+        "npcRelationship": { "affinity": 20, "fear": -10 },
+        "flags": ["knows_voss_daughter"]
+      }
+    },
+    {
+      "id": "voss_radical_past",
+      "description": "In his youth, Voss briefly consorted with a Radical Inquisitor who used daemonic weapons. He reported the Radical and had them executed, but the taint of association has haunted his career. His extreme orthodoxy is compensation.",
+      "knowledgeRequired": 80,
+      "revealed": false,
+      "effectOnReveal": {
+        "npcRelationship": { "fear": 30 },
+        "flags": ["knows_voss_radical_past"]
+      }
+    }
+  ],
+  "breakingPoints": [
+    {
+      "id": "voss_betrayal",
+      "condition": "player_corruption_above_50",
+      "description": "If Voss discovers deep corruption in the psyker, he will order immediate termination.",
+      "consequence": "Voss becomes hostile. Inquisition reputation drops by 50. Game over risk.",
+      "triggered": false
+    },
+    {
+      "id": "voss_respect",
+      "condition": "cult_destroyed_cleanly",
+      "description": "If the cult is destroyed with minimal collateral and no corruption gained, Voss grants permanent Inquisitorial asset status.",
+      "consequence": "+50 Inquisition reputation. Access to Inquisitorial armoury. Voss becomes a patron.",
+      "triggered": false
+    }
+  ],
+  "companion": {
+    "available": false,
+    "loyaltyRequired": 100,
+    "combatStats": {
+      "weaponSkill": 35,
+      "ballisticSkill": 40,
+      "hp": 25,
+      "armor": 5,
+      "weapons": ["bolt_pistol", "power_sword"]
+    },
+    "combatStyle": "ranged_command",
+    "specialAbility": "inquisitorial_authority"
+  },
+  "isAlive": true,
+  "dialogueTreeId": "voss_dialogue"
+}

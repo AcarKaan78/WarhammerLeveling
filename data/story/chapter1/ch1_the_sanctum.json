@@ -1,0 +1,136 @@
+{
+  "id": "ch1_the_sanctum",
+  "chapter": "chapter1",
+  "title": "The Psyker's Sanctum",
+  "conditions": {
+    "requiredFlags": ["ch1_briefing_seen"],
+    "forbiddenFlags": ["ch1_sanctum_seen"]
+  },
+  "blocks": [
+    {
+      "type": "description",
+      "text": "The Sanctum is buried deep within the Tricorn's lower levels. The psy-dampening here is different — not a blunt suppression, but a controlled environment. Like the difference between drowning and swimming in deep water. Your abilities are constrained but not silenced."
+    },
+    {
+      "type": "description",
+      "text": "The chamber is circular, twenty meters across, with hexagrammic wards etched into every surface in silver and sanctified oils. In the center stands a testing array — a circle of crystalline pylons that hum with barely-contained psychic energy. This is where they measure you. Weigh your soul. Determine if you are weapon or liability."
+    },
+    {
+      "type": "description",
+      "text": "A figure waits by the pylons. Astropath Seren — you know what she is immediately, the way one psyker always knows another. She is small, ancient, wrapped in robes of faded cream. Her eyes are gone — not merely blind, but surgically removed and replaced with smooth, pale skin. The Soul Binding. She saw the Emperor's light, and it burned her eyes from her skull."
+    },
+    {
+      "type": "dialogue",
+      "text": "You are afraid.",
+      "speaker": "Astropath Seren",
+      "speakerMood": "gentle"
+    },
+    {
+      "type": "description",
+      "text": "It is not a question. She speaks softly, but her voice carries the weight of someone who has touched the mind of a god."
+    },
+    {
+      "type": "dialogue",
+      "text": "Good. Fear is the leash that keeps us from the abyss. The ones who feel no fear are the ones we find in the morning with their minds inside out and daemons wearing their skin. You twist your ring when you're anxious. You hold your necklace when you pray. These are anchors. Keep them.",
+      "speaker": "Astropath Seren",
+      "speakerMood": "wise"
+    },
+    {
+      "type": "dialogue",
+      "text": "Now, child. Show me what the Emperor has given you. Step into the circle. Let me see your light.",
+      "speaker": "Astropath Seren",
+      "speakerMood": "encouraging"
+    },
+    {
+      "type": "system_message",
+      "text": "[SYSTEM] Psychic Evaluation — Your choice here will determine your initial psychic affinity and affect future power development."
+    }
+  ],
+  "choices": [
+    {
+      "id": "telekinesis_demo",
+      "text": "[TELEKINESIS] Lift the nearest pylon from its mount. Show raw, controlled power.",
+      "visibleWhenLocked": false,
+      "skillCheck": {
+        "stat": "willpower",
+        "difficulty": -20,
+        "successScene": "ch1_preparation",
+        "failureScene": "ch1_preparation"
+      },
+      "effects": {
+        "setFlags": ["chose_telekinesis", "ch1_sanctum_tested", "seren_impressed"],
+        "npcRelationshipChanges": {
+          "astropath_seren": { "knowledge": 15, "respect": 10 }
+        },
+        "xpGain": 20,
+        "corruptionChange": 1,
+        "nextScene": "ch1_preparation"
+      }
+    },
+    {
+      "id": "telepathy_demo",
+      "text": "[TELEPATHY] Open your mind to Seren. Let her see your thoughts — and try to see hers.",
+      "visibleWhenLocked": false,
+      "skillCheck": {
+        "stat": "willpower",
+        "difficulty": -15,
+        "successScene": "ch1_preparation",
+        "failureScene": "ch1_preparation"
+      },
+      "effects": {
+        "setFlags": ["chose_telepathy", "ch1_sanctum_tested", "seren_mind_touched", "knows_seren_secret"],
+        "npcRelationshipChanges": {
+          "astropath_seren": { "knowledge": 20, "affinity": 15, "respect": 5 }
+        },
+        "xpGain": 25,
+        "sanityChange": -3,
+        "corruptionChange": 1,
+        "nextScene": "ch1_preparation"
+      }
+    },
+    {
+      "id": "divination_demo",
+      "text": "[DIVINATION] Close your eyes. Reach forward in time. See what awaits you in the underhive.",
+      "visibleWhenLocked": false,
+      "skillCheck": {
+        "stat": "willpower",
+        "difficulty": -5,
+        "successScene": "ch1_preparation",
+        "failureScene": "ch1_preparation"
+      },
+      "effects": {
+        "setFlags": ["chose_divination", "ch1_sanctum_tested", "saw_the_future", "vision_of_choir"],
+        "npcRelationshipChanges": {
+          "astropath_seren": { "knowledge": 10, "respect": 15, "fear": 10 }
+        },
+        "xpGain": 30,
+        "sanityChange": -8,
+        "corruptionChange": 2,
+        "nextScene": "ch1_preparation"
+      }
+    },
+    {
+      "id": "refuse_test",
+      "text": "\"My abilities are not a performance. I will demonstrate them when the mission demands it.\"",
+      "visibleWhenLocked": false,
+      "effects": {
+        "setFlags": ["refused_test", "defiant_nature", "ch1_sanctum_tested"],
+        "npcRelationshipChanges": {
+          "astropath_seren": { "respect": -5, "affinity": 5 },
+          "inquisitor_voss": { "respect": -10, "fear": 5 }
+        },
+        "factionRepChanges": { "inquisition": -10 },
+        "sanityChange": 2,
+        "xpGain": 10,
+        "nextScene": "ch1_preparation"
+      }
+    }
+  ],
+  "onEnterEffects": {
+    "setFlags": ["ch1_sanctum_seen", "met_astropath_seren"],
+    "xpGain": 10
+  },
+  "isHub": false,
+  "tags": ["psyker", "testing", "npc_introduction", "psychic_powers", "character_development"],
+  "location": "psyker_sanctum"
+}

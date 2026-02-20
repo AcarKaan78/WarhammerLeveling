@@ -1,0 +1,72 @@
+{
+  "id": "magos_rhyn",
+  "name": "Magos Rhyn-7",
+  "title": "Tech-Priest of the Adeptus Mechanicus, Xenotech Division",
+  "role": "specialist",
+  "personality": "Analytically detached, viewing the world through the lens of data and probability. Has replaced enough of their biology with machinery that emotional responses are significantly dampened — but not eliminated. Fascinated by psychic phenomena as a measurable energy form. Views the player as a subject of study as much as a colleague. Secretly pursues research into the intersection of psychic energy and technology — research that treads dangerously close to tech-heresy.",
+  "description": "More machine than human. Four mechadendrite arms fold behind them like metal wings. One biological eye remains — dark, intelligent, always watching — while the other is a multi-spectrum augmetic lens that clicks and whirs constantly. Their lower face is a brass vox-grille that emits speech in flat, modulated tones. They glide on hidden wheels beneath red Mechanicus robes, and the scent of sacred machine oil follows them everywhere.",
+  "location": "inquisitorial_fortress",
+  "factionId": "mechanicus",
+  "relationship": {
+    "affinity": 0,
+    "respect": 10,
+    "fear": 0,
+    "knowledge": 15,
+    "loyalty": 0
+  },
+  "romanceEligible": false,
+  "romanceStage": 0,
+  "secrets": [
+    {
+      "id": "rhyn_research",
+      "description": "Rhyn-7 is secretly researching the integration of psychic energy with machine systems — creating a 'psychic engine.' This is borderline tech-heresy and would result in their destruction if the Mechanicus or Inquisition discovered it.",
+      "knowledgeRequired": 65,
+      "revealed": false,
+      "effectOnReveal": {
+        "npcRelationship": { "fear": 20, "knowledge": 20 },
+        "flags": ["knows_rhyn_research"]
+      }
+    },
+    {
+      "id": "rhyn_original_mission",
+      "description": "Rhyn-7 was assigned to this mission not by Voss, but by a Magos Dominus within the Mechanicus hierarchy. Their true objective is to recover any archeotech from the cult's ritual site — potentially including Warp-touched technology.",
+      "knowledgeRequired": 50,
+      "revealed": false,
+      "effectOnReveal": {
+        "npcRelationship": { "knowledge": 15, "loyalty": -10 },
+        "flags": ["knows_rhyn_true_mission"]
+      }
+    }
+  ],
+  "breakingPoints": [
+    {
+      "id": "rhyn_betrayal",
+      "condition": "archeotech_found_and_player_takes_it",
+      "description": "If archeotech is discovered and the player claims it, Rhyn-7 will attempt to take it by force.",
+      "consequence": "Rhyn-7 becomes hostile. Mechanicus reputation drops by 30.",
+      "triggered": false
+    },
+    {
+      "id": "rhyn_alliance",
+      "condition": "share_archeotech_with_rhyn",
+      "description": "If the player shares recovered technology, Rhyn-7 becomes a powerful ally who can upgrade equipment.",
+      "consequence": "+30 loyalty. Access to Mechanicus upgrades and custom weapons.",
+      "triggered": false
+    }
+  ],
+  "companion": {
+    "available": true,
+    "loyaltyRequired": 25,
+    "combatStats": {
+      "weaponSkill": 30,
+      "ballisticSkill": 50,
+      "hp": 30,
+      "armor": 6,
+      "weapons": ["laspistol"]
+    },
+    "combatStyle": "ranged_support",
+    "specialAbility": "mechanicus_override"
+  },
+  "isAlive": true,
+  "dialogueTreeId": "rhyn_dialogue"
+}

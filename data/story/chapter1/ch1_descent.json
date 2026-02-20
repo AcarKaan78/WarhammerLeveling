@@ -1,0 +1,125 @@
+{
+  "id": "ch1_descent",
+  "chapter": "chapter1",
+  "title": "Into the Abyss",
+  "conditions": {
+    "requiredFlags": ["ch1_preparation_seen"],
+    "forbiddenFlags": ["ch1_descent_seen"]
+  },
+  "blocks": [
+    {
+      "type": "description",
+      "text": "The cargo elevator descends. And descends. And descends. Each level strip that flashes past the grated window is darker than the last, the lumen-strips fewer, the air thicker. The hive above you is a memory of light and noise. Below is silence and shadow."
+    },
+    {
+      "type": "description",
+      "text": "At Sub-Level 47, the elevator groans to a halt. The doors open onto a world that exists in perpetual twilight — the Underhive. The ceiling is so distant it might as well be a sky, an inverted landscape of rusted pipes and dripping condensation. Fungal growths cling to every surface, casting faint bioluminescent light in sickly greens and purples."
+    },
+    {
+      "type": "description",
+      "text": "The air is thick with the smell of chemical runoff, rotting fungus, and something else — something your psyker senses recognize before your nose does. The faint, acrid taste of Warp residue. Like ozone after a lightning strike, but wrong. Tainted. It sits on your tongue like copper and dread."
+    },
+    {
+      "type": "dialogue",
+      "text": "Subsector Morwen-9 is three clicks north-northeast through the Rust Wastes. Local population: estimated twelve thousand, mostly scavengers and fungus-farmers. Two known ganger territories between us and the target zone. The Iron Serpents control the Processional, and the Pale Kings hold the Fungal Deeps.",
+      "speaker": "Interrogator Lira",
+      "speakerMood": "tactical"
+    },
+    {
+      "type": "description",
+      "text": "Your North Star necklace is warm again. Down here, away from the Tricorn's dampeners, your psychic senses slowly unfurl like a flower in sunlight. You can feel the underhive around you — thousands of dim, flickering soul-lights, the background hum of human misery and desperation. And beyond that, deeper, something else. A whisper. Not heard. Felt."
+    },
+    {
+      "type": "description",
+      "text": "It brushes the edge of your consciousness like fingertips on glass. A voice that is not a voice. A sound that is not a sound. It says one word, repeated endlessly, cycling in the Warp like an echo in an infinite cathedral:"
+    },
+    {
+      "type": "dialogue",
+      "text": "...come...",
+      "speaker": "The Whisper",
+      "speakerMood": "alien"
+    },
+    {
+      "type": "system_message",
+      "text": "[SYSTEM] Chapter 1 Complete. Your choices have been recorded and will affect the story going forward. The Whispering Choir awaits in the deep."
+    }
+  ],
+  "choices": [
+    {
+      "id": "follow_whisper",
+      "text": "[PSYCHIC] Open yourself to the Whisper. Let it guide you toward the source.",
+      "visibleWhenLocked": true,
+      "conditions": {
+        "minStat": { "willpower": 30 }
+      },
+      "lockReason": "Requires Willpower 30+",
+      "skillCheck": {
+        "stat": "willpower",
+        "difficulty": -5,
+        "successScene": null,
+        "failureScene": null
+      },
+      "effects": {
+        "setFlags": ["followed_whisper", "warp_touched", "ch1_complete"],
+        "corruptionChange": 5,
+        "sanityChange": -10,
+        "xpGain": 40,
+        "statChanges": { "willpower": 0.3 }
+      }
+    },
+    {
+      "id": "shut_it_out",
+      "text": "Grip your necklace. Recite the Litany of Protection. Shut the Whisper out of your mind.",
+      "visibleWhenLocked": false,
+      "effects": {
+        "setFlags": ["resisted_whisper", "strong_willed", "faith_shield", "ch1_complete"],
+        "sanityChange": 5,
+        "xpGain": 25,
+        "statChanges": { "willpower": 0.2 }
+      }
+    },
+    {
+      "id": "analyze_whisper",
+      "text": "Don't follow it. Don't reject it. Analyze it. A sanctioned psyker is trained to understand the Warp, not fear it.",
+      "visibleWhenLocked": true,
+      "conditions": {
+        "minStat": { "intelligence": 30 }
+      },
+      "lockReason": "Requires Intelligence 30+",
+      "skillCheck": {
+        "stat": "intelligence",
+        "difficulty": -20,
+        "successScene": null,
+        "failureScene": null
+      },
+      "effects": {
+        "setFlags": ["analyzed_whisper", "academic_approach", "knows_whisper_frequency", "ch1_complete"],
+        "corruptionChange": 2,
+        "sanityChange": -3,
+        "xpGain": 35,
+        "statChanges": { "intelligence": 0.2, "perception": 0.1 }
+      }
+    },
+    {
+      "id": "tell_team",
+      "text": "\"I can hear something. Psychic. A summons. The cult knows we're here — or something does.\"",
+      "visibleWhenLocked": false,
+      "effects": {
+        "setFlags": ["warned_team", "team_trust", "honest_about_powers", "ch1_complete"],
+        "npcRelationshipChanges": {
+          "interrogator_lira": { "knowledge": 10, "respect": 5 },
+          "agent_drax": { "fear": 10, "respect": 5 },
+          "magos_rhyn": { "knowledge": 15 }
+        },
+        "xpGain": 20
+      }
+    }
+  ],
+  "onEnterEffects": {
+    "setFlags": ["ch1_descent_seen", "entered_underhive"],
+    "xpGain": 15
+  },
+  "isHub": false,
+  "tags": ["descent", "underhive", "psychic", "whisper", "chapter_end", "grimdark", "atmospheric"],
+  "location": "underhive_entrance"
+}

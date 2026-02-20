@@ -1,0 +1,144 @@
+{
+  "id": "ch1_the_inquisitor",
+  "chapter": "chapter1",
+  "title": "Inquisitor Voss",
+  "conditions": {
+    "requiredFlags": ["ch1_fortress_seen"],
+    "forbiddenFlags": ["ch1_inquisitor_seen"]
+  },
+  "blocks": [
+    {
+      "type": "description",
+      "text": "The office is austere. No trophies on the walls. No banners. No skulls mounted on pikes. Just data-slates stacked in precise columns, a single high-backed chair behind a desk of polished metal, and the persistent hum of psy-dampeners embedded in the walls."
+    },
+    {
+      "type": "description",
+      "text": "Inquisitor Mordecai Voss is not what you expected. He is thin — almost gaunt — with silver hair cropped close and a face that speaks of decades of service in the God-Emperor's darkest work. His eyes are the color of spent ammunition casings, and they fix on you with the intensity of an orbital lance."
+    },
+    {
+      "type": "description",
+      "text": "A servo-skull hovers at his shoulder — brass and bone, augmetic eye glowing a steady red. It rotates to face you as you enter, and you feel the faint whir of a recording device activating. Everything said in this room will be documented."
+    },
+    {
+      "type": "dialogue",
+      "text": "Sit.",
+      "speaker": "Inquisitor Voss",
+      "speakerMood": "commanding"
+    },
+    {
+      "type": "description",
+      "text": "There is only one other chair in the room. It faces the desk, positioned precisely so that the lumen-strip above casts light directly into the seated person's eyes. This is not an office — it is an interrogation room dressed in politeness."
+    },
+    {
+      "type": "dialogue",
+      "text": "I will be direct with you, psyker, because I find that the gifted respond poorly to obfuscation. Your kind sense dishonesty the way a bloodhound scents prey. So. The truth.",
+      "speaker": "Inquisitor Voss",
+      "speakerMood": "calculating"
+    },
+    {
+      "type": "dialogue",
+      "text": "Something is rotting in the underhive. A cult — we believe they style themselves 'The Whispering Choir' — has been conducting rituals that are destabilizing the local psychic environment. Three astropaths in this sector have suffered spontaneous hemorrhaging. Two are dead. The Astronomican signal has degraded 0.3 percent in local space. That may sound trivial. It is not.",
+      "speaker": "Inquisitor Voss",
+      "speakerMood": "grave"
+    },
+    {
+      "type": "dialogue",
+      "text": "I need a sanctioned psyker who can trace the psychic resonance of their rituals. Someone who can walk into that underhive, feel the currents of the Warp, and find me the source. That is you.",
+      "speaker": "Inquisitor Voss",
+      "speakerMood": "intense"
+    },
+    {
+      "type": "description",
+      "text": "He pauses. The servo-skull — Macharius, according to the nameplate on its brass jaw — whirs softly."
+    },
+    {
+      "type": "dialogue",
+      "text": "You should know: two previous assets were sent. Neither returned. One was found three days later, skinned and displayed in the Processional of the Blessed. The other... was simply gone. As if they had never existed.",
+      "speaker": "Inquisitor Voss",
+      "speakerMood": "cold"
+    }
+  ],
+  "choices": [
+    {
+      "id": "accept_duty",
+      "text": "\"I serve the Emperor and His Inquisition. I accept this duty.\"",
+      "visibleWhenLocked": false,
+      "effects": {
+        "setFlags": ["accepted_duty", "loyal_servant"],
+        "factionRepChanges": { "inquisition": 10 },
+        "npcRelationshipChanges": {
+          "inquisitor_voss": { "respect": 10, "loyalty": 5 },
+          "interrogator_lira": { "respect": 5 }
+        },
+        "xpGain": 10,
+        "nextScene": "ch1_the_briefing"
+      }
+    },
+    {
+      "id": "ask_about_dead",
+      "text": "\"The previous assets — what were their capabilities? How did they fail?\"",
+      "visibleWhenLocked": false,
+      "skillCheck": {
+        "stat": "intelligence",
+        "difficulty": -25,
+        "successScene": "ch1_the_briefing",
+        "failureScene": "ch1_the_briefing"
+      },
+      "effects": {
+        "setFlags": ["asked_about_dead_assets", "tactical_thinker"],
+        "npcRelationshipChanges": {
+          "inquisitor_voss": { "respect": 10, "knowledge": 10 }
+        },
+        "xpGain": 15,
+        "nextScene": "ch1_the_briefing"
+      }
+    },
+    {
+      "id": "demand_compensation",
+      "text": "\"Two dead assets suggests inadequate support. I will need proper resources and compensation.\"",
+      "visibleWhenLocked": true,
+      "conditions": {
+        "minStat": { "fellowship": 25 }
+      },
+      "lockReason": "Requires Fellowship 25+",
+      "effects": {
+        "setFlags": ["demanded_compensation", "mercenary_streak"],
+        "npcRelationshipChanges": {
+          "inquisitor_voss": { "respect": -5, "affinity": -10 }
+        },
+        "throneChange": 100,
+        "factionRepChanges": { "inquisition": -5 },
+        "xpGain": 10,
+        "nextScene": "ch1_the_briefing"
+      }
+    },
+    {
+      "id": "read_mind",
+      "text": "[PSYCHIC] Reach into his mind. Find out what he isn't telling you.",
+      "visibleWhenLocked": true,
+      "conditions": {
+        "minStat": { "willpower": 40 }
+      },
+      "lockReason": "Requires Willpower 40+",
+      "skillCheck": {
+        "stat": "willpower",
+        "difficulty": 10,
+        "successScene": "ch1_the_briefing",
+        "failureScene": "ch1_the_briefing"
+      },
+      "effects": {
+        "setFlags": ["attempted_mind_reading_voss"],
+        "corruptionChange": 3,
+        "sanityChange": -8,
+        "xpGain": 30,
+        "nextScene": "ch1_the_briefing"
+      }
+    }
+  ],
+  "onEnterEffects": {
+    "setFlags": ["ch1_inquisitor_seen", "met_inquisitor_voss"]
+  },
+  "isHub": false,
+  "tags": ["inquisition", "npc_introduction", "dialogue", "mission", "grimdark"],
+  "location": "inquisitorial_fortress"
+}

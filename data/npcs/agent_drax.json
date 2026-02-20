@@ -1,0 +1,62 @@
+{
+  "id": "agent_drax",
+  "name": "Throne Agent Drax",
+  "title": "Throne Agent, ex-Adeptus Arbites",
+  "role": "companion",
+  "personality": "Blunt, suspicious, and deeply prejudiced against psykers — a prejudice born from watching a sanctioned psyker lose control and kill an entire Arbites precinct. Despite this, he is professionally competent, fiercely loyal to the Inquisition, and will follow orders even when they involve protecting the very thing he despises. Underneath the hostility is a man haunted by his failure to save his squad. He drinks too much. He prays too little. He fights like a man who doesn't expect to survive.",
+  "description": "A mountain of a man in his forties — shaved head, a face assembled from broken masonry and scar tissue, with the unmistakable bulk of reinforced carapace armor under a worn leather duster. Ex-Arbites markings are still faintly visible on his knuckles, tattooed there during training and never removed. His eyes are deep-set and constantly moving, assessing threats. He carries a combat shotgun, a shock maul, and enough ammunition to hold a corridor alone for hours.",
+  "location": "inquisitorial_fortress",
+  "factionId": "inquisition",
+  "relationship": {
+    "affinity": -15,
+    "respect": 5,
+    "fear": 0,
+    "knowledge": 5,
+    "loyalty": 5
+  },
+  "romanceEligible": false,
+  "romanceStage": 0,
+  "secrets": [
+    {
+      "id": "drax_squad",
+      "description": "Drax was the sole survivor when Sanctioned Psyker Yoren-6 suffered a catastrophic breach during an Arbites operation. The psyker's uncontrolled power killed fifteen enforcers. Drax put a bolt round through Yoren's head, but not before watching his partner dissolve. He's never forgiven himself — or psykers.",
+      "knowledgeRequired": 60,
+      "revealed": false,
+      "effectOnReveal": {
+        "npcRelationship": { "affinity": 10, "knowledge": 15 },
+        "flags": ["knows_drax_past"]
+      }
+    }
+  ],
+  "breakingPoints": [
+    {
+      "id": "drax_turns",
+      "condition": "player_corruption_above_40_and_low_trust",
+      "description": "If Drax sees corruption and doesn't trust you, he will try to kill you preemptively.",
+      "consequence": "Combat triggered. Drax is a formidable opponent.",
+      "triggered": false
+    },
+    {
+      "id": "drax_redeemed",
+      "condition": "saved_drax_and_proved_control",
+      "description": "If you save his life and consistently demonstrate psychic control, Drax overcomes his prejudice.",
+      "consequence": "+30 affinity, +30 loyalty. He becomes a true ally and admits he was wrong about psykers.",
+      "triggered": false
+    }
+  ],
+  "companion": {
+    "available": true,
+    "loyaltyRequired": 20,
+    "combatStats": {
+      "weaponSkill": 45,
+      "ballisticSkill": 40,
+      "hp": 35,
+      "armor": 5,
+      "weapons": ["shotgun", "shock_maul"]
+    },
+    "combatStyle": "frontline_assault",
+    "specialAbility": "arbites_suppression"
+  },
+  "isAlive": true,
+  "dialogueTreeId": "drax_dialogue"
+}

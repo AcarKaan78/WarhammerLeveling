@@ -1,0 +1,118 @@
+{
+  "id": "ch1_black_transport",
+  "chapter": "chapter1",
+  "title": "The Black Valkyrie",
+  "conditions": {
+    "requiredFlags": ["ch1_messenger_seen"],
+    "forbiddenFlags": ["ch1_transport_seen"]
+  },
+  "blocks": [
+    {
+      "type": "description",
+      "text": "The Valkyrie assault carrier has no markings. No regiment, no squadron number. Just flat black ceramite plating that drinks the hive's sickly light. It sits on a private landing pad atop your hab-stack, rotors idling with the low thrum of a predator's heartbeat."
+    },
+    {
+      "type": "description",
+      "text": "Inside, the hold is sparse. Two others are already seated on the metal benches, locked into restraint harnesses. The Interrogator gestures you to the empty seat and straps in across from you, her bolt pistol conspicuously unholstered on her thigh."
+    },
+    {
+      "type": "description",
+      "text": "To your left sits a mountain of a man — shaved head, a face that looks like it was assembled from broken masonry, and the unmistakable bulk of a carapace armor set under his duster. Ex-Arbites, you'd guess. The kind who settled disputes with a shock maul first and questions never."
+    },
+    {
+      "type": "dialogue",
+      "text": "Another witch. Wonderful. Just what this operation needed.",
+      "speaker": "Throne Agent Drax",
+      "speakerMood": "contemptuous"
+    },
+    {
+      "type": "description",
+      "text": "To your right, something that barely qualifies as human. A tech-priest of the Adeptus Mechanicus — four additional mechadendrite arms folded behind them like metal wings, one biological eye replaced by a multi-spectrum lens that clicks and whirs as it focuses on you. Their lower face is a vox-grille that emits speech in a flat, modulated monotone."
+    },
+    {
+      "type": "dialogue",
+      "text": "Psy-rating epsilon confirmed. Electromagnetic resonance within expected sanctioned parameters. Acceptable asset classification for the designated operation.",
+      "speaker": "Magos Rhyn-7",
+      "speakerMood": "analytical"
+    },
+    {
+      "type": "description",
+      "text": "The Valkyrie lifts off with a stomach-dropping lurch. Through the narrow viewport, you see Hive Tertium stretch below — a mountain of metal and misery, shrouded in industrial smog. Billions of souls crammed into this man-made nightmare, and somewhere down there, something is very, very wrong."
+    }
+  ],
+  "choices": [
+    {
+      "id": "talk_drax",
+      "text": "Turn to the big man. \"You've worked with the Inquisition before?\"",
+      "visibleWhenLocked": true,
+      "conditions": {
+        "minStat": { "fellowship": 20 }
+      },
+      "lockReason": "Requires Fellowship 20+",
+      "skillCheck": {
+        "stat": "fellowship",
+        "difficulty": -40,
+        "successScene": "ch1_fortress_approach",
+        "failureScene": "ch1_fortress_approach"
+      },
+      "effects": {
+        "setFlags": ["spoke_to_drax", "drax_introduction"],
+        "npcRelationshipChanges": { "agent_drax": { "knowledge": 10 } },
+        "xpGain": 10,
+        "nextScene": "ch1_fortress_approach"
+      }
+    },
+    {
+      "id": "talk_rhyn",
+      "text": "Address the tech-priest. \"Magos, what is the nature of this operation?\"",
+      "visibleWhenLocked": false,
+      "skillCheck": {
+        "stat": "intelligence",
+        "difficulty": -25,
+        "successScene": "ch1_fortress_approach",
+        "failureScene": "ch1_fortress_approach"
+      },
+      "effects": {
+        "setFlags": ["spoke_to_rhyn", "rhyn_introduction", "knows_tech_angle"],
+        "npcRelationshipChanges": { "magos_rhyn": { "knowledge": 10, "affinity": 5 } },
+        "xpGain": 10,
+        "nextScene": "ch1_fortress_approach"
+      }
+    },
+    {
+      "id": "meditate",
+      "text": "Close your eyes. Grip your necklace. Center yourself in the Emperor's Light.",
+      "visibleWhenLocked": false,
+      "effects": {
+        "setFlags": ["meditated_in_transit", "faith_in_emperor"],
+        "sanityChange": 5,
+        "xpGain": 10,
+        "statChanges": { "willpower": 0.1 },
+        "nextScene": "ch1_fortress_approach"
+      }
+    },
+    {
+      "id": "observe_hive",
+      "text": "Watch the hive through the viewport. Let your heightened perception absorb every detail.",
+      "visibleWhenLocked": false,
+      "skillCheck": {
+        "stat": "perception",
+        "difficulty": -25,
+        "successScene": "ch1_fortress_approach",
+        "failureScene": "ch1_fortress_approach"
+      },
+      "effects": {
+        "setFlags": ["observed_hive", "hive_layout_known"],
+        "xpGain": 15,
+        "nextScene": "ch1_fortress_approach"
+      }
+    }
+  ],
+  "onEnterEffects": {
+    "setFlags": ["ch1_transport_seen"],
+    "xpGain": 5
+  },
+  "isHub": false,
+  "tags": ["intro", "transport", "npc_introduction", "team"],
+  "location": "valkyrie_transport"
+}

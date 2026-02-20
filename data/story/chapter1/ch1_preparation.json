@@ -1,0 +1,140 @@
+{
+  "id": "ch1_preparation",
+  "chapter": "chapter1",
+  "title": "Preparation for Descent",
+  "conditions": {
+    "requiredFlags": ["ch1_sanctum_tested"],
+    "forbiddenFlags": ["ch1_preparation_seen"]
+  },
+  "blocks": [
+    {
+      "type": "description",
+      "text": "The armoury of the Tricorn is a cathedral to violence. Rows upon rows of weapons hang on racks behind armoured glass — lasguns, bolt weapons, exotic xenos artifacts sealed behind stasis fields. Enough firepower to wage a small war, which, you suppose, is precisely the point."
+    },
+    {
+      "type": "description",
+      "text": "Interrogator Lira stands at a requisition terminal, her storm coat exchanged for operational gear — form-fitting carapace armor under a grey bodyglove, a bolt pistol at her hip, and a razor-thin power sword across her back. She looks born for this."
+    },
+    {
+      "type": "dialogue",
+      "text": "The Inquisitor has authorized standard field loadout for you. Take what you need, but remember — we're going into the underhive, not the Eye of Terror. Subtlety serves us better than firepower. At least initially.",
+      "speaker": "Interrogator Lira",
+      "speakerMood": "professional"
+    },
+    {
+      "type": "description",
+      "text": "Drax is already geared up — carapace armor, shotgun, shock maul, and enough ammunition to hold off a small WAAAGH!. He catches your eye and deliberately chambers a round. The message is clear."
+    },
+    {
+      "type": "dialogue",
+      "text": "The Magos has provided each team member with a micro-vox and an auspex-link. Data feeds will be relayed to Macharius in real-time. Additionally, the following tactical approaches have been calculated for operational effectiveness.",
+      "speaker": "Magos Rhyn-7",
+      "speakerMood": "monotone"
+    },
+    {
+      "type": "description",
+      "text": "The tech-priest projects three tactical overlays onto the armoury's display screen, each showing a different route into Subsector Morwen-9."
+    },
+    {
+      "type": "system_message",
+      "text": "[SYSTEM] Choose your approach. This decision will determine how Chapter 2 begins and what challenges you face. Choose wisely — the underhive does not forgive poor planning."
+    }
+  ],
+  "choices": [
+    {
+      "id": "stealth_approach",
+      "text": "[INFILTRATION] Go in disguised. Blend with the underhive population, gather intelligence quietly.",
+      "visibleWhenLocked": false,
+      "skillCheck": {
+        "stat": "agility",
+        "difficulty": -30,
+        "successScene": "ch1_descent",
+        "failureScene": "ch1_descent"
+      },
+      "effects": {
+        "setFlags": ["chose_infiltration", "stealth_approach", "disguised_entry"],
+        "addItems": ["autopistol", "data_slate"],
+        "npcRelationshipChanges": {
+          "interrogator_lira": { "respect": 10 },
+          "agent_drax": { "respect": -5 }
+        },
+        "xpGain": 15,
+        "nextScene": "ch1_descent"
+      }
+    },
+    {
+      "id": "authority_approach",
+      "text": "[INVESTIGATION] Use Inquisitorial authority openly. Demand cooperation from local enforcers and informants.",
+      "visibleWhenLocked": false,
+      "effects": {
+        "setFlags": ["chose_investigation", "authority_approach", "open_inquisition"],
+        "addItems": ["laspistol", "data_slate", "vox_caster"],
+        "factionRepChanges": { "inquisition": 5 },
+        "npcRelationshipChanges": {
+          "agent_drax": { "respect": 10 }
+        },
+        "xpGain": 10,
+        "nextScene": "ch1_descent"
+      }
+    },
+    {
+      "id": "psychic_approach",
+      "text": "[PSYCHIC TRACKING] Follow the Warp-traces directly. Your powers will guide you where conventional methods cannot.",
+      "visibleWhenLocked": true,
+      "conditions": {
+        "minStat": { "willpower": 35 }
+      },
+      "lockReason": "Requires Willpower 35+",
+      "skillCheck": {
+        "stat": "willpower",
+        "difficulty": -15,
+        "successScene": "ch1_descent",
+        "failureScene": "ch1_descent"
+      },
+      "effects": {
+        "setFlags": ["chose_psychic_tracking", "psychic_approach", "warp_sensitive_route"],
+        "addItems": ["force_staff", "data_slate"],
+        "corruptionChange": 2,
+        "sanityChange": -3,
+        "npcRelationshipChanges": {
+          "astropath_seren": { "respect": 5 },
+          "inquisitor_voss": { "fear": 5 }
+        },
+        "xpGain": 20,
+        "nextScene": "ch1_descent"
+      }
+    },
+    {
+      "id": "ask_drax_backup",
+      "text": "\"Drax. I want you at my six, not behind me watching. We work together or we die alone.\"",
+      "visibleWhenLocked": true,
+      "conditions": {
+        "minStat": { "fellowship": 20 }
+      },
+      "lockReason": "Requires Fellowship 20+",
+      "skillCheck": {
+        "stat": "fellowship",
+        "difficulty": -35,
+        "successScene": "ch1_descent",
+        "failureScene": "ch1_descent"
+      },
+      "effects": {
+        "setFlags": ["recruited_drax", "team_player"],
+        "addItems": ["laspistol", "data_slate"],
+        "npcRelationshipChanges": {
+          "agent_drax": { "respect": 15, "affinity": 10, "loyalty": 10 }
+        },
+        "xpGain": 20,
+        "nextScene": "ch1_descent"
+      }
+    }
+  ],
+  "onEnterEffects": {
+    "setFlags": ["ch1_preparation_seen"],
+    "xpGain": 5,
+    "addItems": ["chrono"]
+  },
+  "isHub": false,
+  "tags": ["preparation", "equipment", "tactical", "team", "choice_matters"],
+  "location": "inquisitorial_armoury"
+}

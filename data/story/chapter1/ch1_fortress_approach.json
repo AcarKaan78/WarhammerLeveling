@@ -1,0 +1,115 @@
+{
+  "id": "ch1_fortress_approach",
+  "chapter": "chapter1",
+  "title": "The Tricorn",
+  "conditions": {
+    "requiredFlags": ["ch1_transport_seen"],
+    "forbiddenFlags": ["ch1_fortress_seen"]
+  },
+  "blocks": [
+    {
+      "type": "description",
+      "text": "The Valkyrie descends toward a structure that shouldn't exist in the mid-hive — a fortress of black basalt carved into the hive wall itself. Three spires rise from its bulk like fingers clawing at the polluted sky: the Tricorn, the Inquisition's regional headquarters for Sector Calixis."
+    },
+    {
+      "type": "description",
+      "text": "As you approach, you feel it — a dampening field that presses against your mind like invisible hands squeezing your skull. Psy-wards. The entire fortress is saturated with them. Hexagrammic sigils etched into every surface. Null-field generators humming at frequencies that make your teeth ache."
+    },
+    {
+      "type": "description",
+      "text": "Your North Star necklace goes cold against your skin. The faint warmth you always feel — the psychic resonance that you've come to interpret as the Emperor's presence — vanishes like a candle snuffed in a storm. You are alone inside your own head for the first time in years. It is... terrifying."
+    },
+    {
+      "type": "description",
+      "text": "The landing pad is surrounded by Inquisitorial Storm Troopers in full carapace, hellguns at the ready. They don't point them at you, but their eyes track your every movement with the professional focus of men trained to kill psykers."
+    },
+    {
+      "type": "dialogue",
+      "text": "Welcome to the Tricorn. Stay within marked corridors. Touch nothing. Speak to no one unless spoken to. Any unauthorized use of psychic abilities within this facility will be met with lethal force.",
+      "speaker": "Storm Trooper Sergeant",
+      "speakerMood": "cold"
+    },
+    {
+      "type": "description",
+      "text": "Interrogator Lira walks ahead without looking back. She expects you to follow. Drax falls in behind you — whether as escort or guard, you cannot tell. The tech-priest glides forward on hidden wheels, mechadendrites folded tight."
+    }
+  ],
+  "choices": [
+    {
+      "id": "walk_tall",
+      "text": "Walk with your head high. You are sanctioned by the Emperor Himself. You will not cower.",
+      "visibleWhenLocked": true,
+      "conditions": {
+        "minStat": { "willpower": 35 }
+      },
+      "lockReason": "Requires Willpower 35+",
+      "skillCheck": {
+        "stat": "willpower",
+        "difficulty": -15,
+        "successScene": "ch1_the_inquisitor",
+        "failureScene": "ch1_the_inquisitor"
+      },
+      "effects": {
+        "setFlags": ["walked_tall", "showed_pride"],
+        "npcRelationshipChanges": {
+          "interrogator_lira": { "respect": 5 },
+          "agent_drax": { "respect": 5, "fear": 5 }
+        },
+        "factionRepChanges": { "inquisition": 5 },
+        "xpGain": 15,
+        "nextScene": "ch1_the_inquisitor"
+      }
+    },
+    {
+      "id": "keep_low",
+      "text": "Keep your head down, hands visible. You know how to survive around those who fear you.",
+      "visibleWhenLocked": false,
+      "effects": {
+        "setFlags": ["kept_low", "survival_instinct"],
+        "factionRepChanges": { "inquisition": 3 },
+        "xpGain": 5,
+        "nextScene": "ch1_the_inquisitor"
+      }
+    },
+    {
+      "id": "test_wards",
+      "text": "Reach out with your mind, ever so slightly. Test the wards. Feel their limits.",
+      "visibleWhenLocked": true,
+      "conditions": {
+        "minStat": { "willpower": 35 }
+      },
+      "lockReason": "Requires Willpower 35+",
+      "skillCheck": {
+        "stat": "willpower",
+        "difficulty": 0,
+        "successScene": "ch1_the_inquisitor",
+        "failureScene": "ch1_the_inquisitor"
+      },
+      "effects": {
+        "setFlags": ["tested_wards", "reckless_psyker"],
+        "corruptionChange": 2,
+        "sanityChange": -5,
+        "xpGain": 25,
+        "nextScene": "ch1_the_inquisitor"
+      }
+    },
+    {
+      "id": "touch_necklace",
+      "text": "Grip your North Star necklace and whisper a prayer. The Emperor protects, even in silence.",
+      "visibleWhenLocked": false,
+      "effects": {
+        "setFlags": ["prayed_at_fortress", "faith_in_emperor"],
+        "sanityChange": 3,
+        "xpGain": 5,
+        "nextScene": "ch1_the_inquisitor"
+      }
+    }
+  ],
+  "onEnterEffects": {
+    "setFlags": ["ch1_fortress_seen"],
+    "xpGain": 5
+  },
+  "isHub": false,
+  "tags": ["intro", "inquisition", "fortress", "psy_wards", "atmosphere"],
+  "location": "inquisitorial_fortress"
+}

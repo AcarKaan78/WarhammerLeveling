@@ -1,0 +1,290 @@
+[
+  {
+    "id": "psychic_nightmare",
+    "title": "Psychic Nightmare",
+    "description": "You wake drenched in sweat, your necklace burning against your chest. The dream was vivid — a cathedral of flesh, a choir of screaming mouths, and a voice saying your name. Just your name. Over and over.",
+    "category": "daily",
+    "conditions": {
+      "minLevel": 1,
+      "maxLevel": 50,
+      "flags": ["chapter1_started"],
+      "forbiddenFlags": [],
+      "minSanity": 0,
+      "maxSanity": 100,
+      "minCorruption": 0,
+      "maxCorruption": 100,
+      "season": "any"
+    },
+    "weight": 8,
+    "outcomes": [
+      {
+        "description": "You grip the anxiety ring and force the vision away. The Emperor protects. The Emperor protects. The Emperor protects.",
+        "effects": {
+          "xp": 10,
+          "sanity": -3,
+          "corruption": 0,
+          "flags": ["had_nightmare"]
+        }
+      },
+      {
+        "description": "The vision lingers. You see a face in the dream — one of the cultists? A victim? You can't tell. But you remember every detail.",
+        "effects": {
+          "xp": 15,
+          "sanity": -5,
+          "corruption": 1,
+          "flags": ["had_nightmare", "nightmare_vision"]
+        }
+      }
+    ],
+    "choices": [
+      {
+        "id": "pray",
+        "text": "Recite the Litany of Protection and push the dream away.",
+        "outcomeIndex": 0,
+        "skillCheck": null
+      },
+      {
+        "id": "remember",
+        "text": "Force yourself to remember the details. They might be useful.",
+        "outcomeIndex": 1,
+        "skillCheck": { "skill": "willpower", "difficulty": 25 }
+      }
+    ],
+    "unique": false,
+    "cooldownDays": 3
+  },
+  {
+    "id": "warp_echo",
+    "title": "Warp Echo",
+    "description": "During your meditation, you feel a pulse in the Warp — like a heartbeat, deep and slow. It resonates with your own psychic frequency. The Whispering Choir is active again.",
+    "category": "daily",
+    "conditions": {
+      "minLevel": 1,
+      "maxLevel": 50,
+      "flags": ["entered_underhive"],
+      "forbiddenFlags": [],
+      "minSanity": 20,
+      "maxSanity": 100,
+      "minCorruption": 0,
+      "maxCorruption": 80,
+      "season": "any"
+    },
+    "weight": 6,
+    "outcomes": [
+      {
+        "description": "You shut out the echo and reinforce your mental wards. Your training holds. The Emperor's light burns steady in your mind.",
+        "effects": {
+          "xp": 15,
+          "sanity": 3,
+          "corruption": 0,
+          "flags": ["resisted_echo"]
+        }
+      },
+      {
+        "description": "You open yourself to the echo, just slightly. Images flood in — a location, a ritual chamber, hooded figures chanting. You now know where the next ritual will take place.",
+        "effects": {
+          "xp": 25,
+          "sanity": -8,
+          "corruption": 3,
+          "flags": ["embraced_echo", "knows_ritual_location"]
+        }
+      }
+    ],
+    "choices": [
+      {
+        "id": "resist",
+        "text": "Reinforce your mental wards. Do not listen.",
+        "outcomeIndex": 0,
+        "skillCheck": null
+      },
+      {
+        "id": "listen",
+        "text": "Open yourself to the Warp echo. Gather intelligence.",
+        "outcomeIndex": 1,
+        "skillCheck": { "skill": "willpower", "difficulty": 30 }
+      }
+    ],
+    "unique": false,
+    "cooldownDays": 5
+  },
+  {
+    "id": "drax_confrontation",
+    "title": "Drax's Warning",
+    "description": "Throne Agent Drax corners you in the corridor. His hand rests on his shock maul. His eyes are hard.",
+    "category": "daily",
+    "conditions": {
+      "minLevel": 1,
+      "maxLevel": 50,
+      "flags": ["ch1_transport_seen"],
+      "forbiddenFlags": ["drax_confrontation_done"],
+      "minSanity": 0,
+      "maxSanity": 100,
+      "minCorruption": 0,
+      "maxCorruption": 100,
+      "factionRep": {},
+      "season": "any"
+    },
+    "weight": 10,
+    "outcomes": [
+      {
+        "description": "Drax grunts. 'Maybe you're different. Maybe.' He walks away. It's not friendship. But it's not open hostility either.",
+        "effects": {
+          "xp": 20,
+          "factionRep": { "inquisition": 3 },
+          "flags": ["drax_confrontation_done", "drax_neutral"]
+        }
+      },
+      {
+        "description": "Drax's grip tightens on his maul. 'I've got my eye on you, witch.' He stalks off. The contempt is thick enough to cut.",
+        "effects": {
+          "xp": 15,
+          "sanity": -2,
+          "flags": ["drax_confrontation_done", "drax_hostile"]
+        }
+      },
+      {
+        "description": "Something shifts in Drax's eyes. Surprise. Grudging respect. He releases the maul. 'You've got nerve, psyker. I'll give you that.' He offers his hand.",
+        "effects": {
+          "xp": 25,
+          "factionRep": { "inquisition": 5 },
+          "flags": ["drax_confrontation_done", "drax_respect"]
+        }
+      }
+    ],
+    "choices": [
+      {
+        "id": "calm_response",
+        "text": "\"I'm not your enemy, Drax. I'm the weapon they pointed at the real enemy.\"",
+        "outcomeIndex": 0,
+        "skillCheck": { "skill": "fellowship", "difficulty": 25 }
+      },
+      {
+        "id": "submit",
+        "text": "Say nothing. Keep your eyes down. Let him have his moment of dominance.",
+        "outcomeIndex": 1,
+        "skillCheck": null
+      },
+      {
+        "id": "stand_ground",
+        "text": "\"Touch that maul and I'll show you what a sanctioned psyker can do to a man's nervous system.\"",
+        "outcomeIndex": 2,
+        "skillCheck": { "skill": "willpower", "difficulty": 30 }
+      }
+    ],
+    "unique": true,
+    "cooldownDays": 0
+  },
+  {
+    "id": "underhive_patrol",
+    "title": "Underhive Patrol",
+    "description": "Your patrol through the underhive corridors reveals signs of recent activity — fresh boot prints in the fungal growth, a discarded cult pamphlet, the faint smell of incense that doesn't belong down here.",
+    "category": "daily",
+    "conditions": {
+      "minLevel": 1,
+      "maxLevel": 50,
+      "flags": ["entered_underhive"],
+      "forbiddenFlags": [],
+      "minSanity": 15,
+      "maxSanity": 100,
+      "minCorruption": 0,
+      "maxCorruption": 100,
+      "season": "any"
+    },
+    "weight": 7,
+    "outcomes": [
+      {
+        "description": "You follow the trail carefully and discover a hidden cache — cult documents and a handful of thrones, left behind in haste.",
+        "effects": {
+          "xp": 20,
+          "thrones": 30,
+          "flags": ["found_cult_cache"],
+          "items": ["data_slate"]
+        }
+      },
+      {
+        "description": "The trail leads to an ambush. Hooded figures emerge from the shadows. You fight your way clear, but not without cost.",
+        "effects": {
+          "xp": 30,
+          "sanity": -5,
+          "flags": ["ambushed_by_cult"],
+          "triggerCombat": {
+            "enemies": [
+              { "name": "Cult Initiate", "count": 3, "template": "cultist_basic" }
+            ],
+            "difficulty": "easy"
+          }
+        }
+      }
+    ],
+    "choices": [
+      {
+        "id": "investigate_carefully",
+        "text": "Follow the trail carefully, checking for traps.",
+        "outcomeIndex": 0,
+        "skillCheck": { "skill": "perception", "difficulty": 20 }
+      },
+      {
+        "id": "rush_in",
+        "text": "Follow the trail quickly before it goes cold.",
+        "outcomeIndex": 1,
+        "skillCheck": null
+      }
+    ],
+    "unique": false,
+    "cooldownDays": 2
+  },
+  {
+    "id": "seren_lesson",
+    "title": "Seren's Lesson",
+    "description": "Astropath Seren sends a telepathic summons — a gentle warmth behind your eyes, like sunlight through closed lids. She waits in the Sanctum.",
+    "category": "personal",
+    "conditions": {
+      "minLevel": 1,
+      "maxLevel": 50,
+      "flags": ["met_astropath_seren"],
+      "forbiddenFlags": [],
+      "minSanity": 30,
+      "maxSanity": 100,
+      "minCorruption": 0,
+      "maxCorruption": 60,
+      "season": "any"
+    },
+    "weight": 6,
+    "outcomes": [
+      {
+        "description": "Seren teaches you a technique for strengthening your mental wards. Your mind feels clearer, more focused. The Warp's whispers grow distant.",
+        "effects": {
+          "xp": 20,
+          "sanity": 5,
+          "corruption": 0,
+          "flags": ["seren_training_session"]
+        }
+      },
+      {
+        "description": "Seren shares a fragment of her vast experience. You glimpse the Emperor's light through her soul-bond — a brilliance that burns but does not consume. For a moment, you understand what it means to be truly sanctioned.",
+        "effects": {
+          "xp": 30,
+          "sanity": 8,
+          "corruption": -1,
+          "flags": ["seren_training_session", "glimpsed_emperor_light"]
+        }
+      }
+    ],
+    "choices": [
+      {
+        "id": "ward_training",
+        "text": "Ask her to teach you stronger mental wards.",
+        "outcomeIndex": 0,
+        "skillCheck": { "skill": "willpower", "difficulty": 20 }
+      },
+      {
+        "id": "soul_bond_glimpse",
+        "text": "Ask her about the Soul Binding. What did she see when she stood before the Emperor?",
+        "outcomeIndex": 1,
+        "skillCheck": { "skill": "willpower", "difficulty": 30 }
+      }
+    ],
+    "unique": false,
+    "cooldownDays": 4
+  }
+]

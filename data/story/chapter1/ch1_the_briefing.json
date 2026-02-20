@@ -1,0 +1,121 @@
+{
+  "id": "ch1_the_briefing",
+  "chapter": "chapter1",
+  "title": "The Whisper in the Dark",
+  "conditions": {
+    "requiredFlags": ["ch1_inquisitor_seen"],
+    "forbiddenFlags": ["ch1_briefing_seen"]
+  },
+  "blocks": [
+    {
+      "type": "description",
+      "text": "Voss activates a holo-projector. The air above his desk shimmers and resolves into a three-dimensional map of Hive Tertium's lower levels — a tangled nightmare of collapsed tunnels, abandoned manufactory blocks, and fungal growth zones that haven't seen daylight in centuries."
+    },
+    {
+      "type": "dialogue",
+      "text": "The cult's activity is centered here — Subsector Morwen-9, in the deep underhive. A former Ecclesiarchy chapel complex, abandoned after the Sector Plague of 803.M41. The area is now controlled by competing ganger factions, mutant clans, and whatever else festers in the dark.",
+      "speaker": "Inquisitor Voss",
+      "speakerMood": "professional"
+    },
+    {
+      "type": "description",
+      "text": "Red markers pulse on the holo-map. Each one represents a psychic disturbance — a spike in Warp energy recorded by the sector's detection equipment. They form a pattern, you notice. Not random. A spiral, tightening inward toward a single point."
+    },
+    {
+      "type": "dialogue",
+      "text": "Interrogator Castiel will serve as your handler and field commander. Throne Agent Drax provides operational security. Magos Rhyn-7 is tasked with cataloguing any archeotech or heretical artifacts recovered. And you... you are the blade I am pointing at the enemy's throat.",
+      "speaker": "Inquisitor Voss",
+      "speakerMood": "cold"
+    },
+    {
+      "type": "dialogue",
+      "text": "The servo-skull Macharius will accompany you. Consider it my eyes. And my judgment.",
+      "speaker": "Inquisitor Voss",
+      "speakerMood": "warning"
+    },
+    {
+      "type": "system_message",
+      "text": "[SYSTEM] Quest Available: 'The Whisper in the Dark' — Investigate the Whispering Choir cult in the underhive of Hive Tertium."
+    },
+    {
+      "type": "dialogue",
+      "text": "Before you are deployed, I want you tested. Astropath Seren will evaluate your psychic stability in the Sanctum. I need to know what you are capable of — and what you might become.",
+      "speaker": "Inquisitor Voss",
+      "speakerMood": "appraising"
+    }
+  ],
+  "choices": [
+    {
+      "id": "ask_intel",
+      "text": "\"What do we know about the cult's leadership? Their numbers? Their doctrine?\"",
+      "visibleWhenLocked": false,
+      "skillCheck": {
+        "stat": "intelligence",
+        "difficulty": -30,
+        "successScene": "ch1_the_sanctum",
+        "failureScene": "ch1_the_sanctum"
+      },
+      "effects": {
+        "setFlags": ["asked_cult_intel", "tactical_thinker"],
+        "npcRelationshipChanges": {
+          "inquisitor_voss": { "respect": 5, "knowledge": 5 }
+        },
+        "xpGain": 15,
+        "startQuest": "whisper_in_the_dark",
+        "nextScene": "ch1_the_sanctum"
+      }
+    },
+    {
+      "id": "ask_support",
+      "text": "\"Will we have extraction support? Medical? Reinforcements if things go wrong?\"",
+      "visibleWhenLocked": false,
+      "effects": {
+        "setFlags": ["asked_about_support", "pragmatic_approach"],
+        "npcRelationshipChanges": {
+          "inquisitor_voss": { "knowledge": 5 },
+          "agent_drax": { "respect": 5 }
+        },
+        "xpGain": 10,
+        "startQuest": "whisper_in_the_dark",
+        "nextScene": "ch1_the_sanctum"
+      }
+    },
+    {
+      "id": "ask_gangers",
+      "text": "\"The ganger factions — can any be leveraged? An enemy of my enemy...\"",
+      "visibleWhenLocked": true,
+      "conditions": {
+        "minStat": { "intelligence": 30 }
+      },
+      "lockReason": "Requires Intelligence 30+",
+      "effects": {
+        "setFlags": ["asked_about_gangers", "political_mind", "knows_iron_serpents"],
+        "npcRelationshipChanges": {
+          "inquisitor_voss": { "respect": 10 }
+        },
+        "xpGain": 20,
+        "startQuest": "whisper_in_the_dark",
+        "nextScene": "ch1_the_sanctum"
+      }
+    },
+    {
+      "id": "accept_silently",
+      "text": "Nod. You have the mission parameters. Words are a luxury in the Inquisition's service.",
+      "visibleWhenLocked": false,
+      "effects": {
+        "setFlags": ["stoic_acceptance"],
+        "factionRepChanges": { "inquisition": 5 },
+        "xpGain": 5,
+        "startQuest": "whisper_in_the_dark",
+        "nextScene": "ch1_the_sanctum"
+      }
+    }
+  ],
+  "onEnterEffects": {
+    "setFlags": ["ch1_briefing_seen"],
+    "xpGain": 10
+  },
+  "isHub": false,
+  "tags": ["inquisition", "briefing", "mission", "quest_start", "cult"],
+  "location": "briefing_chamber"
+}

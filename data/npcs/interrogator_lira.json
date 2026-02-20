@@ -1,0 +1,72 @@
+{
+  "id": "interrogator_lira",
+  "name": "Interrogator Lira Castiel",
+  "title": "Interrogator of the Ordo Hereticus",
+  "role": "companion",
+  "personality": "Professional and controlled, with a pragmatic streak that borders on coldness. Beneath the Inquisitorial training, however, she retains a core of humanity that she carefully hides. She was selected by Voss for her ability to operate independently and make hard decisions. She sees psykers as people first, tools second — a view she keeps from Voss. Quietly ambitious, she aims to earn her own Rosette within five years.",
+  "description": "Lean and sharp-featured, in her early thirties, with close-cropped auburn hair and green eyes that catalogue everything with surgical precision. She moves with the economy of motion that comes from years of combat training — never a wasted step, never an unnecessary gesture. Her storm coat conceals carapace armor, a bolt pistol, and a power sword. A thin scar runs along her jawline from a near miss she never talks about.",
+  "location": "inquisitorial_fortress",
+  "factionId": "inquisition",
+  "relationship": {
+    "affinity": 5,
+    "respect": 15,
+    "fear": 5,
+    "knowledge": 10,
+    "loyalty": 10
+  },
+  "romanceEligible": true,
+  "romanceStage": 0,
+  "secrets": [
+    {
+      "id": "lira_brother",
+      "description": "Lira's younger brother was taken by a cult as a child. She joined the Inquisition specifically to destroy cults. This mission is deeply personal for her, though she hides it behind professionalism.",
+      "knowledgeRequired": 50,
+      "revealed": false,
+      "effectOnReveal": {
+        "npcRelationship": { "affinity": 15, "loyalty": 10 },
+        "flags": ["knows_lira_brother"]
+      }
+    },
+    {
+      "id": "lira_doubt",
+      "description": "Lira has privately questioned whether the Inquisition's methods create more heretics than they destroy. She keeps a forbidden journal of her doubts hidden in her quarters.",
+      "knowledgeRequired": 70,
+      "revealed": false,
+      "effectOnReveal": {
+        "npcRelationship": { "affinity": 10, "knowledge": 20, "fear": 10 },
+        "flags": ["knows_lira_doubts"]
+      }
+    }
+  ],
+  "breakingPoints": [
+    {
+      "id": "lira_betrayal_path",
+      "condition": "player_joins_cult",
+      "description": "If the player openly allies with the cult, Lira will attempt to kill them without hesitation.",
+      "consequence": "Lira becomes hostile. Combat triggered. Cannot be reversed.",
+      "triggered": false
+    },
+    {
+      "id": "lira_loyalty_path",
+      "condition": "saved_lira_life_and_high_affinity",
+      "description": "If you save her life and she trusts you, she will defy even Voss to protect you.",
+      "consequence": "+40 loyalty. She becomes your unconditional ally. Possible romance path unlocked.",
+      "triggered": false
+    }
+  ],
+  "companion": {
+    "available": true,
+    "loyaltyRequired": 30,
+    "combatStats": {
+      "weaponSkill": 40,
+      "ballisticSkill": 45,
+      "hp": 25,
+      "armor": 4,
+      "weapons": ["bolt_pistol", "power_sword"]
+    },
+    "combatStyle": "balanced",
+    "specialAbility": "tactical_coordination"
+  },
+  "isAlive": true,
+  "dialogueTreeId": "lira_dialogue"
+}

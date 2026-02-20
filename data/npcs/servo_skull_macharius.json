@@ -1,0 +1,55 @@
+{
+  "id": "servo_skull_macharius",
+  "name": "Macharius",
+  "title": "Inquisitorial Servo-Skull, Mark IV Surveillance Pattern",
+  "role": "observer",
+  "personality": "Macharius is not truly sentient — it is a skull fitted with augmetics, recording devices, and a basic cogitator brain. However, its programming includes rudimentary responses, and over decades of service to Voss, it has developed... quirks. It whirs louder when recording something Voss would find interesting. It hovers closer when it detects psychic activity. Its red augmetic eye tracks the player with uncomfortable intensity. It is Voss's eyes and ears in the field — everything it records, Voss sees.",
+  "description": "A human skull — yellowed with age, polished to a dull sheen — mounted with brass augmetics. A single red augmetic eye replaces the left socket, while the right is covered by a brass plate inscribed with hexagrammic wards. Anti-gravity suspensors allow it to hover silently, and a small vox-speaker in the jaw emits occasional clicks and whirs. The nameplate 'MACHARIUS' is engraved on the brass jawplate. It was once the skull of an Inquisitorial acolyte who requested posthumous service.",
+  "location": "inquisitorial_fortress",
+  "factionId": "inquisition",
+  "relationship": {
+    "affinity": 0,
+    "respect": 0,
+    "fear": 0,
+    "knowledge": 0,
+    "loyalty": 0
+  },
+  "romanceEligible": false,
+  "romanceStage": 0,
+  "secrets": [
+    {
+      "id": "macharius_override",
+      "description": "Macharius has a hidden kill-switch — if the player is deemed a critical threat, Voss can activate a micro-melta charge in the skull, detonating it at close range. It is a last resort.",
+      "knowledgeRequired": 90,
+      "revealed": false,
+      "effectOnReveal": {
+        "npcRelationship": { "fear": 30 },
+        "flags": ["knows_macharius_bomb"]
+      }
+    }
+  ],
+  "breakingPoints": [
+    {
+      "id": "macharius_destroyed",
+      "condition": "player_destroys_skull",
+      "description": "If the player destroys Macharius, Voss loses his eyes in the field and becomes deeply suspicious.",
+      "consequence": "Inquisition reputation -30. Voss trust drops to near-zero. No more field surveillance.",
+      "triggered": false
+    }
+  ],
+  "companion": {
+    "available": false,
+    "loyaltyRequired": 0,
+    "combatStats": {
+      "weaponSkill": 0,
+      "ballisticSkill": 0,
+      "hp": 5,
+      "armor": 2,
+      "weapons": []
+    },
+    "combatStyle": "none",
+    "specialAbility": "surveillance_recording"
+  },
+  "isAlive": true,
+  "dialogueTreeId": "macharius_dialogue"
+}
