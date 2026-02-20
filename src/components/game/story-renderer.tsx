@@ -7,7 +7,7 @@ import { ChoiceList } from '@/components/ui/choice-list';
 import { SkillCheckDisplay } from '@/components/ui/skill-check-display';
 import { Typewriter } from '@/components/effects/typewriter';
 import { Loading } from '@/components/ui/loading';
-import React, { useState } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 
 interface StoryRendererProps {
   characterId: number;
@@ -17,16 +17,40 @@ interface StoryRendererProps {
 }
 
 export function StoryRenderer({ characterId, gameDay, sanityState, saveName = 'current' }: StoryRendererProps) {
-  const { currentScene, choiceResult, loading, error, makeChoice } = useNarrative();
+  const { currentScene, availableScenes, choiceResult, loading, error, loadScene, loadAvailableScenes, makeChoice } = useNarrative();
   const { applyTextGlitch, glitchActive } = useSanityEffects(sanityState);
   const [skillCheck, setSkillCheck] = useState<{
     roll: number; target: number; success: boolean;
     criticalSuccess: boolean; criticalFailure: boolean; margin: number; skillName: string;
   } | null>(null);
+  const initRef = useRef(false);
+
+  // Load available scenes on mount
+  useEffect(() => {
+    if (!initRef.current) {
+      initRef.current = true;
+      loadAvailableScenes(characterId, saveName);
+    }
+  }, [characterId, saveName, loadAvailableScenes]);
+
+  // Auto-load first available scene
+  useEffect(() => {
+    if (!currentScene && !loading && availableScenes.length > 0) {
+      loadScene(availableScenes[0].id, characterId, saveName);
+    }
+  }, [currentScene, loading, availableScenes, characterId, saveName, loadScene]);
 
   if (loading) return <Loading text="Loading scene..." />;
   if (error) return <div className="text-blood text-sm">{error}</div>;
-  if (!currentScene) return <div className="text-parchment-dark text-sm">No scene loaded.</div>;
+
+  if (!currentScene) {
+    return (
+      <div className="text-parchment-dark text-sm text-center py-12">
+        <p>No scenes available at this time.</p>
+        <p className="text-xs mt-2">Complete tasks and advance to unlock new story content.</p>
+      </div>
+    );
+  }
 
   const handleChoice = async (choiceId: string) => {
     const result = await makeChoice(currentScene.id, choiceId, characterId, gameDay, saveName);
@@ -40,6 +64,11 @@ export function StoryRenderer({ characterId, gameDay, sanityState, saveName = 'c
           skillName: choice?.skillCheck?.stat ?? 'Skill',
         });
       }
+    }
+
+    // If no next scene was auto-loaded, refresh available scenes
+    if (result && typeof result === 'object' && !('nextSceneId' in result && (result as { nextSceneId: string | null }).nextSceneId)) {
+      await loadAvailableScenes(characterId, saveName);
     }
   };
 
@@ -57,7 +86,8 @@ export function StoryRenderer({ characterId, gameDay, sanityState, saveName = 'c
       {currentScene.blocks.map((block, i) => {
         const processedBlock = {
           ...block,
-          text: sanityState !== 'stable' ? applyTextGlitch(block.text) : block.text,
+          text: (sanityState === 'breaking' || sanityState === 'shattered' || sanityState === 'lost')
+            ? applyTextGlitch(block.text) : block.text,
         };
         return (
           <Typewriter key={`${currentScene.id}-${i}`} delay={i * 500}>
