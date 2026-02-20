@@ -1,6 +1,7 @@
 'use client';
 
 import { formatStreakText, formatDifficulty, formatCategory } from '@/lib/formatters';
+import { CONFIG } from '@/domain/config';
 
 interface TaskCardProps {
   task: {
@@ -14,10 +15,13 @@ interface TaskCardProps {
   };
   onComplete?: (taskId: number) => void;
   onEdit?: (taskId: number) => void;
+  onDelete?: (taskId: number) => void;
   disabled?: boolean;
 }
 
-export function TaskCard({ task, onComplete, onEdit, disabled = false }: TaskCardProps) {
+export function TaskCard({ task, onComplete, onEdit, onDelete, disabled = false }: TaskCardProps) {
+  const xp = CONFIG.tasks.difficultyXP[task.difficulty] ?? 0;
+
   return (
     <div className={`p-3 border rounded-sm transition-colors
       ${task.active ? 'border-panel-light bg-panel' : 'border-panel-light/30 bg-panel/30 opacity-60'}
@@ -27,7 +31,7 @@ export function TaskCard({ task, onComplete, onEdit, disabled = false }: TaskCar
           <span className="text-parchment font-semibold text-sm">{task.name}</span>
           <div className="flex gap-3 mt-1 text-xs text-parchment-dark">
             <span>{formatCategory(task.category)}</span>
-            <span>{formatDifficulty(task.difficulty)}</span>
+            <span>{formatDifficulty(task.difficulty)} &mdash; {xp} XP</span>
           </div>
         </div>
 
@@ -38,6 +42,14 @@ export function TaskCard({ task, onComplete, onEdit, disabled = false }: TaskCar
               className="text-xs text-parchment-dark hover:text-parchment px-2 py-1 border border-panel-light rounded-sm"
             >
               Edit
+            </button>
+          )}
+          {onDelete && (
+            <button
+              onClick={() => onDelete(task.id)}
+              className="text-xs text-red-400 hover:text-red-300 px-2 py-1 border border-red-400/30 rounded-sm hover:bg-red-400/10"
+            >
+              Delete
             </button>
           )}
           {onComplete && task.active && (

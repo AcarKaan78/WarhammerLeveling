@@ -5,7 +5,6 @@ import {
   calculateStreakMultiplier,
   calculateDiminishingFactor,
   calculateStatGains,
-  getDailyXPCap,
   generateCompletionReport,
 } from '@/domain/engine/task-engine';
 import { applyStatGain } from '@/domain/engine/stats-engine';
@@ -35,7 +34,7 @@ export class CompleteTaskUseCase {
         characterId,
         date: today,
         totalXPEarned: 0,
-        xpCap: getDailyXPCap(character.level),
+        xpCap: 9999,
         tasksCompleted: 0,
         categoryCounts: {},
         streaksBroken: [],
@@ -43,9 +42,7 @@ export class CompleteTaskUseCase {
       });
     }
 
-    // 3. Calculate XP cap check
-    const xpCap = getDailyXPCap(character.level);
-    const xpCapped = session.totalXPEarned >= xpCap;
+    // 3. No daily XP cap — earn everything you complete
 
     // 4. Update streak
     const newStreak = task.currentStreak + 1;
@@ -64,16 +61,12 @@ export class CompleteTaskUseCase {
     const difficultyMod = difficultyConfig?.xpGain ?? 1.0;
 
     // 7. Calculate XP
-    let xpEarned = calculateTaskXP(
+    const xpEarned = calculateTaskXP(
       task.difficulty,
       streakMultiplier,
       diminishingFactor,
       difficultyMod,
     );
-    const xpBeforeCap = xpEarned;
-    if (session.totalXPEarned + xpEarned > xpCap) {
-      xpEarned = Math.max(0, xpCap - session.totalXPEarned);
-    }
 
     // 8. Calculate stat gains
     const currentStatValues: Record<string, number> = {};
@@ -116,7 +109,6 @@ export class CompleteTaskUseCase {
       penalties.push(
         `Diminishing returns (${Math.round(diminishingFactor * 100)}%)`,
       );
-    if (xpCapped) penalties.push('Daily XP cap reached');
 
     // 12. Professional work -> earn thrones
     let throneGain = 0;
@@ -173,7 +165,7 @@ export class CompleteTaskUseCase {
       characterId,
       date: today,
       totalXPEarned: session.totalXPEarned + xpEarned,
-      xpCap,
+      xpCap: 0,
       tasksCompleted: session.tasksCompleted + 1,
       categoryCounts: newCategoryCounts,
       streaksBroken: session.streaksBroken as string[],
@@ -223,8 +215,8 @@ export class CompleteTaskUseCase {
       penalties,
       levelUpResult.levelsGained > 0,
       levelUpResult.levelsGained > 0 ? newLevel : null,
-      xpBeforeCap,
-      session.totalXPEarned + xpEarned > xpCap,
+      xpEarned,
+      false,
       streakMultiplier,
       diminishingFactor,
       bestStreak,

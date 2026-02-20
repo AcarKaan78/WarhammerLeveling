@@ -6,6 +6,26 @@ import { TaskCard } from '@/components/ui/task-card';
 import { Modal } from '@/components/ui/modal';
 import { Loading } from '@/components/ui/loading';
 import { validateTaskName, validateTimeEstimate } from '@/lib/validators';
+import { CONFIG } from '@/domain/config';
+
+const DIFFICULTY_OPTIONS = [1, 2, 3, 5, 8] as const;
+const DIFFICULTY_LABELS: Record<number, string> = {
+  1: 'Trivial', 2: 'Easy', 3: 'Moderate', 5: 'Hard', 8: 'Extreme',
+};
+const CATEGORIES = [
+  'physical_training', 'cardio_mobility', 'combat_training', 'study_learning',
+  'meditation_discipline', 'social_networking', 'creative_work',
+  'professional_work', 'self_care', 'exploration',
+];
+
+const emptyForm = {
+  name: '',
+  description: '',
+  category: 'physical_training',
+  difficulty: 3 as number,
+  recurring: 'daily',
+  timeEstimateMinutes: 30,
+};
 
 export function TaskManager() {
   const { gameState, loading, characterId, saveName, refresh } = useGameContext();
@@ -13,19 +33,20 @@ export function TaskManager() {
   const [completing, setCompleting] = useState<number | null>(null);
   const [feedback, setFeedback] = useState<string | null>(null);
 
-  // Create form state
-  const [newTask, setNewTask] = useState({
-    name: '',
-    description: '',
-    category: 'physical_training',
-    difficulty: 3 as number,
-    recurring: 'daily',
-    timeEstimateMinutes: 30,
-  });
+  // Create / Edit form state
+  const [formData, setFormData] = useState({ ...emptyForm });
+  const [editingTaskId, setEditingTaskId] = useState<number | null>(null);
+
+  // Delete confirmation
+  const [deletingTaskId, setDeletingTaskId] = useState<number | null>(null);
 
   if (loading || !gameState) return <Loading text="Loading tasks..." />;
 
   const tasks = gameState.tasks;
+  const isEditing = editingTaskId !== null;
+  const modalOpen = createOpen || isEditing;
+
+  // --- Handlers ---
 
   const handleComplete = async (taskId: number) => {
     if (!characterId) return;
@@ -48,36 +69,99 @@ export function TaskManager() {
     }
   };
 
-  const handleCreate = async () => {
+  const handleOpenCreate = () => {
+    setFormData({ ...emptyForm });
+    setEditingTaskId(null);
+    setCreateOpen(true);
+  };
+
+  const handleOpenEdit = (taskId: number) => {
+    const task = tasks.find(t => t.id === taskId);
+    if (!task) return;
+    setFormData({
+      name: task.name,
+      description: '',
+      category: task.category,
+      difficulty: task.difficulty,
+      recurring: 'daily',
+      timeEstimateMinutes: 30,
+    });
+    setEditingTaskId(taskId);
+    setCreateOpen(false);
+  };
+
+  const handleCloseModal = () => {
+    setCreateOpen(false);
+    setEditingTaskId(null);
+  };
+
+  const handleSubmit = async () => {
     if (!characterId) return;
-    const nameError = validateTaskName(newTask.name);
-    const timeError = validateTimeEstimate(newTask.timeEstimateMinutes);
+    const nameError = validateTaskName(formData.name);
+    const timeError = validateTimeEstimate(formData.timeEstimateMinutes);
     if (nameError || timeError) {
       setFeedback(nameError ?? timeError);
       return;
     }
 
     try {
-      const res = await fetch('/api/tasks', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ ...newTask, characterId, saveName }),
-      });
-      if (!res.ok) throw new Error((await res.json()).error);
-      setCreateOpen(false);
-      setNewTask({ name: '', description: '', category: 'physical_training', difficulty: 3, recurring: 'daily', timeEstimateMinutes: 30 });
+      if (isEditing) {
+        // Update existing task
+        const res = await fetch('/api/tasks', {
+          method: 'PUT',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            id: editingTaskId,
+            name: formData.name,
+            category: formData.category,
+            difficulty: formData.difficulty,
+            saveName,
+          }),
+        });
+        if (!res.ok) throw new Error((await res.json()).error);
+        setFeedback('Task updated');
+      } else {
+        // Create new task
+        const res = await fetch('/api/tasks', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ ...formData, characterId, saveName }),
+        });
+        if (!res.ok) throw new Error((await res.json()).error);
+        setFeedback('Task created');
+      }
+      handleCloseModal();
       await refresh();
+      setTimeout(() => setFeedback(null), 3000);
     } catch {
-      setFeedback('Failed to create task');
+      setFeedback(isEditing ? 'Failed to update task' : 'Failed to create task');
     }
   };
+
+  const handleDelete = async () => {
+    if (!deletingTaskId) return;
+    try {
+      const res = await fetch(`/api/tasks?id=${deletingTaskId}&save=${saveName}`, {
+        method: 'DELETE',
+      });
+      if (!res.ok) throw new Error((await res.json()).error);
+      setDeletingTaskId(null);
+      setFeedback('Task deleted');
+      await refresh();
+      setTimeout(() => setFeedback(null), 3000);
+    } catch {
+      setFeedback('Failed to delete task');
+    }
+  };
+
+  const taskToDelete = deletingTaskId ? tasks.find(t => t.id === deletingTaskId) : null;
 
   return (
     <div className="space-y-4">
       <div className="flex justify-between items-center">
         <h2 className="font-gothic text-imperial-gold text-lg">Daily Tasks</h2>
         <button
-          onClick={() => setCreateOpen(true)}
+          onClick={handleOpenCreate}
           className="px-3 py-1 text-sm border border-imperial-gold/40 text-imperial-gold rounded-sm hover:bg-imperial-gold/10"
         >
           + New Task
@@ -96,6 +180,8 @@ export function TaskManager() {
             key={task.id}
             task={task}
             onComplete={handleComplete}
+            onEdit={handleOpenEdit}
+            onDelete={setDeletingTaskId}
             disabled={completing === task.id}
           />
         ))}
@@ -106,15 +192,15 @@ export function TaskManager() {
         )}
       </div>
 
-      {/* Create Task Modal */}
-      <Modal open={createOpen} onClose={() => setCreateOpen(false)} title="Create New Task">
+      {/* Create / Edit Task Modal */}
+      <Modal open={modalOpen} onClose={handleCloseModal} title={isEditing ? 'Edit Task' : 'Create New Task'}>
         <div className="space-y-3">
           <div>
             <label className="text-xs text-parchment-dark block mb-1">Task Name</label>
             <input
               type="text"
-              value={newTask.name}
-              onChange={e => setNewTask(p => ({ ...p, name: e.target.value }))}
+              value={formData.name}
+              onChange={e => setFormData(p => ({ ...p, name: e.target.value }))}
               className="w-full bg-void-black border border-panel-light rounded-sm p-2 text-parchment text-sm focus:border-imperial-gold/50 outline-none"
               placeholder="e.g., Morning Run"
             />
@@ -122,13 +208,11 @@ export function TaskManager() {
           <div>
             <label className="text-xs text-parchment-dark block mb-1">Category</label>
             <select
-              value={newTask.category}
-              onChange={e => setNewTask(p => ({ ...p, category: e.target.value }))}
+              value={formData.category}
+              onChange={e => setFormData(p => ({ ...p, category: e.target.value }))}
               className="w-full bg-void-black border border-panel-light rounded-sm p-2 text-parchment text-sm focus:border-imperial-gold/50 outline-none"
             >
-              {['physical_training', 'cardio_mobility', 'combat_training', 'study_learning',
-                'meditation_discipline', 'social_networking', 'creative_work',
-                'professional_work', 'self_care', 'exploration'].map(cat => (
+              {CATEGORIES.map(cat => (
                 <option key={cat} value={cat}>{cat.split('_').map(w => w[0].toUpperCase() + w.slice(1)).join(' ')}</option>
               ))}
             </select>
@@ -137,32 +221,59 @@ export function TaskManager() {
             <div>
               <label className="text-xs text-parchment-dark block mb-1">Difficulty</label>
               <select
-                value={newTask.difficulty}
-                onChange={e => setNewTask(p => ({ ...p, difficulty: parseInt(e.target.value) }))}
+                value={formData.difficulty}
+                onChange={e => setFormData(p => ({ ...p, difficulty: parseInt(e.target.value) }))}
                 className="w-full bg-void-black border border-panel-light rounded-sm p-2 text-parchment text-sm outline-none"
               >
-                {[1, 2, 3, 5, 8].map(d => (
-                  <option key={d} value={d}>{['Trivial', 'Easy', 'Moderate', 'Hard', 'Extreme'][[1,2,3,5,8].indexOf(d)]}</option>
+                {DIFFICULTY_OPTIONS.map(d => (
+                  <option key={d} value={d}>
+                    {DIFFICULTY_LABELS[d]} &mdash; {CONFIG.tasks.difficultyXP[d]} XP
+                  </option>
                 ))}
               </select>
             </div>
-            <div>
-              <label className="text-xs text-parchment-dark block mb-1">Time (min)</label>
-              <input
-                type="number"
-                value={newTask.timeEstimateMinutes}
-                onChange={e => setNewTask(p => ({ ...p, timeEstimateMinutes: parseInt(e.target.value) || 0 }))}
-                className="w-full bg-void-black border border-panel-light rounded-sm p-2 text-parchment text-sm outline-none"
-                min={1} max={480}
-              />
-            </div>
+            {!isEditing && (
+              <div>
+                <label className="text-xs text-parchment-dark block mb-1">Time (min)</label>
+                <input
+                  type="number"
+                  value={formData.timeEstimateMinutes}
+                  onChange={e => setFormData(p => ({ ...p, timeEstimateMinutes: parseInt(e.target.value) || 0 }))}
+                  className="w-full bg-void-black border border-panel-light rounded-sm p-2 text-parchment text-sm outline-none"
+                  min={1} max={480}
+                />
+              </div>
+            )}
           </div>
           <button
-            onClick={handleCreate}
+            onClick={handleSubmit}
             className="w-full py-2 bg-imperial-gold/20 border border-imperial-gold/40 text-imperial-gold rounded-sm hover:bg-imperial-gold/30"
           >
-            Create Task
+            {isEditing ? 'Save Changes' : 'Create Task'}
           </button>
+        </div>
+      </Modal>
+
+      {/* Delete Confirmation Modal */}
+      <Modal open={deletingTaskId !== null} onClose={() => setDeletingTaskId(null)} title="Delete Task" size="sm">
+        <div className="space-y-4">
+          <p className="text-parchment text-sm">
+            Are you sure you want to delete <strong>{taskToDelete?.name}</strong>? This cannot be undone.
+          </p>
+          <div className="flex gap-3">
+            <button
+              onClick={() => setDeletingTaskId(null)}
+              className="flex-1 py-2 border border-panel-light text-parchment-dark rounded-sm hover:bg-panel-light/10 text-sm"
+            >
+              Cancel
+            </button>
+            <button
+              onClick={handleDelete}
+              className="flex-1 py-2 bg-red-500/20 border border-red-400/40 text-red-400 rounded-sm hover:bg-red-500/30 text-sm"
+            >
+              Delete
+            </button>
+          </div>
         </div>
       </Modal>
     </div>
