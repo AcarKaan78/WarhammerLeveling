@@ -4,6 +4,34 @@ import { createContainer } from '@/infrastructure/di/container';
 import { calculateInitialStats } from '@/domain/engine/stats-engine';
 import { CONFIG } from '@/domain/config';
 import { GameStateService } from '@/application/services/game-state-service';
+import { loadAllNPCs } from '@/infrastructure/data-loader/npc-loader';
+import type { Container } from '@/infrastructure/di/container';
+
+async function seedNPCsAndFactions(container: Container, characterId: number) {
+  // Seed factions from CONFIG
+  const factionIds = Object.keys(CONFIG.factionCrossEffects);
+  for (const factionId of factionIds) {
+    const existing = await container.repos.faction.get(characterId, factionId);
+    if (!existing) {
+      await container.repos.faction.initialize({
+        characterId,
+        factionId,
+        reputation: 0,
+        standing: 'neutral',
+        lastChange: new Date(),
+      });
+    }
+  }
+
+  // Seed NPCs from data/npcs/*.json
+  const allNPCs = loadAllNPCs();
+  for (const npc of allNPCs) {
+    const existing = await container.repos.npc.getById(npc.id);
+    if (!existing) {
+      await container.repos.npc.create(characterId, npc);
+    }
+  }
+}
 
 const CreateCharacterSchema = z.object({
   name: z.string().min(1).max(50),
@@ -31,6 +59,22 @@ export async function GET(request: NextRequest) {
     const container = createContainer(saveName);
 
     if (request.nextUrl.searchParams.get('full') === 'true') {
+      // Resolve character ID — either from ?id= param or by fetching the save's character
+      let cid = characterId ? parseInt(characterId) : undefined;
+      if (!cid) {
+        const char = await container.repos.character.get();
+        if (char) cid = char.id;
+      }
+
+      // Auto-seed NPCs and factions if missing (for existing characters)
+      if (cid) {
+        const existingFactions = await container.repos.faction.getAll(cid);
+        const existingNPCs = await container.repos.npc.getAll(cid);
+        if (existingFactions.length === 0 || existingNPCs.length === 0) {
+          await seedNPCsAndFactions(container, cid);
+        }
+      }
+
       const gameStateService = new GameStateService(
         container.repos.character,
         container.repos.task,
@@ -42,7 +86,7 @@ export async function GET(request: NextRequest) {
         container.repos.achievement,
         container.repos.event,
       );
-      const state = await gameStateService.getFullState(characterId ? parseInt(characterId) : undefined as never);
+      const state = await gameStateService.getFullState(cid as number);
       return NextResponse.json(state);
     }
 
@@ -92,6 +136,7 @@ export async function POST(request: NextRequest) {
     });
 
     await container.repos.story.initialize(character.id);
+    await seedNPCsAndFactions(container, character.id);
 
     return NextResponse.json(character, { status: 201 });
   } catch (err: unknown) {

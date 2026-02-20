@@ -47,12 +47,22 @@ export class SQLiteFactionRepository implements IFactionRepository {
     return rows.map((row) => this.mapRow(row));
   }
 
-  async updateReputation(characterId: number, factionId: string, reputation: number): Promise<void> {
+  async updateReputation(characterId: number, factionId: string, change: number): Promise<void> {
     const now = new Date().toISOString();
 
+    // Read current reputation first, then add the change
+    const rows = this.db
+      .select({ reputation: factions.reputation })
+      .from(factions)
+      .where(and(eq(factions.characterId, characterId), eq(factions.id, factionId)))
+      .all();
+
+    if (rows.length === 0) return;
+
+    const newRep = rows[0].reputation + change;
     this.db
       .update(factions)
-      .set({ reputation, lastChange: now })
+      .set({ reputation: newRep, lastChange: now })
       .where(and(eq(factions.characterId, characterId), eq(factions.id, factionId)))
       .run();
   }

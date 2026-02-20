@@ -110,10 +110,17 @@ export class SQLiteNPCRepository implements INPCRepository {
       .where(eq(npcs.id, id))
       .all();
 
-    if (rows.length === 0) throw new Error(`NPC with id ${id} not found`);
+    if (rows.length === 0) return; // NPC not found, skip silently
 
     const current: RelationshipDimensions = JSON.parse(rows[0].relationship);
-    const updated: RelationshipDimensions = { ...current, ...changes };
+    // ADD to existing values instead of overwriting
+    const updated: RelationshipDimensions = { ...current };
+    for (const [key, value] of Object.entries(changes)) {
+      if (value !== undefined) {
+        (updated as unknown as Record<string, number>)[key] =
+          ((current as unknown as Record<string, number>)[key] ?? 0) + value;
+      }
+    }
 
     this.db
       .update(npcs)
