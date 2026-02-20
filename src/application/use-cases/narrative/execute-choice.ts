@@ -17,6 +17,8 @@ import { processChoiceEffects } from '@/domain/engine/narrative-engine';
 import { performStatCheck } from '@/domain/engine/stats-engine';
 import { calculateCrossEffects } from '@/domain/engine/faction-engine';
 import { checkMutationThreshold } from '@/domain/engine/corruption-engine';
+import { CONFIG } from '@/domain/config';
+import type { Difficulty } from '@/domain/models/character';
 
 export interface ChoiceExecutionResult {
   success: boolean;
@@ -52,11 +54,13 @@ export class ExecuteChoiceUseCase {
     let skillCheckResult: ChoiceExecutionResult['skillCheckResult'];
     let effects = choice.effects;
 
-    // 1. Handle skill check if present
+    // 1. Handle skill check if present (apply game difficulty bonus)
+    const diffSettings = CONFIG.difficulty[character.difficulty as Difficulty] ?? CONFIG.difficulty.standard;
+
     if (choice.skillCheck) {
       const statValue =
         (character.primaryStats as unknown as Record<string, number>)[choice.skillCheck.stat] ?? 25;
-      const result = performStatCheck(statValue, choice.skillCheck.difficulty, []);
+      const result = performStatCheck(statValue, choice.skillCheck.difficulty, [diffSettings.skillCheckBonus]);
 
       skillCheckResult = {
         roll: result.roll, target: result.target, success: result.success,
@@ -96,17 +100,23 @@ export class ExecuteChoiceUseCase {
     // 4. Apply stat / resource changes
     const characterUpdates: Record<string, unknown> = {};
 
-    if (effects.xpGain) { characterUpdates.xp = character.xp + effects.xpGain; }
+    if (effects.xpGain) {
+      characterUpdates.xp = character.xp + Math.round(effects.xpGain * diffSettings.xpGain);
+    }
     if (effects.throneChange) {
       characterUpdates.thrones = Math.max(0, character.thrones + effects.throneChange);
     }
     if (effects.sanityChange) {
+      const scaledSanity = effects.sanityChange < 0
+        ? Math.round(effects.sanityChange * diffSettings.sanityDrain)
+        : effects.sanityChange;
       characterUpdates.sanity = Math.max(0,
-        Math.min(character.sanityMax, character.sanity + effects.sanityChange));
+        Math.min(character.sanityMax, character.sanity + scaledSanity));
     }
     if (effects.corruptionChange) {
+      const scaledCorruption = Math.round(effects.corruptionChange * diffSettings.corruptionGain);
       const oldCorruption = character.corruption;
-      const newCorruption = Math.max(0, Math.min(100, character.corruption + effects.corruptionChange));
+      const newCorruption = Math.max(0, Math.min(100, character.corruption + scaledCorruption));
       characterUpdates.corruption = newCorruption;
       if (checkMutationThreshold(oldCorruption, newCorruption)) {
         notifications.push('You feel the warp twisting your flesh... A mutation manifests!');

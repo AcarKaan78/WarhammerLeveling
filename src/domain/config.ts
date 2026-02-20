@@ -523,6 +523,7 @@ export const CONFIG = {
       sanityDrain: 0.5,
       corruptionGain: 0.5,
       xpGain: 1.25,
+      skillCheckBonus: 20,
       deathConsequence: 'respawn_no_penalty',
     },
     standard: {
@@ -530,6 +531,7 @@ export const CONFIG = {
       sanityDrain: 1.0,
       corruptionGain: 1.0,
       xpGain: 1.0,
+      skillCheckBonus: 0,
       deathConsequence: 'respawn_with_penalty',
     },
     grimdark: {
@@ -537,6 +539,7 @@ export const CONFIG = {
       sanityDrain: 1.5,
       corruptionGain: 1.5,
       xpGain: 0.75,
+      skillCheckBonus: -15,
       deathConsequence: 'permadeath',
     },
   },
