@@ -9,5 +9,6 @@ export interface ITaskRepository {
   logCompletion(data: Omit<TaskCompletion, 'id'>): Promise<TaskCompletion>;
   getCompletionsForDate(characterId: number, date: string): Promise<TaskCompletion[]>;
   getDailySession(characterId: number, date: string): Promise<DailySession | null>;
+  getDailySessionsForRange(characterId: number, startDate: string, endDate: string): Promise<DailySession[]>;
   upsertDailySession(data: DailySession): Promise<DailySession>;
 }

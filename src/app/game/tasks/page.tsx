@@ -3,6 +3,7 @@
 import { useEffect } from 'react';
 import { useGameContext } from '@/context/game-context';
 import { TaskManager } from '@/components/game/task-manager';
+import { StreakCalendar } from '@/components/ui/streak-calendar';
 import { Loading } from '@/components/ui/loading';
 
 export default function TasksPage() {
@@ -20,7 +21,8 @@ export default function TasksPage() {
   if (loading || !gameState) return <Loading text="Loading tasks..." />;
 
   return (
-    <div className="max-w-2xl">
+    <div className="max-w-2xl space-y-6">
+      {characterId && <StreakCalendar characterId={characterId} saveName={saveName} />}
       <TaskManager />
     </div>
   );

@@ -157,6 +157,22 @@ export class SQLiteTaskRepository implements ITaskRepository {
     return this.mapDailySessionRow(rows[0]);
   }
 
+  async getDailySessionsForRange(characterId: number, startDate: string, endDate: string): Promise<DailySession[]> {
+    const rows = this.db
+      .select()
+      .from(dailySessions)
+      .where(
+        and(
+          eq(dailySessions.characterId, characterId),
+          sql`${dailySessions.date} >= ${startDate}`,
+          sql`${dailySessions.date} <= ${endDate}`,
+        ),
+      )
+      .all();
+
+    return rows.map((row) => this.mapDailySessionRow(row));
+  }
+
   async upsertDailySession(data: DailySession): Promise<DailySession> {
     // Check if session exists
     const existing = await this.getDailySession(data.characterId, data.date);
