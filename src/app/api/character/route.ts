@@ -5,6 +5,8 @@ import { calculateInitialStats } from '@/domain/engine/stats-engine';
 import { CONFIG } from '@/domain/config';
 import { GameStateService } from '@/application/services/game-state-service';
 import { loadAllNPCs } from '@/infrastructure/data-loader/npc-loader';
+import { AllocateStatPointUseCase } from '@/application/use-cases/character/allocate-stat-point';
+import type { PrimaryStatKey } from '@/domain/models';
 import type { Container } from '@/infrastructure/di/container';
 
 async function seedNPCsAndFactions(container: Container, characterId: number) {
@@ -143,6 +145,28 @@ export async function POST(request: NextRequest) {
     if (err instanceof z.ZodError) {
       return NextResponse.json({ error: 'Validation error', details: err.errors }, { status: 400 });
     }
+    const message = err instanceof Error ? err.message : 'Internal server error';
+    return NextResponse.json({ error: message }, { status: 500 });
+  }
+}
+
+export async function PATCH(request: NextRequest) {
+  try {
+    const body = await request.json();
+    const { action, characterId, saveName = 'current', stat, points = 1 } = body;
+    const container = createContainer(saveName);
+
+    if (action === 'allocate_stat') {
+      const useCase = new AllocateStatPointUseCase(container.repos.character);
+      const result = await useCase.execute(characterId, stat as PrimaryStatKey, points);
+      if (!result.success) {
+        return NextResponse.json({ error: result.reason }, { status: 400 });
+      }
+      return NextResponse.json(result.character);
+    }
+
+    return NextResponse.json({ error: 'Unknown action' }, { status: 400 });
+  } catch (err: unknown) {
     const message = err instanceof Error ? err.message : 'Internal server error';
     return NextResponse.json({ error: message }, { status: 500 });
   }
