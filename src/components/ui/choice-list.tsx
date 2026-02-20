@@ -17,11 +17,34 @@ interface ChoiceListProps {
   disabled?: boolean;
 }
 
+function formatStat(stat: string): string {
+  const names: Record<string, string> = {
+    weaponSkill: 'Weapon Skill', ballisticSkill: 'Ballistic Skill',
+    strength: 'Strength', toughness: 'Toughness', agility: 'Agility',
+    intelligence: 'Intelligence', perception: 'Perception',
+    willpower: 'Willpower', fellowship: 'Fellowship',
+  };
+  return names[stat] ?? stat;
+}
+
 export function ChoiceList({ choices, onSelect, disabled = false }: ChoiceListProps) {
   return (
     <div className="space-y-2 mt-4">
       {choices.map((choice) => {
         const isLocked = choice._visibility?.type === 'locked';
+
+        // Build requirement tags
+        const tags: Array<{ label: string; color: string }> = [];
+
+        if (choice.conditions?.minStat) {
+          for (const [stat, val] of Object.entries(choice.conditions.minStat)) {
+            tags.push({ label: `${formatStat(stat)} ${val}+`, color: isLocked ? 'text-blood' : 'text-system-green-dim' });
+          }
+        }
+
+        if (choice.skillCheck) {
+          tags.push({ label: `${formatStat(choice.skillCheck.stat)} check`, color: 'text-imperial-gold' });
+        }
 
         return (
           <button
@@ -37,10 +60,12 @@ export function ChoiceList({ choices, onSelect, disabled = false }: ChoiceListPr
             `}
           >
             <span className="block">{choice.text}</span>
-            {choice._visibility?.type === 'skill_check' && (
-              <span className="text-xs text-imperial-gold mt-1 block">
-                [{choice._visibility.stat} check]
-              </span>
+            {tags.length > 0 && (
+              <div className="flex gap-2 mt-1">
+                {tags.map((tag, i) => (
+                  <span key={i} className={`text-xs ${tag.color}`}>[{tag.label}]</span>
+                ))}
+              </div>
             )}
             {isLocked && choice._visibility?.reason && (
               <span className="text-xs text-blood mt-1 block">{choice._visibility.reason}</span>
