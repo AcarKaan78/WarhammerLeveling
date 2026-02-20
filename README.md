@@ -14,7 +14,7 @@ This isn't a to-do app with a coat of paint. This is a full role-playing experie
 
 - **Create your Operative** from 6 origins, 8 backgrounds (including two Psyker paths), and 8 personality traits
 - **Complete real-world tasks** to earn XP, level up, and gain stat points across 9 primary attributes
-- **Descend into narrative** with a branching story system, typewriter text, and skill checks
+- **Descend into narrative** with a branching story system, typewriter text, skill checks, and difficulty-scaled outcomes
 - **Fight turn-based combat** with hit locations, weapon jamming, flanking, and critical hits
 - **Wield psychic powers** across 5 disciplines and 5 tiers, risking Perils of the Warp
 - **Watch your sanity erode** as the Unreliable Narrator system glitches the UI, spawns fake notifications, and distorts reality
@@ -91,13 +91,25 @@ Eight-step creation wizard with origin worlds, backgrounds, personality traits, 
 | Void Born | WP +5, INT +5, PER +5 | STR -5, TGH -5 |
 | *...and more* | | |
 
+### Difficulty Settings
+Three difficulty tiers that scale the entire game experience:
+
+| Difficulty | Skill Bonus | XP | Sanity Drain | Corruption | Death |
+|---|---|---|---|---|---|
+| Narrative | +20 | 1.25x | 0.5x | 0.5x | Respawn, no penalty |
+| Standard | +0 | 1.0x | 1.0x | 1.0x | Respawn with penalty |
+| Grimdark | -15 | 0.75x | 1.5x | 1.5x | Permadeath |
+
 ### Task Engine
 Real-world tasks map to in-game categories. Each completed task:
-- Awards XP scaled by difficulty (1-8 scale)
+- Awards XP scaled by difficulty (1-8 scale) with per-difficulty XP display
 - Grants fractional stat gains to primary and secondary attributes
 - Tracks streaks with escalating multipliers (7-day: 1.5x, 30-day: 3x, 90-day: 5x)
 - Applies diminishing returns after 3 same-category completions per day
 - Can award Thrones (currency) for professional-category tasks
+- Full task edit/delete support with confirmation dialogs
+
+A **Streak Calendar** provides a monthly heatmap of your task completion history, per-day XP totals, category breakdowns, and current/best streak tracking per task.
 
 ### Combat System
 Full turn-based tactical combat:
@@ -121,9 +133,9 @@ Your sanity isn't just a number. As it drops, the *game itself* becomes unreliab
 | State | Sanity | Effect |
 |-------|--------|--------|
 | Stable | 80+ | Normal gameplay |
-| Stressed | 60-79 | 5% chance of fake notifications |
-| Disturbed | 40-59 | 15% fake notifications, minor text glitches |
-| Breaking | 20-39 | 30% fake notifications, screen distortions |
+| Stressed | 60-79 | Occasional subtle flickers |
+| Disturbed | 40-59 | More frequent flickers, minor UI effects |
+| Breaking | 20-39 | Text corruption, screen distortions, fake notifications |
 | Shattered | 1-19 | 50% fake notifications, severe glitching |
 | Lost | 0 | Everything is a lie |
 
@@ -197,11 +209,13 @@ npm run test:run  # Single run (166 tests)
 | Repository Interfaces | 11 |
 | SQLite Repositories | 10 |
 | Use Cases | 35 |
-| API Routes | 9 |
-| React Components | 32 |
+| API Routes | 10 |
+| React Components | 33 |
 | Custom Hooks | 5 |
 | Game Pages | 14 |
-| JSON Data Files | 12 |
+| Story Scenes | 9 (Chapter 1) |
+| NPC Data Files | 6 |
+| JSON Data Files | 28 |
 | Test Files | 14 |
 | Tests | 166 |
 | Lines of TypeScript | ~10,000+ |
@@ -216,7 +230,13 @@ npm run test:run  # Single run (166 tests)
 
 ## Roadmap
 
-- [ ] Expanded narrative content (story scenes, events, NPC dialogues)
+- [x] Chapter 1 narrative content with 9 branching scenes
+- [x] 6 NPCs with relationship dimensions, secrets, and breaking points
+- [x] Streak calendar with monthly progress tracking
+- [x] Difficulty-scaled skill checks and effect modifiers
+- [x] Task edit/delete UI with XP display per difficulty
+- [x] Auto-start on Windows boot
+- [ ] Chapter 2+ narrative continuation
 - [ ] Sound effects and ambient audio
 - [ ] Mobile-responsive layout
 - [ ] Multiplayer warband system
