@@ -6,6 +6,7 @@ import { GetAvailableScenesUseCase } from '@/application/use-cases/narrative/get
 import { VariableSubstituteUseCase } from '@/application/use-cases/narrative/variable-substitute';
 import { loadScene, loadAllScenes } from '@/infrastructure/data-loader/scene-loader';
 import type { GameStateForNarrative } from '@/domain/engine/narrative-engine';
+import { filterAvailableChoices } from '@/domain/engine/narrative-engine';
 
 const ExecuteChoiceSchema = z.object({
   characterId: z.number().int(),
@@ -28,7 +29,7 @@ export async function GET(request: NextRequest) {
         return NextResponse.json({ error: 'Scene not found' }, { status: 404 });
       }
 
-      // Apply variable substitution if character exists
+      // Apply variable substitution and choice filtering if character exists
       if (characterId) {
         const character = await container.repos.character.get(characterId);
         const storyState = await container.repos.story.get(characterId);
@@ -45,7 +46,38 @@ export async function GET(request: NextRequest) {
             ...block,
             text: substitutor.execute(block.text, variables),
           }));
-          return NextResponse.json({ ...scene, blocks: processedBlocks });
+
+          // Build game state for choice filtering
+          const factions = await container.repos.faction.getAll(characterId);
+          const factionReps: Record<string, number> = {};
+          for (const f of factions) factionReps[f.factionId] = f.reputation;
+
+          const gameState: GameStateForNarrative = {
+            level: character.level,
+            systemLevel: character.systemLevel,
+            flags: storyState.flags as Record<string, boolean>,
+            primaryStats: character.primaryStats as unknown as Record<string, number>,
+            factionReps,
+            npcStates: {},
+            sanity: character.sanity,
+            corruption: character.corruption,
+            mutations: [],
+            activeQuests: [],
+            completedQuests: [],
+            variables: storyState.variables as Record<string, string | number>,
+            playerName: character.name,
+            thrones: character.thrones,
+            inventory: [],
+          };
+
+          // Filter choices with visibility info
+          const filtered = filterAvailableChoices(scene.choices, gameState, character.systemLevel);
+          const annotatedChoices = filtered.map(({ choice, visibility }) => ({
+            ...choice,
+            _visibility: visibility,
+          }));
+
+          return NextResponse.json({ ...scene, blocks: processedBlocks, choices: annotatedChoices });
         }
       }
 
