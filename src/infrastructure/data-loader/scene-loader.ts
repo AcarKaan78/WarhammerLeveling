@@ -31,6 +31,8 @@ const SceneSchema = z.object({
     speaker: z.string().optional(),
     speakerMood: z.string().optional(),
     systemLevel: z.number().optional(),
+    requiredFlags: z.array(z.string()).optional(),
+    forbiddenFlags: z.array(z.string()).optional(),
   })),
   choices: z.array(z.any()).default([]),
   onEnterEffects: z.any().optional(),

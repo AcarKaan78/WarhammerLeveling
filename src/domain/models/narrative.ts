@@ -6,6 +6,8 @@ export interface NarrativeBlock {
   speaker?: string;
   speakerMood?: string;
   systemLevel?: number; // minimum system level to see
+  requiredFlags?: string[];
+  forbiddenFlags?: string[];
 }
 
 export interface SceneConditions {
@@ -35,6 +37,8 @@ export type ChoiceVisibility =
 export interface ChoiceEffect {
   setFlags?: string[];
   removeFlags?: string[];
+  successFlags?: string[];
+  failureFlags?: string[];
   statChanges?: Record<string, number>;
   npcRelationshipChanges?: Record<string, Record<string, number>>;
   factionRepChanges?: Record<string, number>;
