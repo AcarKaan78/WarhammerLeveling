@@ -17,6 +17,9 @@ interface SkillData {
   governingStat1: string;
   governingStat2?: string;
   description: string;
+  level: number;
+  xp: number;
+  xpToNext: number;
 }
 
 interface PerkData {
@@ -47,21 +50,27 @@ export function CharacterSheet() {
   const [perks, setPerks] = useState<PerkData[]>([]);
   const [dataLoaded, setDataLoaded] = useState(false);
 
-  // Load skills/perks data
+  // Load skills/perks data with character-specific levels
+  const loadData = useCallback(() => {
+    if (!characterId) return;
+    const url = `/api/skills?characterId=${characterId}&save=${saveName}`;
+    fetch(url)
+      .then(r => r.ok ? r.json() : null)
+      .then(data => {
+        if (data) {
+          setSkills(data.skills ?? []);
+          setPerks(data.perks ?? []);
+        }
+        setDataLoaded(true);
+      })
+      .catch(() => setDataLoaded(true));
+  }, [characterId, saveName]);
+
   useEffect(() => {
     if (!dataLoaded) {
-      fetch('/api/skills')
-        .then(r => r.ok ? r.json() : null)
-        .then(data => {
-          if (data) {
-            setSkills(data.skills ?? []);
-            setPerks(data.perks ?? []);
-          }
-          setDataLoaded(true);
-        })
-        .catch(() => setDataLoaded(true));
+      loadData();
     }
-  }, [dataLoaded]);
+  }, [dataLoaded, loadData]);
 
   const handleAllocateStat = useCallback(async (stat: string) => {
     if (!characterId || allocating) return;
@@ -81,6 +90,27 @@ export function CharacterSheet() {
       setAllocating(null);
     }
   }, [characterId, saveName, allocating, refresh]);
+
+  const handleAllocateSkill = useCallback(async (skillId: string) => {
+    if (!characterId || allocating) return;
+    setAllocating(skillId);
+    try {
+      const res = await fetch('/api/character', {
+        method: 'PATCH',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ action: 'allocate_skill', characterId, saveName, skillId }),
+      });
+      if (res.ok) {
+        await refresh();
+        // Reload skills to get updated levels
+        loadData();
+      }
+    } catch {
+      // silently fail
+    } finally {
+      setAllocating(null);
+    }
+  }, [characterId, saveName, allocating, refresh, loadData]);
 
   if (loading || !gameState) return <Loading text="Loading character..." />;
   const { character } = gameState;
@@ -206,7 +236,18 @@ export function CharacterSheet() {
                         </div>
                       </div>
                       <div className="flex items-center gap-2">
-                        <span className="text-xs text-parchment-dark font-mono">Lv 0</span>
+                        <span className={`text-xs font-mono ${skill.level > 0 ? 'text-imperial-gold' : 'text-parchment-dark'}`}>
+                          Lv {skill.level}
+                        </span>
+                        {character.freeSkillPoints > 0 && (
+                          <button
+                            onClick={() => handleAllocateSkill(skill.id)}
+                            disabled={allocating !== null}
+                            className="w-6 h-6 flex items-center justify-center text-xs font-bold bg-imperial-gold/20 hover:bg-imperial-gold/40 border border-imperial-gold/50 rounded-sm text-imperial-gold transition-colors disabled:opacity-30"
+                          >
+                            +
+                          </button>
+                        )}
                       </div>
                     </div>
                   ))}

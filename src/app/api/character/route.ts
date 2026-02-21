@@ -6,6 +6,8 @@ import { CONFIG } from '@/domain/config';
 import { GameStateService } from '@/application/services/game-state-service';
 import { loadAllNPCs } from '@/infrastructure/data-loader/npc-loader';
 import { AllocateStatPointUseCase } from '@/application/use-cases/character/allocate-stat-point';
+import { AllocateSkillPointUseCase } from '@/application/use-cases/character/allocate-skill-point';
+import { loadSkills } from '@/infrastructure/data-loader';
 import type { PrimaryStatKey } from '@/domain/models';
 import type { Container } from '@/infrastructure/di/container';
 
@@ -68,12 +70,26 @@ export async function GET(request: NextRequest) {
         if (char) cid = char.id;
       }
 
-      // Auto-seed NPCs and factions if missing (for existing characters)
+      // Auto-seed NPCs, factions, and skills if missing (for existing characters)
       if (cid) {
         const existingFactions = await container.repos.faction.getAll(cid);
         const existingNPCs = await container.repos.npc.getAll(cid);
         if (existingFactions.length === 0 || existingNPCs.length === 0) {
           await seedNPCsAndFactions(container, cid);
+        }
+        const existingSkills = await container.repos.skill.getAllSkills(cid);
+        if (existingSkills.length === 0) {
+          const skillDefs = loadSkills();
+          await container.repos.skill.initializeAll(
+            cid,
+            skillDefs.map(s => ({
+              id: s.id,
+              name: s.name,
+              category: s.category,
+              governingStat1: s.governingStat1,
+              governingStat2: s.governingStat2 ?? null,
+            })),
+          );
         }
       }
 
@@ -140,6 +156,19 @@ export async function POST(request: NextRequest) {
     await container.repos.story.initialize(character.id);
     await seedNPCsAndFactions(container, character.id);
 
+    // Seed skills from data/skills.json
+    const skillDefs = loadSkills();
+    await container.repos.skill.initializeAll(
+      character.id,
+      skillDefs.map(s => ({
+        id: s.id,
+        name: s.name,
+        category: s.category,
+        governingStat1: s.governingStat1,
+        governingStat2: s.governingStat2 ?? null,
+      })),
+    );
+
     return NextResponse.json(character, { status: 201 });
   } catch (err: unknown) {
     if (err instanceof z.ZodError) {
@@ -153,7 +182,7 @@ export async function POST(request: NextRequest) {
 export async function PATCH(request: NextRequest) {
   try {
     const body = await request.json();
-    const { action, characterId, saveName = 'current', stat, points = 1 } = body;
+    const { action, characterId, saveName = 'current', stat, skillId, points = 1 } = body;
     const container = createContainer(saveName);
 
     if (action === 'allocate_stat') {
@@ -163,6 +192,31 @@ export async function PATCH(request: NextRequest) {
         return NextResponse.json({ error: result.reason }, { status: 400 });
       }
       return NextResponse.json(result.character);
+    }
+
+    if (action === 'allocate_skill') {
+      // Auto-seed skills if none exist yet (for existing characters)
+      const existingSkills = await container.repos.skill.getAllSkills(characterId);
+      if (existingSkills.length === 0) {
+        const skillDefs = loadSkills();
+        await container.repos.skill.initializeAll(
+          characterId,
+          skillDefs.map(s => ({
+            id: s.id,
+            name: s.name,
+            category: s.category,
+            governingStat1: s.governingStat1,
+            governingStat2: s.governingStat2 ?? null,
+          })),
+        );
+      }
+
+      const useCase = new AllocateSkillPointUseCase(container.repos.character, container.repos.skill);
+      const result = await useCase.execute(characterId, skillId, points);
+      if (!result.success) {
+        return NextResponse.json({ error: result.reason }, { status: 400 });
+      }
+      return NextResponse.json({ skill: result.skill, character: result.character });
     }
 
     return NextResponse.json({ error: 'Unknown action' }, { status: 400 });

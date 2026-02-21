@@ -1,18 +1,7 @@
-import { ICharacterRepository } from '@/domain/interfaces';
+import { ICharacterRepository, ISkillRepository } from '@/domain/interfaces';
 import { Character, Skill } from '@/domain/models';
-import { calculateEffectiveSkill, calculateSkillXPToNext } from '@/domain/engine/skill-engine';
+import { calculateSkillXPToNext } from '@/domain/engine/skill-engine';
 import { CONFIG } from '@/domain/config';
-
-// ---------------------------------------------------------------------------
-// Skill Repository Interface (used locally until promoted to domain/interfaces)
-// ---------------------------------------------------------------------------
-
-export interface ISkillRepository {
-  getSkill(characterId: number, skillId: string): Promise<Skill | null>;
-  getAllSkills(characterId: number): Promise<Skill[]>;
-  updateSkill(characterId: number, skillId: string, changes: Partial<Skill>): Promise<Skill>;
-  initializeSkill(characterId: number, skillId: string, name: string, category: string, governingStat1: string, governingStat2: string | null): Promise<Skill>;
-}
 
 // ---------------------------------------------------------------------------
 // AllocateSkillPointUseCase
