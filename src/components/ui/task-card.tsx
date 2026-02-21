@@ -12,6 +12,7 @@ interface TaskCardProps {
     currentStreak: number;
     bestStreak: number;
     active: boolean;
+    completedToday?: boolean;
   };
   onComplete?: (taskId: number) => void;
   onEdit?: (taskId: number) => void;
@@ -21,14 +22,20 @@ interface TaskCardProps {
 
 export function TaskCard({ task, onComplete, onEdit, onDelete, disabled = false }: TaskCardProps) {
   const xp = CONFIG.tasks.difficultyXP[task.difficulty] ?? 0;
+  const done = task.completedToday === true;
 
   return (
     <div className={`p-3 border rounded-sm transition-colors
-      ${task.active ? 'border-panel-light bg-panel' : 'border-panel-light/30 bg-panel/30 opacity-60'}
+      ${!task.active ? 'border-panel-light/30 bg-panel/30 opacity-60' :
+        done ? 'border-sanity-stable/30 bg-sanity-stable/5' :
+        'border-panel-light bg-panel'}
     `}>
       <div className="flex justify-between items-start">
         <div className="flex-1">
-          <span className="text-parchment font-semibold text-sm">{task.name}</span>
+          <div className="flex items-center gap-2">
+            {done && <span className="text-sanity-stable text-sm">&#10003;</span>}
+            <span className={`font-semibold text-sm ${done ? 'text-parchment-dark' : 'text-parchment'}`}>{task.name}</span>
+          </div>
           <div className="flex gap-3 mt-1 text-xs text-parchment-dark">
             <span>{formatCategory(task.category)}</span>
             <span>{formatDifficulty(task.difficulty)} &mdash; {xp} XP</span>
@@ -36,7 +43,7 @@ export function TaskCard({ task, onComplete, onEdit, onDelete, disabled = false 
         </div>
 
         <div className="flex gap-2 ml-2">
-          {onEdit && (
+          {onEdit && !done && (
             <button
               onClick={() => onEdit(task.id)}
               className="text-xs text-parchment-dark hover:text-parchment px-2 py-1 border border-panel-light rounded-sm"
@@ -44,7 +51,7 @@ export function TaskCard({ task, onComplete, onEdit, onDelete, disabled = false 
               Edit
             </button>
           )}
-          {onDelete && (
+          {onDelete && !done && (
             <button
               onClick={() => onDelete(task.id)}
               className="text-xs text-red-400 hover:text-red-300 px-2 py-1 border border-red-400/30 rounded-sm hover:bg-red-400/10"
@@ -52,15 +59,21 @@ export function TaskCard({ task, onComplete, onEdit, onDelete, disabled = false 
               Delete
             </button>
           )}
-          {onComplete && task.active && (
-            <button
-              onClick={() => onComplete(task.id)}
-              disabled={disabled}
-              className="text-xs text-imperial-gold hover:text-imperial-gold-dark px-3 py-1 border border-imperial-gold/40 rounded-sm
-                hover:bg-imperial-gold/10 disabled:opacity-40 disabled:cursor-not-allowed"
-            >
-              Complete
-            </button>
+          {done ? (
+            <span className="text-xs text-sanity-stable px-3 py-1 border border-sanity-stable/30 rounded-sm bg-sanity-stable/10">
+              Done
+            </span>
+          ) : (
+            onComplete && task.active && (
+              <button
+                onClick={() => onComplete(task.id)}
+                disabled={disabled}
+                className="text-xs text-imperial-gold hover:text-imperial-gold-dark px-3 py-1 border border-imperial-gold/40 rounded-sm
+                  hover:bg-imperial-gold/10 disabled:opacity-40 disabled:cursor-not-allowed"
+              >
+                Complete
+              </button>
+            )
           )}
         </div>
       </div>

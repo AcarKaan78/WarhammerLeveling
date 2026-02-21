@@ -25,8 +25,14 @@ export class CompleteTaskUseCase {
     const character = await this.characterRepo.get(characterId);
     if (!character) throw new Error('Character not found');
 
-    // 2. Get/create today's daily session
+    // 1b. Guard: prevent completing the same task twice in one day
     const today = new Date().toISOString().split('T')[0];
+    const todayCompletions = await this.taskRepo.getCompletionsForDate(characterId, today);
+    if (todayCompletions.some(c => c.taskId === taskId)) {
+      throw new Error('Task already completed today');
+    }
+
+    // 2. Get/create today's daily session
     let session = await this.taskRepo.getDailySession(characterId, today);
     if (!session) {
       session = await this.taskRepo.upsertDailySession({

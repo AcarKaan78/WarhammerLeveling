@@ -22,18 +22,34 @@ export async function GET(request: NextRequest) {
     // Get all daily sessions for the month
     const sessions = await container.repos.task.getDailySessionsForRange(characterId, startDate, endDate);
 
-    // Build day map
-    const days: Record<string, { tasksCompleted: number; totalXP: number; categoryCounts: Record<string, number> }> = {};
+    // Get active tasks (for name lookup and streak info)
+    const allTasks = await container.repos.task.getAll(characterId, true);
+    const taskNameMap = new Map(allTasks.map(t => [t.id, t.name]));
+
+    // Build day map with completion details
+    const days: Record<string, {
+      tasksCompleted: number;
+      totalXP: number;
+      categoryCounts: Record<string, number>;
+      completions: Array<{ taskName: string; xpEarned: number }>;
+    }> = {};
+
     for (const session of sessions) {
+      // Get individual completions for this day
+      const completions = await container.repos.task.getCompletionsForDate(characterId, session.date);
+
       days[session.date] = {
         tasksCompleted: session.tasksCompleted,
         totalXP: session.totalXPEarned,
         categoryCounts: session.categoryCounts as Record<string, number>,
+        completions: completions.map(c => ({
+          taskName: taskNameMap.get(c.taskId) ?? `Task #${c.taskId}`,
+          xpEarned: c.xpEarned,
+        })),
       };
     }
 
-    // Get active tasks with streak info
-    const allTasks = await container.repos.task.getAll(characterId, true);
+    // Task streak info
     const tasks = allTasks.map(t => ({
       id: t.id,
       name: t.name,

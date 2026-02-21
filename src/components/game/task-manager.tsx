@@ -4,6 +4,7 @@ import { useState } from 'react';
 import { useGameContext } from '@/context/game-context';
 import { TaskCard } from '@/components/ui/task-card';
 import { Modal } from '@/components/ui/modal';
+import { LevelUpModal } from '@/components/ui/level-up-modal';
 import { Loading } from '@/components/ui/loading';
 import { validateTaskName, validateTimeEstimate } from '@/lib/validators';
 import { CONFIG } from '@/domain/config';
@@ -32,6 +33,7 @@ export function TaskManager() {
   const [createOpen, setCreateOpen] = useState(false);
   const [completing, setCompleting] = useState<number | null>(null);
   const [feedback, setFeedback] = useState<string | null>(null);
+  const [levelUpData, setLevelUpData] = useState<{ newLevel: number; xpEarned: number; statGains: Record<string, number> } | null>(null);
 
   // Create / Edit form state
   const [formData, setFormData] = useState({ ...emptyForm });
@@ -61,6 +63,13 @@ export function TaskManager() {
       const report = await res.json();
       setFeedback(`+${report.xpEarned} XP! Streak: ${report.newStreak}`);
       await refresh();
+      if (report.levelUp && report.newLevel) {
+        setLevelUpData({
+          newLevel: report.newLevel,
+          xpEarned: report.xpEarned,
+          statGains: report.statGains ?? {},
+        });
+      }
       setTimeout(() => setFeedback(null), 3000);
     } catch {
       setFeedback('Failed to complete task');
@@ -276,6 +285,17 @@ export function TaskManager() {
           </div>
         </div>
       </Modal>
+
+      {/* Level Up Modal */}
+      {levelUpData !== null && (
+        <LevelUpModal
+          open={true}
+          onClose={() => setLevelUpData(null)}
+          newLevel={levelUpData.newLevel}
+          xpEarned={levelUpData.xpEarned}
+          statGains={levelUpData.statGains}
+        />
+      )}
     </div>
   );
 }

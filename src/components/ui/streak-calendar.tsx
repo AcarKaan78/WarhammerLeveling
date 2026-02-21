@@ -6,6 +6,7 @@ interface CalendarDay {
   tasksCompleted: number;
   totalXP: number;
   categoryCounts: Record<string, number>;
+  completions: Array<{ taskName: string; xpEarned: number }>;
 }
 
 interface TaskStreak {
@@ -103,7 +104,7 @@ export function StreakCalendar({ characterId, saveName = 'current' }: StreakCale
     return 'bg-system-green/5 border-system-green/10';
   };
 
-  const selectedData = selectedDay && data?.days[selectedDay];
+  const selectedData = selectedDay ? data?.days[selectedDay] : undefined;
 
   // Calculate longest active streak across all tasks
   const longestCurrent = data?.tasks?.reduce((max, t) => Math.max(max, t.currentStreak), 0) ?? 0;
@@ -189,7 +190,7 @@ export function StreakCalendar({ characterId, saveName = 'current' }: StreakCale
 
       {/* Selected day detail */}
       {selectedData && (
-        <div className="border-t border-panel-light pt-3 space-y-1">
+        <div className="border-t border-panel-light pt-3 space-y-2">
           <div className="flex justify-between text-sm">
             <span className="text-parchment">{selectedDay}</span>
             <span className="text-system-green font-mono">{selectedData.totalXP} XP</span>
@@ -197,6 +198,24 @@ export function StreakCalendar({ characterId, saveName = 'current' }: StreakCale
           <div className="text-xs text-parchment-dark">
             {selectedData.tasksCompleted} / {totalTasks} tasks completed
           </div>
+
+          {/* Per-task completion list */}
+          {selectedData.completions && selectedData.completions.length > 0 && (
+            <div className="space-y-1 mt-2">
+              <div className="text-[10px] text-parchment-dark uppercase tracking-[0.15em]">Completed Tasks</div>
+              {selectedData.completions.map((c, i) => (
+                <div key={i} className="flex justify-between items-center text-xs py-0.5">
+                  <div className="flex items-center gap-1.5">
+                    <span className="text-sanity-stable">&#10003;</span>
+                    <span className="text-parchment">{c.taskName}</span>
+                  </div>
+                  <span className="text-system-green-dim font-mono">+{c.xpEarned} XP</span>
+                </div>
+              ))}
+            </div>
+          )}
+
+          {/* Category breakdown */}
           {Object.entries(selectedData.categoryCounts).length > 0 && (
             <div className="flex flex-wrap gap-1 mt-1">
               {Object.entries(selectedData.categoryCounts).map(([cat, count]) => (
@@ -209,6 +228,15 @@ export function StreakCalendar({ characterId, saveName = 'current' }: StreakCale
               ))}
             </div>
           )}
+        </div>
+      )}
+
+      {/* No data message for selected day */}
+      {selectedDay && !selectedData && (
+        <div className="border-t border-panel-light pt-3">
+          <div className="text-xs text-parchment-dark text-center py-2">
+            No tasks completed on {selectedDay}
+          </div>
         </div>
       )}
 
