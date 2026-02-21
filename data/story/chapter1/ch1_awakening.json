@@ -49,13 +49,13 @@
       "skillCheck": {
         "stat": "willpower",
         "difficulty": -20,
-        "successScene": "ch1_the_messenger",
-        "failureScene": "ch1_the_messenger"
+        "successScene": "ch1_psychic_sense_success",
+        "failureScene": "ch1_psychic_sense_failure"
       },
       "effects": {
         "setFlags": ["psychic_sense_used", "sensed_visitor"],
         "corruptionChange": 1,
-        "sanityChange": -2,
+        "sanityChange": -1,
         "xpGain": 10,
         "nextScene": "ch1_the_messenger"
       }
@@ -67,8 +67,8 @@
       "skillCheck": {
         "stat": "agility",
         "difficulty": -30,
-        "successScene": "ch1_the_messenger",
-        "failureScene": "ch1_the_messenger"
+        "successScene": "ch1_grab_knife_success",
+        "failureScene": "ch1_grab_knife_failure"
       },
       "effects": {
         "setFlags": ["armed_opener", "cautious_nature"],

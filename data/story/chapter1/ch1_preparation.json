@@ -17,6 +17,66 @@
     },
     {
       "type": "dialogue",
+      "text": "The Astropath was impressed with your demonstration. She sent her report to Voss within the hour — 'exceptional control and raw power.' That's high praise from someone who's seen ten thousand psykers tested.",
+      "speaker": "Interrogator Lira",
+      "speakerMood": "approving",
+      "requiredFlags": ["chose_telekinesis", "tk_mastery_shown"]
+    },
+    {
+      "type": "dialogue",
+      "text": "Seren's report was... concerning. The crystal you shattered was worth more than most hive cities. She noted 'considerable power, insufficient control.' Voss wants results, not collateral damage. Keep your abilities in check down there.",
+      "speaker": "Interrogator Lira",
+      "speakerMood": "stern",
+      "requiredFlags": ["crystal_shattered"]
+    },
+    {
+      "type": "description",
+      "text": "The team's body language speaks volumes. Drax keeps extra distance when you pass, his shotgun held a fraction tighter. The Magos's optical sensors track your movements with clinical precision. Your failed demonstration in the Sanctum has made them wary — they're wondering if you'll stay in control when it matters.",
+      "requiredFlags": ["telekinesis_unstable"],
+      "speaker": ""
+    },
+    {
+      "type": "dialogue",
+      "text": "The Astropath mentioned your... enthusiasm during the telepathic contact. And your limits. Soul Bindings exist for a reason, Psyker. Next time you attempt to breach one, the feedback might do more than hurt. It might kill you. Or worse.",
+      "speaker": "Interrogator Lira",
+      "speakerMood": "stern",
+      "requiredFlags": ["telepathy_rejected", "felt_seren_pain"]
+    },
+    {
+      "type": "description",
+      "text": "The pain from touching Seren's Soul Binding still lingers — a dull throb behind your eyes that flares whenever you focus too hard. The psychic backlash left marks. You can feel the team watching you more carefully now, waiting to see if you'll overreach again.",
+      "requiredFlags": ["telepathy_rejected", "felt_seren_pain"],
+      "speaker": ""
+    },
+    {
+      "type": "description",
+      "text": "The tactical overlays flicker across the display screen, but your vision keeps unfocusing. Fragments of uncontrolled visions flash at the edges — shadows that shouldn't move, glimpses of places you've never been. The failed divination left a crack in your psychic defenses, and the Warp keeps bleeding through.",
+      "requiredFlags": ["divination_overload", "warp_visions_lingering"],
+      "speaker": ""
+    },
+    {
+      "type": "dialogue",
+      "text": "Your eyes keep unfocusing. Optical irregularities detected at 0.73 second intervals. Recommendation: psychic dampeners or medicae intervention before descent. Uncontrolled sensory feedback poses operational risk.",
+      "speaker": "Magos Rhyn-7",
+      "speakerMood": "monotone",
+      "requiredFlags": ["divination_overload", "warp_visions_lingering"]
+    },
+    {
+      "type": "dialogue",
+      "text": "The Astropath's report was... incomplete. She said you refused the test. Voss is not pleased — he prefers his assets to be cooperative. Don't make this a habit.",
+      "speaker": "Interrogator Lira",
+      "speakerMood": "cold",
+      "requiredFlags": ["refused_test"]
+    },
+    {
+      "type": "dialogue",
+      "text": "Astropath Seren's report mentioned concern about your control under pressure. She recommended additional conditioning before field deployment, but Voss overruled her. He believes live operations will temper you faster than training. I hope he's right.",
+      "speaker": "Interrogator Lira",
+      "speakerMood": "diplomatic",
+      "requiredFlags": ["seren_concerned"]
+    },
+    {
+      "type": "dialogue",
       "text": "The Inquisitor has authorized standard field loadout for you. Take what you need, but remember — we're going into the underhive, not the Eye of Terror. Subtlety serves us better than firepower. At least initially.",
       "speaker": "Interrogator Lira",
       "speakerMood": "professional"
@@ -24,6 +84,12 @@
     {
       "type": "description",
       "text": "Drax is already geared up — carapace armor, shotgun, shock maul, and enough ammunition to hold off a small WAAAGH!. He catches your eye and deliberately chambers a round. The message is clear."
+    },
+    {
+      "type": "description",
+      "text": "When he sees you, Drax shifts his weight slightly, giving you a wider berth than necessary. You remember the shattered crystal in the Sanctum, the way the shards hung in the air before clattering to the floor. He's wondering if you can control your powers when it matters. So are you.",
+      "requiredFlags": ["crystal_shattered"],
+      "speaker": ""
     },
     {
       "type": "dialogue",
@@ -34,6 +100,25 @@
     {
       "type": "description",
       "text": "The tech-priest projects three tactical overlays onto the armoury's display screen, each showing a different route into Subsector Morwen-9."
+    },
+    {
+      "type": "description",
+      "text": "As the tactical overlays flicker across the screen, you feel a strange resonance. One of the routes — the eastern approach through the sump tunnels — pulses in your mind's eye. You saw this in the Sanctum. The vision of the Choirmaster standing in those exact corridors. You know which path leads to him.",
+      "requiredFlags": ["chose_divination", "saw_choirmaster"],
+      "speaker": ""
+    },
+    {
+      "type": "description",
+      "text": "The tactical data scrolling past triggers something — a fragment of memory that isn't yours. Seren's memory. You remember the choir chambers from her perspective, the psychic architecture, the resonance patterns. The vision you shared with her gives you an edge. You understand the layout in ways the auspex scans cannot capture.",
+      "requiredFlags": ["chose_telepathy", "shared_vision"],
+      "speaker": ""
+    },
+    {
+      "type": "description",
+      "text": "Your detailed intelligence from the briefing pays dividends here. You cross-reference Rhyn's tactical overlays with what Voss revealed about the Choir's structure — the inner circle of seven, the layered initiate rings, the ritual patterns that follow Calixian lunar cycles. The tactical picture sharpens. You can identify chokepoints, likely guard positions, even predict their patrol rotations based on the ritual schedule.",
+      "requiredFlags": ["cult_intel_detailed", "knows_choir_structure"],
+      "forbiddenFlags": ["chose_divination", "chose_telepathy"],
+      "speaker": ""
     },
     {
       "type": "system_message",
@@ -53,6 +138,8 @@
       },
       "effects": {
         "setFlags": ["chose_infiltration", "stealth_approach", "disguised_entry"],
+        "successFlags": ["perfect_disguise", "underhive_blend_perfect"],
+        "failureFlags": ["cover_thin", "disguise_imperfect"],
         "addItems": ["autopistol", "data_slate"],
         "npcRelationshipChanges": {
           "interrogator_lira": { "respect": 10 },
@@ -93,9 +180,11 @@
       },
       "effects": {
         "setFlags": ["chose_psychic_tracking", "psychic_approach", "warp_sensitive_route"],
+        "successFlags": ["warp_trail_clear", "psychic_compass_locked"],
+        "failureFlags": ["warp_trail_murky", "psychic_static_interference"],
         "addItems": ["force_staff", "data_slate"],
         "corruptionChange": 2,
-        "sanityChange": -3,
+        "sanityChange": -1,
         "npcRelationshipChanges": {
           "astropath_seren": { "respect": 5 },
           "inquisitor_voss": { "fear": 5 }
@@ -120,6 +209,8 @@
       },
       "effects": {
         "setFlags": ["recruited_drax", "team_player"],
+        "successFlags": ["drax_loyal_partner", "drax_has_your_back"],
+        "failureFlags": ["drax_reluctant", "drax_follows_orders_only"],
         "addItems": ["laspistol", "data_slate"],
         "npcRelationshipChanges": {
           "agent_drax": { "respect": 15, "affinity": 10, "loyalty": 10 }

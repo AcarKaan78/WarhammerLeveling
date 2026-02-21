@@ -20,14 +20,136 @@
       "text": "The air is thick with the smell of chemical runoff, rotting fungus, and something else — something your psyker senses recognize before your nose does. The faint, acrid taste of Warp residue. Like ozone after a lightning strike, but wrong. Tainted. It sits on your tongue like copper and dread."
     },
     {
+      "type": "description",
+      "text": "You recognize some of these landmarks — the twisted girder formation, the corroded promethium tanks. You saw them through the viewport window during the black transport flight. The hive layout makes sense now, a three-dimensional map in your mind.",
+      "requiredFlags": ["hive_mapped"],
+      "speaker": ""
+    },
+    {
       "type": "dialogue",
       "text": "Subsector Morwen-9 is three clicks north-northeast through the Rust Wastes. Local population: estimated twelve thousand, mostly scavengers and fungus-farmers. Two known ganger territories between us and the target zone. The Iron Serpents control the Processional, and the Pale Kings hold the Fungal Deeps.",
       "speaker": "Interrogator Lira",
       "speakerMood": "tactical"
     },
     {
+      "type": "dialogue",
+      "text": "The Iron Serpents — you saw their tags painted on hab-walls during the observation flight. Their territory is a maze of rust-bridges and collapsed walkways. If we need to cross the Processional, we'll need to move quickly or pay tribute.",
+      "speaker": "Interrogator Lira",
+      "speakerMood": "tactical",
+      "requiredFlags": ["knows_iron_serpents"],
+      "forbiddenFlags": ["chose_psychic_tracking"]
+    },
+    {
+      "type": "dialogue",
+      "text": "Your disguise should hold against casual scrutiny. The fungus-farmers and scavengers won't question another chem-hauler. Just keep your head down and your psychic presence locked tight. If the gangers scan you... the cover won't survive real interrogation.",
+      "speaker": "Interrogator Lira",
+      "speakerMood": "tactical",
+      "requiredFlags": ["chose_infiltration", "stealth_approach"]
+    },
+    {
+      "type": "description",
+      "text": "Your disguise is flawless. The chemical stains on your sleeves, the deliberately scuffed boots, the way you carry yourself — hunched, wary, eyes down. Even Drax did a double-take when you emerged from the prep room. Lira's approving nod confirmed it: you could walk through a ganger checkpoint without raising a single alarm.",
+      "requiredFlags": ["perfect_disguise", "chose_infiltration"],
+      "speaker": ""
+    },
+    {
+      "type": "dialogue",
+      "text": "Your cover identity is thin. Try to slouch more — you walk like a soldier, not a scavenger. The gear is right, but your posture gives you away. Underhivers move differently. Hunched. Cautious. You're too alert, too clean. Work on it before we reach the ganger checkpoints.",
+      "speaker": "Interrogator Lira",
+      "speakerMood": "critical",
+      "requiredFlags": ["cover_thin", "chose_infiltration"]
+    },
+    {
+      "type": "description",
+      "text": "You adjust your gait, trying to mimic the shuffle of the underhive-born, but it feels wrong — like wearing someone else's skin. The disguise is passable from a distance, but up close? You'll need to rely on luck and quick thinking if someone looks too carefully.",
+      "requiredFlags": ["cover_thin"],
+      "speaker": ""
+    },
+    {
+      "type": "dialogue",
+      "text": "If challenged, flash the Inquisitorial seal. Most underhive scum will scatter at the sight of the rosette. Those who don't... well, that's what enforcers are for. I have contacts in the local Arbites precinct who owe the Ordo favors.",
+      "speaker": "Interrogator Lira",
+      "speakerMood": "tactical",
+      "requiredFlags": ["authority_approach", "open_inquisition"]
+    },
+    {
+      "type": "dialogue",
+      "text": "Your psychic sense will guide us better than any map down here. The Warp currents in the underhive are... turbulent. If the choir is active, you'll feel them before we see them. Trust your instincts, Psyker. The Emperor's gift didn't bring you this far to fail now.",
+      "speaker": "Interrogator Lira",
+      "speakerMood": "tactical",
+      "requiredFlags": ["chose_psychic_tracking", "psychic_approach"]
+    },
+    {
+      "type": "description",
+      "text": "The Warp trail blazes in your mind's eye like a line of fire through darkness. Clear, unwavering, pulling you northeast toward the source. The choir's psychic signature is unmistakable — a spiral of anguished resonance that grows stronger with every step. Your psychic compass is locked. You know exactly where they are.",
+      "requiredFlags": ["warp_trail_clear", "chose_psychic_tracking"],
+      "speaker": ""
+    },
+    {
+      "type": "description",
+      "text": "The Warp traces you're following are garbled, contradictory. The psychic trail forks and doubles back on itself like a snake eating its tail. Something is interfering — deliberate jamming, or the natural chaos of the underhive Warp currents. Either way, your psychic compass spins uselessly. You'll have to rely on conventional tracking now.",
+      "requiredFlags": ["warp_trail_murky", "chose_psychic_tracking"],
+      "speaker": ""
+    },
+    {
+      "type": "description",
+      "text": "Static. Psychic static, crackling at the edges of your consciousness like interference on a vox-channel. Every time you try to focus on the Warp signature, the noise surges, fragmenting your concentration. It's like trying to hear a whisper in a thunderstorm. The trail is there, somewhere, but you can't lock onto it.",
+      "requiredFlags": ["psychic_static_interference"],
+      "speaker": ""
+    },
+    {
       "type": "description",
       "text": "Your North Star necklace is warm again. Down here, away from the Tricorn's dampeners, your psychic senses slowly unfurl like a flower in sunlight. You can feel the underhive around you — thousands of dim, flickering soul-lights, the background hum of human misery and desperation. And beyond that, deeper, something else. A whisper. Not heard. Felt."
+    },
+    {
+      "type": "description",
+      "text": "The necklace burns hot against your sternum, almost scalding. The same warmth you felt in the Sanctum, when you first held it and whispered your prayer to the Emperor. It pulses in rhythm with your heartbeat, a ward against the darkness pressing in from all sides.",
+      "requiredFlags": ["faith_in_emperor"],
+      "speaker": ""
+    },
+    {
+      "type": "description",
+      "text": "Drax moves up beside you, his stance relaxed but alert. He nods once — the gesture of a partner who has your back. Whatever tension existed between you before is gone. Down here, in the dark, you're a team.",
+      "requiredFlags": ["drax_loyal_partner"],
+      "speaker": ""
+    },
+    {
+      "type": "description",
+      "text": "Drax keeps his distance, watching you from the corner of his eye. He's here because Voss ordered it, but his hand never strays far from his holstered laspistol. The trust isn't there. Not yet.",
+      "requiredFlags": ["drax_reluctant"],
+      "forbiddenFlags": ["drax_loyal_partner"],
+      "speaker": ""
+    },
+    {
+      "type": "description",
+      "text": "Drax's body language is stiff, professional, cold. He follows orders with military precision, but there's no camaraderie in it. When you stumble on loose rubble, he doesn't offer a hand — just waits, expression neutral. He'll protect you because the mission demands it, but don't expect him to take a bullet for you.",
+      "requiredFlags": ["drax_follows_orders_only"],
+      "speaker": ""
+    },
+    {
+      "type": "description",
+      "text": "Lira and Drax exchange a glance when you pause too long at a junction, your focus wavering. You catch the unspoken communication: concern. Doubt. They saw what happened in the Sanctum — the shattered crystal, Seren's sharp rebuke — and now, in the field, they're watching for signs your control will slip again. You need to prove yourself, fast.",
+      "requiredFlags": ["seren_concerned"],
+      "speaker": ""
+    },
+    {
+      "type": "description",
+      "text": "Fragments of uncontrolled visions flicker at the edges of your perception — shadows that move wrong, glimpses of places you've never been. The failed divination's aftershocks haven't faded. Down here, surrounded by the underhive's psychic murk, they're getting worse. You grit your teeth and push forward, hoping the team hasn't noticed your eyes unfocusing.",
+      "requiredFlags": ["divination_overload"],
+      "forbiddenFlags": ["warp_trail_clear"],
+      "speaker": ""
+    },
+    {
+      "type": "description",
+      "text": "The phantom ache behind your eyes flares as you descend deeper. Seren's Soul Binding — the white-hot agony of the Emperor's light searing through her optic nerves — echoes in your memory like a burn that won't heal. You tried to breach a fortress mind and the fortress bit back. Down here, where the Warp currents are wilder, you wonder if the damage left you more vulnerable than you'd like to admit.",
+      "requiredFlags": ["felt_seren_pain"],
+      "speaker": ""
+    },
+    {
+      "type": "description",
+      "text": "Drax's earlier confession echoes in your mind. *'I've done things...'* You wonder what secrets he's still carrying, and whether this mission — descending into a cult's lair in the bowels of the hive — reminds him of whatever darkness he's running from.",
+      "requiredFlags": ["drax_opened_up"],
+      "speaker": ""
     },
     {
       "type": "description",
@@ -38,6 +160,49 @@
       "text": "...come...",
       "speaker": "The Whisper",
       "speakerMood": "alien"
+    },
+    {
+      "type": "description",
+      "text": "You've heard this voice before. In your divination — the vision of the chamber, the robed figures, the hooded Choirmaster reaching toward you. This is the same psychic frequency. The same call. The divination wasn't just a glimpse of the future. It was the choir reaching back through time to summon you.",
+      "requiredFlags": ["saw_choirmaster"],
+      "speaker": ""
+    },
+    {
+      "type": "description",
+      "text": "The whisper carries fragments of memory — not yours. The cultist's memories from your telepathic contact. You see flashes: the circle of chanters, the pooled blood, the sensation of merging consciousness. You know what awaits you below. The choir is singing, and it wants you to join the harmony.",
+      "requiredFlags": ["shared_vision"],
+      "speaker": ""
+    },
+    {
+      "type": "description",
+      "text": "You know the cult's structure from your investigation — the inner circle, the Choirmaster, the hierarchy of initiates. But knowing and feeling are different. The whisper confirms it: they're organized, disciplined, powerful. This isn't a ragtag gathering of desperate fools. It's a true coven.",
+      "requiredFlags": ["cult_intel_detailed"],
+      "forbiddenFlags": ["shared_vision", "saw_choirmaster"],
+      "speaker": ""
+    },
+    {
+      "type": "description",
+      "text": "Voss's words echo in your mind: *'Sometimes we must understand corruption to destroy it.'* The whisper is a test. An opportunity. And a terrible danger. The Inquisitor knew this would happen. The question is — did he send you here to resist temptation, or to embrace it?",
+      "requiredFlags": ["voss_secret_known"],
+      "speaker": ""
+    },
+    {
+      "type": "description",
+      "text": "The Whisper feels louder down here, more insistent. The failed divination in the Sanctum left a crack in your psychic defenses — a hairline fracture that the Warp now exploits. The voice presses against your consciousness with greater force, slipping through the gaps in your mental wards. It knows you're vulnerable. It's testing you.",
+      "requiredFlags": ["warp_visions_lingering"],
+      "speaker": ""
+    },
+    {
+      "type": "description",
+      "text": "You wonder, briefly, if Macharius is recording more than tactical data. If Voss gave it... other orders. You tried to read the Inquisitor's mind and he caught you — made it clear he has secrets he'll protect. Now, descending into darkness with the servo-skull tracking your every move, paranoia whispers: what if you're not just the hunter, but also the test subject?",
+      "requiredFlags": ["voss_distrusts_you"],
+      "speaker": ""
+    },
+    {
+      "type": "description",
+      "text": "Your necklace flares with sudden heat, almost painful. The North Star symbol seems to glow faintly in the dim underhive light. The Emperor is watching. Your faith is a shield, and the whisper recoils from it like a hand from flame. But it doesn't vanish. It waits. Patient. Eternal.",
+      "requiredFlags": ["faith_in_emperor"],
+      "speaker": ""
     },
     {
       "type": "system_message",
@@ -56,13 +221,13 @@
       "skillCheck": {
         "stat": "willpower",
         "difficulty": -5,
-        "successScene": null,
-        "failureScene": null
+        "successScene": "ch1_whisper_follow_success",
+        "failureScene": "ch1_whisper_follow_failure"
       },
       "effects": {
         "setFlags": ["followed_whisper", "warp_touched", "ch1_complete"],
         "corruptionChange": 5,
-        "sanityChange": -10,
+        "sanityChange": -3,
         "xpGain": 40,
         "statChanges": { "willpower": 0.3 }
       }
@@ -89,13 +254,13 @@
       "skillCheck": {
         "stat": "intelligence",
         "difficulty": -20,
-        "successScene": null,
-        "failureScene": null
+        "successScene": "ch1_whisper_analyze_success",
+        "failureScene": "ch1_whisper_analyze_failure"
       },
       "effects": {
         "setFlags": ["analyzed_whisper", "academic_approach", "knows_whisper_frequency", "ch1_complete"],
         "corruptionChange": 2,
-        "sanityChange": -3,
+        "sanityChange": -1,
         "xpGain": 35,
         "statChanges": { "intelligence": 0.2, "perception": 0.1 }
       }
