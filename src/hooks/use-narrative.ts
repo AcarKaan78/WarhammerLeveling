@@ -15,7 +15,9 @@ interface UseNarrativeReturn extends NarrativeState {
   loadScene: (sceneId: string, characterId: number, saveName?: string) => Promise<void>;
   loadAvailableScenes: (characterId: number, saveName?: string) => Promise<void>;
   makeChoice: (sceneId: string, choiceId: string, characterId: number, gameDay: number, saveName?: string) => Promise<unknown>;
+  rerollChoice: (characterId: number, rerollContext: unknown, saveName?: string) => Promise<unknown>;
   clearScene: () => void;
+  clearChoiceResult: () => void;
 }
 
 export function useNarrative(): UseNarrativeReturn {
@@ -32,7 +34,6 @@ export function useNarrative(): UseNarrativeReturn {
       const res = await fetch(`/api/narrative?sceneId=${sceneId}&characterId=${characterId}&save=${saveName}`);
       if (!res.ok) throw new Error((await res.json()).error ?? 'Failed to load scene');
       setCurrentScene(await res.json());
-      setChoiceResult(null);
     } catch (err) {
       setError(err instanceof Error ? err.message : 'Unknown error');
     } finally {
@@ -72,28 +73,51 @@ export function useNarrative(): UseNarrativeReturn {
       if (!res.ok) throw new Error((await res.json()).error ?? 'Failed to execute choice');
       const result = await res.json();
       setChoiceResult(result);
-
-      // Auto-navigate to next scene if provided
-      if (result.nextSceneId) {
-        await loadScene(result.nextSceneId, characterId, saveName);
-      }
-
+      // Don't auto-navigate — let the renderer show consequences first
       return result;
     } catch (err) {
       setError(err instanceof Error ? err.message : 'Unknown error');
     } finally {
       setLoading(false);
     }
-  }, [loadScene]);
+  }, []);
+
+  const rerollChoice = useCallback(async (
+    characterId: number,
+    rerollContext: unknown,
+    saveName = 'current',
+  ) => {
+    setLoading(true);
+    setError(null);
+    try {
+      const res = await fetch('/api/narrative', {
+        method: 'PUT',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ characterId, rerollContext, saveName }),
+      });
+      if (!res.ok) throw new Error((await res.json()).error ?? 'Failed to reroll');
+      const result = await res.json();
+      setChoiceResult(result);
+      return result;
+    } catch (err) {
+      setError(err instanceof Error ? err.message : 'Unknown error');
+    } finally {
+      setLoading(false);
+    }
+  }, []);
 
   const clearScene = useCallback(() => {
     setCurrentScene(null);
     setChoiceResult(null);
   }, []);
 
+  const clearChoiceResult = useCallback(() => {
+    setChoiceResult(null);
+  }, []);
+
   return {
     currentScene, availableScenes, choiceResult,
     loading, error,
-    loadScene, loadAvailableScenes, makeChoice, clearScene,
+    loadScene, loadAvailableScenes, makeChoice, rerollChoice, clearScene, clearChoiceResult,
   };
 }

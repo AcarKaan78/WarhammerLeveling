@@ -326,8 +326,11 @@ export const CONFIG = {
       mechanicus_initiate: 60,
     } as Record<string, number>,
 
-    noSelfCarePenalty: 3,
-    streakBreakPenalty: 5,
+    noSelfCarePenalty: 2,
+    streakBreakPenalty: 2,
+    maxDailyPenalty: 15,
+    dailyCompletionBonusMax: 8,
+    dailyCompletionCorruptionReduction: 3,
     meditationRecovery: 2,
     selfCareRecovery: 1,
 
@@ -454,6 +457,7 @@ export const CONFIG = {
   // 11. ECONOMY
   // --------------------------------------------------------------------------
   economy: {
+    rerollCost: 10,
     startingThrones: {
       guard_veteran: 50,
       clerk: 80,

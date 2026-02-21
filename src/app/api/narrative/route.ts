@@ -1,7 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { z } from 'zod';
 import { createContainer } from '@/infrastructure/di/container';
-import { ExecuteChoiceUseCase } from '@/application/use-cases/narrative/execute-choice';
+import { ExecuteChoiceUseCase, type RerollContext } from '@/application/use-cases/narrative/execute-choice';
 import { GetAvailableScenesUseCase } from '@/application/use-cases/narrative/get-available-scenes';
 import { VariableSubstituteUseCase } from '@/application/use-cases/narrative/variable-substitute';
 import { loadScene, loadAllScenes } from '@/infrastructure/data-loader/scene-loader';
@@ -13,6 +13,25 @@ const ExecuteChoiceSchema = z.object({
   sceneId: z.string(),
   choiceId: z.string(),
   saveName: z.string().default('current'),
+});
+
+const RerollSchema = z.object({
+  characterId: z.number().int(),
+  saveName: z.string().default('current'),
+  rerollContext: z.object({
+    sceneId: z.string(),
+    choiceId: z.string(),
+    stat: z.string(),
+    difficulty: z.number(),
+    successScene: z.string(),
+    failureScene: z.string(),
+    baseXpGain: z.number(),
+    baseSanityChange: z.number(),
+    baseCorruptionChange: z.number(),
+    successFlags: z.array(z.string()),
+    failureFlags: z.array(z.string()),
+    wasCriticalFailure: z.boolean(),
+  }),
 });
 
 export async function GET(request: NextRequest) {
@@ -42,7 +61,17 @@ export async function GET(request: NextRequest) {
             thrones: character.thrones,
             ...storyState.variables,
           };
-          const processedBlocks = scene.blocks.map(block => ({
+          const flags = storyState.flags as Record<string, boolean>;
+          const filteredBlocks = scene.blocks.filter(block => {
+            if (block.requiredFlags && block.requiredFlags.length > 0) {
+              if (!block.requiredFlags.every(f => flags[f])) return false;
+            }
+            if (block.forbiddenFlags && block.forbiddenFlags.length > 0) {
+              if (block.forbiddenFlags.some(f => flags[f])) return false;
+            }
+            return true;
+          });
+          const processedBlocks = filteredBlocks.map(block => ({
             ...block,
             text: substitutor.execute(block.text, variables),
           }));
@@ -173,6 +202,33 @@ export async function POST(request: NextRequest) {
     );
 
     const result = await useCase.execute(data.characterId, data.sceneId, choice);
+    return NextResponse.json(result);
+  } catch (err: unknown) {
+    if (err instanceof z.ZodError) {
+      return NextResponse.json({ error: 'Validation error', details: err.errors }, { status: 400 });
+    }
+    const message = err instanceof Error ? err.message : 'Internal server error';
+    return NextResponse.json({ error: message }, { status: 500 });
+  }
+}
+
+export async function PUT(request: NextRequest) {
+  try {
+    const body = await request.json();
+    const data = RerollSchema.parse(body);
+    const container = createContainer(data.saveName);
+
+    const useCase = new ExecuteChoiceUseCase(
+      container.repos.story,
+      container.repos.character,
+      container.repos.faction,
+      container.repos.npc,
+      container.repos.inventory,
+      container.repos.quest,
+      container.repos.event,
+    );
+
+    const result = await useCase.reroll(data.characterId, data.rerollContext as RerollContext);
     return NextResponse.json(result);
   } catch (err: unknown) {
     if (err instanceof z.ZodError) {
