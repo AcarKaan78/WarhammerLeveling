@@ -25,7 +25,9 @@ export function GameProvider({ children }: { children: React.ReactNode }) {
 
   const refresh = useCallback(async () => {
     if (!characterId) return;
-    setLoading(true);
+    // Only show loading spinner on initial load (when no gameState yet)
+    // On refreshes, update silently to avoid unmounting child components
+    if (!gameState) setLoading(true);
     setError(null);
     try {
       const res = await fetch(`/api/character?save=${saveName}&id=${characterId}&full=true`);
@@ -40,7 +42,7 @@ export function GameProvider({ children }: { children: React.ReactNode }) {
     } finally {
       setLoading(false);
     }
-  }, [characterId, saveName]);
+  }, [characterId, saveName, gameState]);
 
   useEffect(() => {
     if (characterId) {

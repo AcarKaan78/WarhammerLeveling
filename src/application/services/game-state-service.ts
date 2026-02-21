@@ -46,6 +46,7 @@ export interface FullGameState {
     currentStreak: number;
     bestStreak: number;
     active: boolean;
+    completedToday: boolean;
   }>;
   inventory: {
     items: Array<{ instanceId: number; itemId: string; name: string; quantity: number; condition: number; equipped: boolean; slot: string | null }>;
@@ -78,7 +79,8 @@ export class GameStateService {
     const character = await this.characterRepo.get(characterId);
     if (!character) throw new Error('Character not found');
 
-    const [tasks, allItems, storyState, activeQuests, completedQuests, factions, npcs] = await Promise.all([
+    const todayStr = new Date().toISOString().slice(0, 10);
+    const [tasks, allItems, storyState, activeQuests, completedQuests, factions, npcs, todayCompletions] = await Promise.all([
       this.taskRepo.getAll(characterId, true),
       this.inventoryRepo.getAll(characterId),
       this.storyRepo.get(characterId),
@@ -86,7 +88,9 @@ export class GameStateService {
       this.questRepo.getAll(characterId, 'completed'),
       this.factionRepo.getAll(characterId),
       this.npcRepo.getAll(characterId),
+      this.taskRepo.getCompletionsForDate(characterId, todayStr),
     ]);
+    const completedTodayIds = new Set(todayCompletions.map(c => c.taskId));
 
     const encumbrance = calculateEncumbrance(allItems, character.carryCapacity);
     const equippedItems = allItems.filter(i => i.equipped);
@@ -124,6 +128,7 @@ export class GameStateService {
         currentStreak: t.currentStreak,
         bestStreak: t.bestStreak,
         active: t.isActive,
+        completedToday: completedTodayIds.has(t.id),
       })),
       inventory: {
         items: allItems.map(i => ({

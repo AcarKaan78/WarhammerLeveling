@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useRef } from 'react';
 import { useGameContext } from '@/context/game-context';
 import { ResourceBar } from '@/components/ui/resource-bar';
 import { TaskCard } from '@/components/ui/task-card';
@@ -15,6 +15,7 @@ export default function DashboardPage() {
   const { gameState, loading, characterId, saveName, refresh, setCharacterId } = useGameContext();
   const [briefing, setBriefing] = useState<Record<string, unknown> | null>(null);
   const [briefingDismissed, setBriefingDismissed] = useState(false);
+  const startDayCalledRef = useRef(false);
 
   // Auto-detect character on first load
   useEffect(() => {
@@ -26,9 +27,10 @@ export default function DashboardPage() {
     }
   }, [characterId, saveName, setCharacterId]);
 
-  // Start day on load
+  // Start day on load (ref guard prevents double-invocation from React strict mode)
   useEffect(() => {
-    if (!characterId || briefing) return;
+    if (!characterId || briefing || startDayCalledRef.current) return;
+    startDayCalledRef.current = true;
     fetch('/api/daily', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
@@ -36,7 +38,7 @@ export default function DashboardPage() {
     })
       .then(r => r.ok ? r.json() : null)
       .then(data => { if (data) { setBriefing(data); refresh(); } })
-      .catch(() => {});
+      .catch(() => { startDayCalledRef.current = false; });
   }, [characterId, saveName, briefing, refresh]);
 
   const sanityState = gameState?.character.sanityState ?? 'stable';
