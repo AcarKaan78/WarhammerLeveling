@@ -9,11 +9,36 @@
   "blocks": [
     {
       "type": "description",
-      "text": "The door grinds open on corroded hinges. A woman stands in the dim corridor, dressed in a long storm coat of dark grey. She is lean, sharp-featured, with close-cropped auburn hair and eyes that catalogue you the way a chirurgeon catalogues a body on the slab."
+      "text": "You open the door with the calm certainty of someone who already knows the answer. The Inquisitorial agent on the other side — auburn hair, grey storm coat, rosette hidden beneath her collar — blinks once, surprised by your composure. She expected fear. You gave her certainty. Your psychic senses had already mapped her soul before the door moved an inch.",
+      "requiredFlags": ["sensed_visitor_clear"]
     },
     {
       "type": "description",
-      "text": "She wears no visible insignia, but your eyes — trained or otherwise — catch the glint of something beneath her collar. An Inquisitorial Rosette. The seal that opens every door in the Imperium. The seal that closes them, too — permanently."
+      "text": "The door grinds open on corroded hinges. You stand behind it, knife low and ready, muscles coiled. A woman in a long storm coat of dark grey regards you with sharp, auburn-framed eyes. Her gaze drops to the blade — and a thin smile crosses her lips. She is not afraid. She expected this.",
+      "requiredFlags": ["armed_opener"],
+      "forbiddenFlags": ["sensed_visitor_clear"]
+    },
+    {
+      "type": "description",
+      "text": "The door grinds open on corroded hinges — but you're still recovering from the psychic feedback. Your head throbs. Blood drips from your nose, hot and metallic. A woman in a long storm coat of dark grey stands in the dim corridor. Her sharp, auburn-framed eyes lock onto the crimson trail on your upper lip. For a moment, she says nothing. Then her expression shifts — clinical interest mixed with cold satisfaction.",
+      "requiredFlags": ["psychic_backlash"],
+      "forbiddenFlags": ["sensed_visitor_clear", "armed_opener"]
+    },
+    {
+      "type": "description",
+      "text": "The door grinds open on corroded hinges — and so does something else. A crash behind you. The knife you tried to grab clattered off the table, taking a tin cup with it. The noise echoes in the corridor. A woman in a long storm coat of dark grey stands in the dim corridor, one eyebrow raised. She heard everything. Her lips curl into the faintest smirk.",
+      "requiredFlags": ["clumsy_start"],
+      "forbiddenFlags": ["sensed_visitor_clear", "armed_opener", "psychic_backlash"]
+    },
+    {
+      "type": "description",
+      "text": "The door grinds open on corroded hinges. A woman stands in the dim corridor, dressed in a long storm coat of dark grey. She is lean, sharp-featured, with close-cropped auburn hair and eyes that catalogue you the way a chirurgeon catalogues a body on the slab.",
+      "forbiddenFlags": ["sensed_visitor_clear", "armed_opener", "psychic_backlash", "clumsy_start"]
+    },
+    {
+      "type": "description",
+      "text": "She wears no visible insignia, but your eyes — trained or otherwise — catch the glint of something beneath her collar. An Inquisitorial Rosette. The seal that opens every door in the Imperium. The seal that closes them, too — permanently.",
+      "forbiddenFlags": ["sensed_visitor_clear"]
     },
     {
       "type": "dialogue",
@@ -22,16 +47,41 @@
       "speakerMood": "clinical"
     },
     {
-      "type": "dialogue",
+      "type": "description",
+      "text": "She recites your identity like a death sentence. Every word precise. Every fact correct. But you already felt the shape of her purpose before she spoke — the weight of Inquisitorial authority, the urgency coiled beneath her professional calm.",
+      "requiredFlags": ["sensed_visitor_clear"]
+    },
+    {
+      "type": "description",
       "text": "She recites your identity like a death sentence. Every word precise. Every fact correct.",
-      "speaker": "",
-      "speakerMood": ""
+      "forbiddenFlags": ["sensed_visitor_clear"]
     },
     {
       "type": "dialogue",
       "text": "My name is Interrogator Lira Castiel, Ordo Hereticus. You are hereby requisitioned under the authority of the Holy Ordos of the Emperor's Inquisition. You will come with me. Now.",
       "speaker": "Interrogator Lira",
       "speakerMood": "authoritative"
+    },
+    {
+      "type": "dialogue",
+      "text": "Put the blade away, psyker. If I meant you harm, you would already be dead. And the Inquisition does not knock.",
+      "speaker": "Interrogator Lira",
+      "speakerMood": "amused",
+      "requiredFlags": ["armed_opener"]
+    },
+    {
+      "type": "dialogue",
+      "text": "Your nose is bleeding. Psychic feedback from attempting a passive scan through a warded door, I presume? Reckless, but... something about that tells me you're exactly what I'm looking for.",
+      "speaker": "Interrogator Lira",
+      "speakerMood": "clinical",
+      "requiredFlags": ["psychic_backlash"]
+    },
+    {
+      "type": "dialogue",
+      "text": "I heard the commotion. Were you arming yourself against me? How... predictable. And clumsy. Let's hope your psychic talents are steadier than your hands.",
+      "speaker": "Interrogator Lira",
+      "speakerMood": "amused",
+      "requiredFlags": ["clumsy_start"]
     }
   ],
   "choices": [
@@ -59,7 +109,10 @@
       },
       "effects": {
         "setFlags": ["asked_purpose", "curious_nature"],
+        "successFlags": ["intel_from_lira", "lira_respects_curiosity"],
+        "failureFlags": ["lira_deflected_question"],
         "xpGain": 10,
+        "npcRelationshipChanges": { "interrogator_lira": { "respect": 5, "knowledge": 5 } },
         "nextScene": "ch1_black_transport"
       }
     },
@@ -87,7 +140,7 @@
         "setFlags": ["attempted_refusal", "defiant_nature"],
         "npcRelationshipChanges": { "interrogator_lira": { "fear": 5, "respect": -10, "affinity": -10 } },
         "factionRepChanges": { "inquisition": -15 },
-        "sanityChange": -3,
+        "sanityChange": -1,
         "xpGain": 10,
         "nextScene": "ch1_black_transport"
       }

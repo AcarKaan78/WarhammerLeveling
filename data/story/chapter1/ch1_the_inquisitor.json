@@ -20,6 +20,60 @@
       "text": "A servo-skull hovers at his shoulder — brass and bone, augmetic eye glowing a steady red. It rotates to face you as you enter, and you feel the faint whir of a recording device activating. Everything said in this room will be documented."
     },
     {
+      "type": "description",
+      "text": "Voss glances at a data-slate on his desk — the Storm Trooper Sergeant's report, you realize. A faint nod. 'The sergeant noted your composure under observation. Good. I have no use for psykers who crack under scrutiny.'",
+      "requiredFlags": ["guards_impressed"],
+      "speaker": ""
+    },
+    {
+      "type": "description",
+      "text": "Voss's eyes narrow as he reads the Storm Trooper's report. 'The guards reported you attempted composure but your hands betrayed you. Fear is natural, psyker. Lying about it is not.' His tone is cold. 'I need assets who know their limits, not ones who pretend they have none.'",
+      "requiredFlags": ["fear_showed"],
+      "speaker": ""
+    },
+    {
+      "type": "description",
+      "text": "The data-slate in Voss's hand shows a red flag — the Storm Troopers' report is dismissive. 'The sergeant noted... hesitation. Uncertainty. The guards smirked when you passed.' Voss sets the slate down with deliberate care. 'First impressions matter in this line of work. You failed yours.'",
+      "requiredFlags": ["guards_smirked"],
+      "speaker": ""
+    },
+    {
+      "type": "description",
+      "text": "Voss taps a data-slate, his expression unreadable. 'You kept your head down at the gate. Wise. Or cowardly. We'll see which.' His tone suggests he considers you an obedient tool — nothing more.",
+      "requiredFlags": ["kept_low", "survival_instinct"],
+      "speaker": ""
+    },
+    {
+      "type": "description",
+      "text": "Voss's eyes narrow as he reviews a data-slate. 'The psy-sensors detected your probing at the fortress perimeter. Clever work — the wards are calibrated to Alpha-grade threats, not passive analysis.' A pause. 'But curiosity is a dangerous trait in your profession.'",
+      "requiredFlags": ["tested_wards", "ward_weakness_found"],
+      "speaker": ""
+    },
+    {
+      "type": "description",
+      "text": "Voss glances at a red-flagged report. 'You triggered ward alarm Beta-Seven when you arrived. Clumsy. The wards are there for your protection as much as ours. Remember that.' His tone is cold, warning.",
+      "requiredFlags": ["wards_bit_back"],
+      "speaker": ""
+    },
+    {
+      "type": "description",
+      "text": "Voss's expression is glacial as he taps a priority alert on his data-slate. 'The psy-sensors recorded your failed probing at the perimeter. You touched the wards and they burned you.' He leans forward slightly. 'Worse — you left a psychic signature doing it. Sloppy. The wards are calibrated to detect exactly this kind of amateurish intrusion.'",
+      "requiredFlags": ["psychic_feedback_burn"],
+      "speaker": ""
+    },
+    {
+      "type": "description",
+      "text": "Voss's gaze lingers on you with something that might be approval. 'I am told you prayed at the gate. Faith is the shield of the righteous, even for one cursed with your gifts. The Emperor protects those who remember their duty.'",
+      "requiredFlags": ["prayed_at_fortress"],
+      "speaker": ""
+    },
+    {
+      "type": "description",
+      "text": "There's a notation on the data-slate that catches your eye — a flag from Interrogator Lira's initial report. 'You attempted to refuse the summons,' Voss says quietly. 'I respect defiance when it stems from principle. But defiance without discipline is merely rebellion. Which are you, psyker?'",
+      "requiredFlags": ["defiant_nature"],
+      "speaker": ""
+    },
+    {
       "type": "dialogue",
       "text": "Sit.",
       "speaker": "Inquisitor Voss",
@@ -28,6 +82,12 @@
     {
       "type": "description",
       "text": "There is only one other chair in the room. It faces the desk, positioned precisely so that the lumen-strip above casts light directly into the seated person's eyes. This is not an office — it is an interrogation room dressed in politeness."
+    },
+    {
+      "type": "description",
+      "text": "Voss leans back slightly, studying you. 'Lira's report mentions you used your gifts in your hab-unit — before you even knew you were being summoned. Either you have good instincts, or you're dangerously reckless with your powers. I suspect it's both.'",
+      "requiredFlags": ["psychic_sense_used"],
+      "speaker": ""
     },
     {
       "type": "dialogue",
@@ -86,6 +146,8 @@
       },
       "effects": {
         "setFlags": ["asked_about_dead_assets", "tactical_thinker"],
+        "successFlags": ["knows_dead_asset_details", "knows_first_was_telepath", "deduced_cult_countermeasures"],
+        "failureFlags": ["vague_intel_only", "voss_withheld_details"],
         "npcRelationshipChanges": {
           "inquisitor_voss": { "respect": 10, "knowledge": 10 }
         },
@@ -123,13 +185,13 @@
       "skillCheck": {
         "stat": "willpower",
         "difficulty": 10,
-        "successScene": "ch1_the_briefing",
-        "failureScene": "ch1_the_briefing"
+        "successScene": "ch1_read_mind_success",
+        "failureScene": "ch1_read_mind_failure"
       },
       "effects": {
         "setFlags": ["attempted_mind_reading_voss"],
         "corruptionChange": 3,
-        "sanityChange": -8,
+        "sanityChange": -2,
         "xpGain": 30,
         "nextScene": "ch1_the_briefing"
       }

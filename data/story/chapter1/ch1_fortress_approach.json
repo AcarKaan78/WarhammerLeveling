@@ -13,11 +13,38 @@
     },
     {
       "type": "description",
-      "text": "As you approach, you feel it — a dampening field that presses against your mind like invisible hands squeezing your skull. Psy-wards. The entire fortress is saturated with them. Hexagrammic sigils etched into every surface. Null-field generators humming at frequencies that make your teeth ache."
+      "text": "As you approach, you feel it — a dampening field that presses against your mind like invisible hands squeezing your skull. Psy-wards. The entire fortress is saturated with them. Hexagrammic sigils etched into every surface. Null-field generators humming at frequencies that make your teeth ache.",
+      "forbiddenFlags": ["knows_psy_frequency_data", "hive_mapped", "rhyn_confused_you"]
     },
     {
       "type": "description",
-      "text": "Your North Star necklace goes cold against your skin. The faint warmth you always feel — the psychic resonance that you've come to interpret as the Emperor's presence — vanishes like a candle snuffed in a storm. You are alone inside your own head for the first time in years. It is... terrifying."
+      "text": "As you approach, you feel it — a dampening field that presses against your mind like invisible hands squeezing your skull. Psy-wards. The entire fortress is saturated with them. Hexagrammic sigils etched into every surface. Null-field generators humming at frequencies that make your teeth ache. You tried to get Rhyn to explain this — but the tech-priest's incomprehensible data dump still rattles around in your head like broken glass. Harmonics, frequencies, resonance cascades... the half-understood jargon makes the wards feel even more disorienting. You don't understand them. You just endure them.",
+      "requiredFlags": ["rhyn_confused_you"]
+    },
+    {
+      "type": "description",
+      "text": "As you approach, you feel it — a dampening field that presses against your mind like invisible hands squeezing your skull. Psy-wards. The entire fortress is saturated with them. Hexagrammic sigils etched into every surface. Null-field generators humming at frequencies that make your teeth ache. Thanks to Rhyn's technical briefing, you understand what you're feeling: a three-layer resonance field cycling at 0.7 hertz intervals. Knowledge doesn't make it comfortable, but it makes it comprehensible.",
+      "requiredFlags": ["knows_psy_frequency_data"]
+    },
+    {
+      "type": "description",
+      "text": "As you approach, you feel it — a dampening field that presses against your mind like invisible hands squeezing your skull. Psy-wards. The entire fortress is saturated with them. You tried to absorb the hive's layout from the transport viewport, but it was too vast, too overwhelming. Now, approaching the fortress without that spatial context, the structure seems to loom out of nowhere — a black monolith emerging from urban chaos. The disorientation of not knowing where you are in relation to the hive makes the fortress feel even more claustrophobic, more inescapable.",
+      "requiredFlags": ["hive_glimpse_only"]
+    },
+    {
+      "type": "description",
+      "text": "As you approach, you feel it — a dampening field that presses against your mind like invisible hands squeezing your skull. Psy-wards. The entire fortress is saturated with them. Your perception from the transport pays off here — you recognize the fortress's position relative to the hive structure. Three spires built into a natural chokepoint in the hive wall, commanding sight lines over seventeen major transit routes. Tactically perfect.",
+      "requiredFlags": ["hive_mapped"]
+    },
+    {
+      "type": "description",
+      "text": "Your North Star necklace goes cold against your skin. The faint warmth you always feel — the psychic resonance that you've come to interpret as the Emperor's presence — vanishes like a candle snuffed in a storm. You are alone inside your own head for the first time in years. It is... terrifying.",
+      "forbiddenFlags": ["meditated_in_transit"]
+    },
+    {
+      "type": "description",
+      "text": "Your North Star necklace goes cold against your skin. The faint warmth you always feel — the psychic resonance that you've come to interpret as the Emperor's presence — vanishes like a candle snuffed in a storm. But you were prepared for this. Your meditation on the transport centered you in the Emperor's Light. The silence is still jarring, but you are not lost in it.",
+      "requiredFlags": ["meditated_in_transit"]
     },
     {
       "type": "description",
@@ -31,7 +58,33 @@
     },
     {
       "type": "description",
-      "text": "Interrogator Lira walks ahead without looking back. She expects you to follow. Drax falls in behind you — whether as escort or guard, you cannot tell. The tech-priest glides forward on hidden wheels, mechadendrites folded tight."
+      "text": "Interrogator Lira walks ahead without looking back. She expects you to follow. Drax falls in behind you — whether as escort or guard, you cannot tell. The tech-priest glides forward on hidden wheels, mechadendrites folded tight.",
+      "forbiddenFlags": ["drax_opened_up", "drax_shut_down"]
+    },
+    {
+      "type": "description",
+      "text": "Interrogator Lira walks ahead without looking back. She expects you to follow. Drax falls in beside you — not behind as a guard might, but flanking. His posture has shifted subtly. Still professional, but less hostile. The conversation on the transport changed something.",
+      "requiredFlags": ["drax_opened_up"]
+    },
+    {
+      "type": "description",
+      "text": "Interrogator Lira walks ahead without looking back. She expects you to follow. Drax falls in behind you, his hand resting on his shock maul. His positioning is unmistakable: you are a prisoner being escorted, not a colleague. Your failed attempt at conversation on the transport clearly reinforced every prejudice he holds.",
+      "requiredFlags": ["drax_shut_down"]
+    },
+    {
+      "type": "description",
+      "text": "Interrogator Lira walks ahead without looking back. She expects you to follow. Drax falls in well behind you — not close enough to be an escort, far enough to maintain tactical distance. His hand hovers near his sidearm. Your hostility on the transport festered into something worse during the flight. He doesn't just distrust you as a psyker; he actively views you as a threat. Every step toward the fortress, you feel his eyes on your back.",
+      "requiredFlags": ["drax_hostile_silence"]
+    },
+    {
+      "type": "description",
+      "text": "The tech-priest glides forward on hidden wheels, mechadendrites folded tight.",
+      "forbiddenFlags": ["rhyn_shared_data"]
+    },
+    {
+      "type": "description",
+      "text": "Magos Rhyn-7 glides forward on hidden wheels, mechadendrites folded tight. One of them unfolds briefly, projecting a holo-display visible only to you — a schematic of ward frequencies, shared data from your conversation. The priest's multi-lens eye clicks once in what might be approval before the display vanishes.",
+      "requiredFlags": ["rhyn_shared_data"]
     }
   ],
   "choices": [
@@ -51,6 +104,8 @@
       },
       "effects": {
         "setFlags": ["walked_tall", "showed_pride"],
+        "successFlags": ["guards_impressed", "iron_composure"],
+        "failureFlags": ["fear_showed", "guards_smirked"],
         "npcRelationshipChanges": {
           "interrogator_lira": { "respect": 5 },
           "agent_drax": { "respect": 5, "fear": 5 }
@@ -87,8 +142,10 @@
       },
       "effects": {
         "setFlags": ["tested_wards", "reckless_psyker"],
+        "successFlags": ["ward_weakness_found", "knows_ward_frequency"],
+        "failureFlags": ["wards_bit_back", "psychic_feedback_burn"],
         "corruptionChange": 2,
-        "sanityChange": -5,
+        "sanityChange": -2,
         "xpGain": 25,
         "nextScene": "ch1_the_inquisitor"
       }
@@ -99,7 +156,7 @@
       "visibleWhenLocked": false,
       "effects": {
         "setFlags": ["prayed_at_fortress", "faith_in_emperor"],
-        "sanityChange": 3,
+        "sanityChange": 4,
         "xpGain": 5,
         "nextScene": "ch1_the_inquisitor"
       }

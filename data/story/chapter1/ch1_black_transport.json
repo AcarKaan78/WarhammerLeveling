@@ -13,17 +13,49 @@
     },
     {
       "type": "description",
-      "text": "Inside, the hold is sparse. Two others are already seated on the metal benches, locked into restraint harnesses. The Interrogator gestures you to the empty seat and straps in across from you, her bolt pistol conspicuously unholstered on her thigh."
+      "text": "Inside, the hold is sparse. Two others are already seated on the metal benches, locked into restraint harnesses. The Interrogator gestures you to the empty seat and straps in across from you, her bolt pistol conspicuously unholstered on her thigh.",
+      "forbiddenFlags": ["attempted_refusal"]
     },
     {
       "type": "description",
-      "text": "To your left sits a mountain of a man — shaved head, a face that looks like it was assembled from broken masonry, and the unmistakable bulk of a carapace armor set under his duster. Ex-Arbites, you'd guess. The kind who settled disputes with a shock maul first and questions never."
+      "text": "Inside, the hold is sparse. Two others are already seated on the metal benches, locked into restraint harnesses. The Interrogator gestures you to the empty seat, her eyes never leaving you. She straps in across from you, her bolt pistol conspicuously unholstered on her thigh — positioned for a quick draw. She doesn't trust you.",
+      "requiredFlags": ["attempted_refusal"]
+    },
+    {
+      "type": "description",
+      "text": "You settle into the restraint harness smoothly. The Interrogator gives you a single approving nod before turning her attention to the tactical display on her data-slate.",
+      "requiredFlags": ["went_willingly", "obedient_to_inquisition"]
+    },
+    {
+      "type": "description",
+      "text": "To your left sits a mountain of a man — shaved head, a face that looks like it was assembled from broken masonry, and the unmistakable bulk of a carapace armor set under his duster. Ex-Arbites, you'd guess. The kind who settled disputes with a shock maul first and questions never.",
+      "forbiddenFlags": ["armed_opener"]
+    },
+    {
+      "type": "description",
+      "text": "To your left sits a mountain of a man — shaved head, a face that looks like it was assembled from broken masonry, and the unmistakable bulk of a carapace armor set under his duster. Ex-Arbites, you'd guess. The kind who settled disputes with a shock maul first and questions never. Your eyes linger on the combat knife at his belt, and his hand moves to rest on its pommel, watching you watch it.",
+      "requiredFlags": ["armed_opener"]
     },
     {
       "type": "dialogue",
       "text": "Another witch. Wonderful. Just what this operation needed.",
       "speaker": "Throne Agent Drax",
-      "speakerMood": "contemptuous"
+      "speakerMood": "contemptuous",
+      "forbiddenFlags": ["attempted_refusal", "demanded_proof"]
+    },
+    {
+      "type": "dialogue",
+      "text": "Another witch. And one with an attitude problem. Fan-frakking-tastic.",
+      "speaker": "Throne Agent Drax",
+      "speakerMood": "contemptuous",
+      "requiredFlags": ["attempted_refusal"]
+    },
+    {
+      "type": "dialogue",
+      "text": "A sanctioned psyker. Let's hope you're better at following orders than you were at protocol recognition.",
+      "speaker": "Throne Agent Drax",
+      "speakerMood": "skeptical",
+      "requiredFlags": ["demanded_proof"]
     },
     {
       "type": "description",
@@ -37,7 +69,44 @@
     },
     {
       "type": "description",
-      "text": "The Valkyrie lifts off with a stomach-dropping lurch. Through the narrow viewport, you see Hive Tertium stretch below — a mountain of metal and misery, shrouded in industrial smog. Billions of souls crammed into this man-made nightmare, and somewhere down there, something is very, very wrong."
+      "text": "The Valkyrie lifts off with a stomach-dropping lurch. Through the narrow viewport, you see Hive Tertium stretch below — a mountain of metal and misery, shrouded in industrial smog. Billions of souls crammed into this man-made nightmare, and somewhere down there, something is very, very wrong.",
+      "forbiddenFlags": ["psychic_confidence", "sensed_visitor_clear"]
+    },
+    {
+      "type": "description",
+      "text": "The Valkyrie lifts off with a stomach-dropping lurch. As your stomach settles, you extend your psychic senses carefully — just a whisper of awareness. Drax is a wall of paranoid aggression. Rhyn-7 is a bizarre void of biological emotion wrapped around crystalline machine-logic. And Interrogator Lira... she is watching you. Always watching.",
+      "requiredFlags": ["psychic_confidence"]
+    },
+    {
+      "type": "description",
+      "text": "The Valkyrie lifts off with a stomach-dropping lurch. Through the narrow viewport, you see Hive Tertium stretch below. Interrogator Lira keeps glancing your way — subtle, professional assessments. She saw the nosebleed at your door. She knows psychic backlash when she sees it. Now she's evaluating whether you're stable enough for whatever she has planned. You can feel the weight of her scrutiny like a physical thing.",
+      "requiredFlags": ["showed_weakness_to_lira", "psychic_backlash"]
+    },
+    {
+      "type": "description",
+      "text": "The Valkyrie lifts off with a stomach-dropping lurch. Interrogator Lira sits across from you, her posture slightly more distant than it might have been. You fumbled that knife. She heard the crash. First impressions matter in this line of work, and yours was... less than impressive. There's a subtle dismissiveness in the way she glances at you now, as if you're a tool of uncertain quality.",
+      "requiredFlags": ["lira_unimpressed", "clumsy_start"]
+    },
+    {
+      "type": "description",
+      "text": "The Valkyrie lifts off with a stomach-dropping lurch. Interrogator Lira sits across from you, data-slate in hand, her attention deliberately focused elsewhere. You tried to press her for information back at your hab — and she shut you down. Hard. The coldness in her posture now makes it clear: you overstepped, and she doesn't forget insubordination. Every interaction from here will be on her terms, not yours.",
+      "requiredFlags": ["lira_deflected_question"]
+    },
+    {
+      "type": "description",
+      "text": "The Valkyrie lifts off with a stomach-dropping lurch. Interrogator Lira catches your eye and gives the faintest nod — acknowledgment, perhaps even approval. She answered your questions back at the hab. Shared details about the operation that she didn't have to. A psyker who asks smart questions is a psyker worth investing in.",
+      "requiredFlags": ["intel_from_lira"],
+      "speaker": ""
+    },
+    {
+      "type": "description",
+      "text": "You catch Lira studying you with something that might be reassessment. Your knife was in your hand before the door finished opening — that kind of reflex speaks to training, or to a life where hesitation means death. Either way, she's recalculating your value to the operation. A psyker who can handle themselves in close quarters is a rare thing.",
+      "requiredFlags": ["impressed_lira_combat"],
+      "speaker": ""
+    },
+    {
+      "type": "description",
+      "text": "Through the narrow viewport, you see Hive Tertium stretch below — a mountain of metal and misery, shrouded in industrial smog. Billions of souls crammed into this man-made nightmare, and somewhere down there, something is very, very wrong."
     }
   ],
   "choices": [
@@ -57,6 +126,8 @@
       },
       "effects": {
         "setFlags": ["spoke_to_drax", "drax_introduction"],
+        "successFlags": ["drax_opened_up", "drax_war_stories"],
+        "failureFlags": ["drax_shut_down", "drax_hostile_silence"],
         "npcRelationshipChanges": { "agent_drax": { "knowledge": 10 } },
         "xpGain": 10,
         "nextScene": "ch1_fortress_approach"
@@ -74,6 +145,8 @@
       },
       "effects": {
         "setFlags": ["spoke_to_rhyn", "rhyn_introduction", "knows_tech_angle"],
+        "successFlags": ["rhyn_shared_data", "knows_psy_frequency_data"],
+        "failureFlags": ["rhyn_confused_you", "tech_jargon_overload"],
         "npcRelationshipChanges": { "magos_rhyn": { "knowledge": 10, "affinity": 5 } },
         "xpGain": 10,
         "nextScene": "ch1_fortress_approach"
@@ -102,7 +175,9 @@
         "failureScene": "ch1_fortress_approach"
       },
       "effects": {
-        "setFlags": ["observed_hive", "hive_layout_known"],
+        "setFlags": ["observed_hive"],
+        "successFlags": ["hive_mapped", "hive_layout_known", "spotted_underhive_routes"],
+        "failureFlags": ["hive_glimpse_only", "hive_too_vast"],
         "xpGain": 15,
         "nextScene": "ch1_fortress_approach"
       }

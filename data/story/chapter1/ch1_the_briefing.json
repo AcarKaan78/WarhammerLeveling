@@ -9,6 +9,48 @@
   "blocks": [
     {
       "type": "description",
+      "text": "Voss's tone is noticeably more curt than before. He activates the holo-projector with sharp, precise movements. 'You demanded compensation. Very well. You'll receive your thrones — if you survive.' The transactional nature of your relationship is now clear.",
+      "requiredFlags": ["demanded_compensation"],
+      "speaker": ""
+    },
+    {
+      "type": "description",
+      "text": "There's a subtle shift in Voss's demeanor — less guarded, more collaborative. 'You asked intelligent questions. That tells me you can analyze threats, not just react to them.' He activates the holo-projector with deliberate care, pointing to specific details.",
+      "requiredFlags": ["knows_dead_asset_details"],
+      "speaker": ""
+    },
+    {
+      "type": "description",
+      "text": "Voss activates the holo-projector, but his briefing feels deliberately incomplete. When you asked about the previous assets, he deflected — gave you generalities instead of tactical specifics. Important details are clearly being withheld. You notice gaps in the intel: no mention of how the first asset was tracked, no explanation for the second's disappearance. The pieces don't fit together.",
+      "requiredFlags": ["vague_intel_only"],
+      "speaker": ""
+    },
+    {
+      "type": "description",
+      "text": "As Voss speaks, you catch the faintest flicker of something in his psychic presence — something you glimpsed when you probed his mind. The way he refers to 'assets' and 'tools' carries a different weight now. You know his secret fear: that psykers like you will turn, corrupted by the very powers you wield. He watches you with the vigilance of a man who expects betrayal.",
+      "requiredFlags": ["voss_secret_known", "knows_psyker_turning"],
+      "speaker": ""
+    },
+    {
+      "type": "description",
+      "text": "The servo-skull Macharius hovers closer to you than before, its augmetic eye tracking your every micro-expression. Voss detected your mental probe earlier, and now every word he speaks feels measured, tested. You are no longer just an asset — you are a potential threat under observation.",
+      "requiredFlags": ["voss_detected_probe"],
+      "speaker": ""
+    },
+    {
+      "type": "description",
+      "text": "Voss's tone throughout the briefing is pointed, almost threatening. The servo-skull Macharius hovers uncomfortably close, its recording lens focused on you with unblinking intensity. 'Trust is earned in the Inquisition,' Voss says quietly, his eyes never leaving you. 'You have already spent some of yours.'",
+      "requiredFlags": ["voss_distrusts_you"],
+      "speaker": ""
+    },
+    {
+      "type": "description",
+      "text": "Voss's voice carries a note of trust — rare from an Inquisitor addressing a psyker. 'You accepted this duty without hesitation. That loyalty will be remembered.' He activates the holo-projector, his movements less guarded than they might otherwise be.",
+      "requiredFlags": ["loyal_servant"],
+      "speaker": ""
+    },
+    {
+      "type": "description",
       "text": "Voss activates a holo-projector. The air above his desk shimmers and resolves into a three-dimensional map of Hive Tertium's lower levels — a tangled nightmare of collapsed tunnels, abandoned manufactory blocks, and fungal growth zones that haven't seen daylight in centuries."
     },
     {
@@ -34,6 +76,12 @@
       "speakerMood": "warning"
     },
     {
+      "type": "description",
+      "text": "You notice Macharius's optical lens focuses on you with particular intensity when Voss mentions the cult. Given what you learned from probing Voss's mind — his fear of psyker corruption — you understand now: the servo-skull isn't just recording your actions. It's watching for signs of taint.",
+      "requiredFlags": ["voss_secret_known"],
+      "speaker": ""
+    },
+    {
       "type": "system_message",
       "text": "[SYSTEM] Quest Available: 'The Whisper in the Dark' — Investigate the Whispering Choir cult in the underhive of Hive Tertium."
     },
@@ -57,6 +105,8 @@
       },
       "effects": {
         "setFlags": ["asked_cult_intel", "tactical_thinker"],
+        "successFlags": ["cult_intel_detailed", "knows_choir_structure", "knows_ritual_pattern"],
+        "failureFlags": ["cult_intel_basic", "voss_evasive_on_details"],
         "npcRelationshipChanges": {
           "inquisitor_voss": { "respect": 5, "knowledge": 5 }
         },

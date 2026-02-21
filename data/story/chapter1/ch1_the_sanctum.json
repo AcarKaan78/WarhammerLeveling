@@ -20,6 +20,49 @@
       "text": "A figure waits by the pylons. Astropath Seren — you know what she is immediately, the way one psyker always knows another. She is small, ancient, wrapped in robes of faded cream. Her eyes are gone — not merely blind, but surgically removed and replaced with smooth, pale skin. The Soul Binding. She saw the Emperor's light, and it burned her eyes from her skull."
     },
     {
+      "type": "description",
+      "text": "She turns toward you before you speak, her eyeless face tilting as if she can see you more clearly than anyone with eyes ever could. \"You've already used your gift today,\" she says quietly. \"I felt the echo of it when you entered the fortress. The Warp remembers every touch, child.\"",
+      "requiredFlags": ["psychic_sense_used"],
+      "speaker": ""
+    },
+    {
+      "type": "description",
+      "text": "Seren's eyeless face turns toward you with sudden focus, her head tilting as if sensing something invisible. \"You pushed too hard, too fast. I can feel the bruise on your mind — a psychic backlash.\" Her tone is gentle but warning. \"We must be careful here. The sanctum will test you again, and you are already wounded.\"",
+      "requiredFlags": ["psychic_backlash"],
+      "speaker": ""
+    },
+    {
+      "type": "description",
+      "text": "Her eyeless gaze seems to linger on the sanctified wards around the chamber. A faint smile crosses her ancient features. \"You tested the wards earlier. I felt the ripple. Foolish.\" A pause. \"But... brave. The reckless ones burn brightest. Or they simply burn.\"",
+      "requiredFlags": ["tested_wards"],
+      "speaker": ""
+    },
+    {
+      "type": "description",
+      "text": "Seren's ancient features tighten as she senses the psychic scarring on your soul. \"The wards scarred you when you tested them at the fortress perimeter. That takes... talent, of a sort.\" A long pause. \"Reckless talent. The kind that gets psykers killed. Or worse — turned. You must learn control, child, or you will not survive what is coming.\"",
+      "requiredFlags": ["psychic_feedback_burn"],
+      "speaker": ""
+    },
+    {
+      "type": "description",
+      "text": "You remember your question about extraction and support. Voss's answer was deliberately vague — 'The Inquisition provides what is necessary.' There is no safety net. Whatever happens in the sanctum, in the underhive, you are expendable. The sooner you accept that, the more clearly you'll think.",
+      "requiredFlags": ["asked_about_support"],
+      "speaker": ""
+    },
+    {
+      "type": "dialogue",
+      "text": "You accepted the Inquisitor's mission without a single question. Most psykers argue, negotiate, plead. Your silence is... unusual. Is it discipline? Or have you simply learned that resistance is futile?",
+      "speaker": "Astropath Seren",
+      "speakerMood": "curious",
+      "requiredFlags": ["stoic_acceptance"]
+    },
+    {
+      "type": "description",
+      "text": "Your attempt to extract detailed cult intelligence from Voss fell flat — he gave you generalities, not specifics. You step into the Sanctum knowing less than you should. The cult's exact size, their ritual methods, even their doctrine remain frustratingly opaque. You'll be going in half-blind.",
+      "requiredFlags": ["cult_intel_basic"],
+      "speaker": ""
+    },
+    {
       "type": "dialogue",
       "text": "You are afraid.",
       "speaker": "Astropath Seren",
@@ -37,6 +80,25 @@
     },
     {
       "type": "dialogue",
+      "text": "Your faith in the Emperor is strong. I can feel it radiating from you like heat from a flame. That necklace — it is more than jewelry. It is a lifeline. In the dark places you are going, your faith will be your anchor. Cling to it when the voices whisper.",
+      "speaker": "Astropath Seren",
+      "speakerMood": "approving",
+      "requiredFlags": ["faith_in_emperor"]
+    },
+    {
+      "type": "description",
+      "text": "A cold shiver runs through you as Seren speaks. You think of Voss, of the way he looked at you in the briefing — not as a person, but as a tool. A weapon to be wielded. You wonder if Seren knows. If she felt the psychic residue of whatever dark things Voss has done to psykers like you. Like her.",
+      "requiredFlags": ["voss_secret_known"],
+      "speaker": ""
+    },
+    {
+      "type": "description",
+      "text": "Seren hesitates before speaking, her eyeless face turning toward the chamber entrance as if sensing something beyond the wards. \"The Inquisitor has... concerns about you.\" Her voice is careful, measured. \"I am told to be thorough in my evaluation. More thorough than usual.\" The implication is clear: Voss is watching you more closely now. Your failed attempt to read his mind has consequences.",
+      "requiredFlags": ["voss_distrusts_you"],
+      "speaker": ""
+    },
+    {
+      "type": "dialogue",
       "text": "Now, child. Show me what the Emperor has given you. Step into the circle. Let me see your light.",
       "speaker": "Astropath Seren",
       "speakerMood": "encouraging"
@@ -44,6 +106,12 @@
     {
       "type": "system_message",
       "text": "[SYSTEM] Psychic Evaluation — Your choice here will determine your initial psychic affinity and affect future power development."
+    },
+    {
+      "type": "system_message",
+      "text": "[SYSTEM] Psychic Evaluation — The intelligence you gathered about the Choir's rituals may give you insight into what psychic disciplines they favor. Choose carefully.",
+      "requiredFlags": ["cult_intel_detailed"],
+      "speaker": ""
     }
   ],
   "choices": [
@@ -54,8 +122,8 @@
       "skillCheck": {
         "stat": "willpower",
         "difficulty": -20,
-        "successScene": "ch1_preparation",
-        "failureScene": "ch1_preparation"
+        "successScene": "ch1_telekinesis_success",
+        "failureScene": "ch1_telekinesis_failure"
       },
       "effects": {
         "setFlags": ["chose_telekinesis", "ch1_sanctum_tested", "seren_impressed"],
@@ -74,8 +142,8 @@
       "skillCheck": {
         "stat": "willpower",
         "difficulty": -15,
-        "successScene": "ch1_preparation",
-        "failureScene": "ch1_preparation"
+        "successScene": "ch1_telepathy_success",
+        "failureScene": "ch1_telepathy_failure"
       },
       "effects": {
         "setFlags": ["chose_telepathy", "ch1_sanctum_tested", "seren_mind_touched", "knows_seren_secret"],
@@ -83,7 +151,7 @@
           "astropath_seren": { "knowledge": 20, "affinity": 15, "respect": 5 }
         },
         "xpGain": 25,
-        "sanityChange": -3,
+        "sanityChange": -1,
         "corruptionChange": 1,
         "nextScene": "ch1_preparation"
       }
@@ -95,8 +163,8 @@
       "skillCheck": {
         "stat": "willpower",
         "difficulty": -5,
-        "successScene": "ch1_preparation",
-        "failureScene": "ch1_preparation"
+        "successScene": "ch1_divination_success",
+        "failureScene": "ch1_divination_failure"
       },
       "effects": {
         "setFlags": ["chose_divination", "ch1_sanctum_tested", "saw_the_future", "vision_of_choir"],
@@ -104,7 +172,7 @@
           "astropath_seren": { "knowledge": 10, "respect": 15, "fear": 10 }
         },
         "xpGain": 30,
-        "sanityChange": -8,
+        "sanityChange": -2,
         "corruptionChange": 2,
         "nextScene": "ch1_preparation"
       }
@@ -120,7 +188,7 @@
           "inquisitor_voss": { "respect": -10, "fear": 5 }
         },
         "factionRepChanges": { "inquisition": -10 },
-        "sanityChange": 2,
+        "sanityChange": 3,
         "xpGain": 10,
         "nextScene": "ch1_preparation"
       }
