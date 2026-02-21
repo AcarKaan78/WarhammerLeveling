@@ -8,3 +8,4 @@ export * from './faction-repository';
 export * from './event-repository';
 export * from './achievement-repository';
 export * from './psychic-repository';
+export * from './skill-repository';

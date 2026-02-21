@@ -9,6 +9,7 @@ import { SQLiteFactionRepository } from '../database/repositories/sqlite-faction
 import { SQLiteEventRepository } from '../database/repositories/sqlite-event-repo';
 import { SQLiteAchievementRepository } from '../database/repositories/sqlite-achievement-repo';
 import { SQLitePsychicRepository } from '../database/repositories/sqlite-psychic-repo';
+import { SQLiteSkillRepository } from '../database/repositories/sqlite-skill-repo';
 import type {
   ICharacterRepository,
   ITaskRepository,
@@ -20,6 +21,7 @@ import type {
   IEventRepository,
   IAchievementRepository,
   IPsychicRepository,
+  ISkillRepository,
 } from '@/domain/interfaces';
 
 export interface Container {
@@ -34,6 +36,7 @@ export interface Container {
     event: IEventRepository;
     achievement: IAchievementRepository;
     psychic: IPsychicRepository;
+    skill: ISkillRepository;
   };
 }
 
@@ -62,6 +65,7 @@ export function createContainer(saveName: string = 'current'): Container {
     event: new SQLiteEventRepository(db as never),
     achievement: new SQLiteAchievementRepository(db as never),
     psychic: new SQLitePsychicRepository(db as never),
+    skill: new SQLiteSkillRepository(db as never),
   };
 
   containerInstance = { repos };
