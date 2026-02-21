@@ -1,0 +1,59 @@
+{
+  "id": "ch1_whisper_follow_success",
+  "chapter": "chapter1",
+  "title": "Riding the Whisper",
+  "location": "underhive_entrance",
+  "conditions": {
+    "requiredFlags": [
+      "followed_whisper"
+    ],
+    "forbiddenFlags": [],
+    "minLevel": 1
+  },
+  "isHub": false,
+  "tags": [
+    "branch",
+    "psychic",
+    "success",
+    "finale"
+  ],
+  "blocks": [
+    {
+      "type": "description",
+      "text": "You let the Whisper take you. Not surrender — control. Like gripping a live wire with insulated hands, you ride the psychic current back to its source. Your consciousness shoots through the underhive like a bolt of lightning, passing through layers of rock and rust and ancient infrastructure.",
+      "speaker": ""
+    },
+    {
+      "type": "description",
+      "text": "And there — three clicks north-northeast, exactly where the Inquisitor predicted — you find it. A collapsed Ministorum chapel, its spire broken and swallowed by the hive's growth. Inside, the Choir sings. You can feel them: seven psykers, bound and screaming, their combined power being focused like a lens. You know where they are. You know their number. You know the layout of the chapel.",
+      "speaker": ""
+    },
+    {
+      "type": "description",
+      "text": "You pull back, gasping. Your necklace burns against your chest — the Emperor's Light anchoring you back to yourself. You know things now that the Inquisitor will want to hear. Chapter 1 ends with you standing at the edge of the abyss — but you can see the bottom.",
+      "speaker": ""
+    },
+    {
+      "type": "system_message",
+      "text": "Chapter 1 Complete. You have gained critical intelligence about the cult's location and strength. This will provide significant advantages in Chapter 2.",
+      "speaker": ""
+    }
+  ],
+  "choices": [
+    {
+      "id": "continue",
+      "text": "You know where the Choir sings. The hunt begins.",
+      "conditions": {},
+      "visibleWhenLocked": false,
+      "effects": {
+        "setFlags": [
+          "knows_cult_location",
+          "whisper_controlled",
+          "ch1_ending_advantage",
+          "knows_choir_count"
+        ],
+        "nextScene": null
+      }
+    }
+  ]
+}

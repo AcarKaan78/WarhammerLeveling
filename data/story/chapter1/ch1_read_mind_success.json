@@ -1,0 +1,54 @@
+{
+  "id": "ch1_read_mind_success",
+  "chapter": "chapter1",
+  "title": "Behind the Mask",
+  "location": "inquisitorial_fortress",
+  "conditions": {
+    "requiredFlags": [
+      "attempted_mind_reading_voss"
+    ],
+    "forbiddenFlags": [],
+    "minLevel": 1
+  },
+  "isHub": false,
+  "tags": [
+    "branch",
+    "psychic",
+    "success"
+  ],
+  "blocks": [
+    {
+      "type": "description",
+      "text": "For a fraction of a second, the Inquisitor's mental defenses part like curtains — and you see. Not his thoughts, not exactly, but the emotional architecture beneath. Desperation. Cold, controlled terror wrapped in iron discipline. Two faces flash through his mind — the previous psyker assets. But the images are wrong. They're not dead. They're *changed*. Eyes burning with warp-fire, mouths twisted in ecstasy. They didn't fail. They turned.",
+      "speaker": ""
+    },
+    {
+      "type": "description",
+      "text": "Voss blinks. His eyes narrow a fraction — he felt the touch, but not its depth. He studies you for a long moment, recalculating. You keep your face neutral, but you know his secret now: he's not just hunting a cult. He's terrified that you'll become like the others. That the Whisper will take you too.",
+      "speaker": ""
+    }
+  ],
+  "choices": [
+    {
+      "id": "continue",
+      "text": "You carry the Inquisitor's secret in silence.",
+      "conditions": {},
+      "visibleWhenLocked": false,
+      "effects": {
+        "setFlags": [
+          "knows_voss_fear",
+          "knows_turned_psykers",
+          "mental_advantage",
+          "voss_secret_known",
+          "knows_psyker_turning"
+        ],
+        "npcRelationshipChanges": {
+          "inquisitor_voss": {
+            "knowledge": 20
+          }
+        },
+        "nextScene": "ch1_the_briefing"
+      }
+    }
+  ]
+}

@@ -1,0 +1,57 @@
+{
+  "id": "ch1_read_mind_failure",
+  "chapter": "chapter1",
+  "title": "The Mind-Trap",
+  "location": "inquisitorial_fortress",
+  "conditions": {
+    "requiredFlags": [
+      "attempted_mind_reading_voss"
+    ],
+    "forbiddenFlags": [],
+    "minLevel": 1
+  },
+  "isHub": false,
+  "tags": [
+    "branch",
+    "psychic",
+    "failure"
+  ],
+  "blocks": [
+    {
+      "type": "description",
+      "text": "You reach for Voss's mind and hit a wall of absolute nothing. A null-ward — embedded somewhere beneath his collar, perhaps in the cybernetic implant at his temple. Your psychic probe bounces back like a fist striking iron, and pain explodes behind your eyes. You flinch. You can't help it.",
+      "speaker": ""
+    },
+    {
+      "type": "description",
+      "text": "Voss doesn't move. But his eyes — those spent-ammunition eyes — lock onto you with a new intensity. 'I felt that,' he says, voice flat as a blade. 'Let me be clear, psyker. My mind is my own. Attempt that again and I will have Astropath Seren perform a selective memory-scrub. You will forget this conversation. You will forget your own name. Do we understand each other?' The servo-skull Macharius buzzes, recording every word.",
+      "speaker": ""
+    }
+  ],
+  "choices": [
+    {
+      "id": "continue",
+      "text": "You nod, chastened. The Inquisitor's trust will be hard to earn now.",
+      "conditions": {},
+      "visibleWhenLocked": false,
+      "effects": {
+        "setFlags": [
+          "voss_caught_probe",
+          "voss_distrusts_you",
+          "voss_detected_probe"
+        ],
+        "npcRelationshipChanges": {
+          "inquisitor_voss": {
+            "respect": -15,
+            "fear": 10,
+            "affinity": -15
+          }
+        },
+        "factionRepChanges": {
+          "inquisition": -10
+        },
+        "nextScene": "ch1_the_briefing"
+      }
+    }
+  ]
+}

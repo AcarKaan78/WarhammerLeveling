@@ -1,0 +1,67 @@
+{
+  "id": "ch1_whisper_analyze_failure",
+  "chapter": "chapter1",
+  "title": "The Screaming Frequency",
+  "location": "underhive_entrance",
+  "conditions": {
+    "requiredFlags": [
+      "analyzed_whisper"
+    ],
+    "forbiddenFlags": [],
+    "minLevel": 1
+  },
+  "isHub": false,
+  "tags": [
+    "branch",
+    "intelligence",
+    "failure",
+    "finale"
+  ],
+  "blocks": [
+    {
+      "type": "description",
+      "text": "You attempt to analyze the Whisper's psychic frequency — and the moment you focus, it amplifies. What was a murmur becomes a roar. You hear them all at once: every bound psyker in the Choir, screaming through the Warp in unified agony. Their pain hits you like a physical blow, driving you to your knees.",
+      "speaker": ""
+    },
+    {
+      "type": "description",
+      "text": "For three terrible seconds, you see through their eyes. Chains. Darkness. Mouths forced open by iron gags. The taste of blood and ozone. And the Choirmaster's hands, moving in patterns that make reality shiver. Then the connection snaps and you're back, on your hands and knees in the underhive entrance, with Agent Drax hauling you upright and Magos Rhyn-7 scanning your vitals with clicking mechadendrites.",
+      "speaker": ""
+    },
+    {
+      "type": "dialogue",
+      "text": "The psyker's neural patterns show significant disturbance. Recommend immediate stabilization protocol.",
+      "speaker": "Magos Rhyn-7"
+    },
+    {
+      "type": "system_message",
+      "text": "Chapter 1 Complete. Your analysis attempt overloaded your senses. The team has seen your vulnerability. Trust may be harder to earn.",
+      "speaker": ""
+    }
+  ],
+  "choices": [
+    {
+      "id": "continue",
+      "text": "You failed to analyze the Whisper. It analyzed you instead.",
+      "conditions": {},
+      "visibleWhenLocked": false,
+      "effects": {
+        "setFlags": [
+          "analysis_overload",
+          "team_saw_weakness",
+          "ch1_ending_vulnerable"
+        ],
+        "npcRelationshipChanges": {
+          "agent_drax": {
+            "fear": 10,
+            "respect": -5
+          },
+          "interrogator_lira": {
+            "fear": 5
+          }
+        },
+        "nextScene": null
+      }
+    }
+  ]
+}

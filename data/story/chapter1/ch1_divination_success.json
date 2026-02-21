@@ -1,0 +1,60 @@
+{
+  "id": "ch1_divination_success",
+  "chapter": "chapter1",
+  "title": "The Future Bleeds",
+  "location": "psyker_sanctum",
+  "conditions": {
+    "requiredFlags": [
+      "chose_divination"
+    ],
+    "forbiddenFlags": [],
+    "minLevel": 1
+  },
+  "isHub": false,
+  "tags": [
+    "branch",
+    "psychic",
+    "success"
+  ],
+  "blocks": [
+    {
+      "type": "description",
+      "text": "Time fractures. You see through the cracks — not one future, but many, layered like stained glass. Most are dark, fragmented, impossible to read. But one shines clear: a ruined Ministorum chapel deep in the underhive. Black candles burning with warp-flame. Chains bolted to the walls. And bound to those chains — psykers, their mouths forced open, singing a song that makes reality bleed.",
+      "speaker": ""
+    },
+    {
+      "type": "description",
+      "text": "At the center stands a figure. You cannot see their face, but you see their hands — covered in hexagrammic tattoos, moving in patterns that shape the psychic chorus like a conductor. This is the Choirmaster. And behind them, something vast and hungry presses against the membrane of reality, drawn by the song.",
+      "speaker": ""
+    },
+    {
+      "type": "dialogue",
+      "text": "Emperor preserve us. You saw the Choir. You saw the thing they're summoning. I have felt that same presence pressing against the veil. We have less time than the Inquisitor believes.",
+      "speaker": "Astropath Seren"
+    }
+  ],
+  "choices": [
+    {
+      "id": "continue",
+      "text": "You have seen what awaits — and what the cult is trying to bring through.",
+      "conditions": {},
+      "visibleWhenLocked": false,
+      "effects": {
+        "setFlags": [
+          "vision_of_mastermind",
+          "future_sight_clear",
+          "knows_summoning",
+          "time_pressure",
+          "saw_choirmaster"
+        ],
+        "npcRelationshipChanges": {
+          "astropath_seren": {
+            "respect": 15,
+            "fear": 5
+          }
+        },
+        "nextScene": "ch1_preparation"
+      }
+    }
+  ]
+}

@@ -1,0 +1,63 @@
+{
+  "id": "ch1_whisper_analyze_success",
+  "chapter": "chapter1",
+  "title": "The Frequency of Agony",
+  "location": "underhive_entrance",
+  "conditions": {
+    "requiredFlags": [
+      "analyzed_whisper"
+    ],
+    "forbiddenFlags": [],
+    "minLevel": 1
+  },
+  "isHub": false,
+  "tags": [
+    "branch",
+    "intelligence",
+    "success",
+    "finale"
+  ],
+  "blocks": [
+    {
+      "type": "description",
+      "text": "You don't follow the Whisper — you dissect it. Like a chirurgeon examining a specimen, you isolate the psychic frequency, parsing its components with trained precision. It's not one voice. It's many — at least seven, possibly more — forced into harmonic alignment. A psychic chorus, singing in a frequency that resonates with the Immaterium.",
+      "speaker": ""
+    },
+    {
+      "type": "description",
+      "text": "More than that: the frequency is modulated. Someone is shaping it, adjusting the pitch and amplitude with expert precision. This isn't the work of a demagogue or a madman. This is a trained psyker — possibly Sanctioned, possibly rogue — who understands psychic mechanics at a fundamental level. You relay your analysis to Interrogator Lira, who records every word on her data-slate with grim efficiency.",
+      "speaker": ""
+    },
+    {
+      "type": "system_message",
+      "text": "Chapter 1 Complete. Your analysis has provided military-grade intelligence about the Choir's composition and leadership. Inquisitor Voss will be impressed.",
+      "speaker": ""
+    }
+  ],
+  "choices": [
+    {
+      "id": "continue",
+      "text": "Knowledge is the Emperor's sword. You have sharpened it well.",
+      "conditions": {},
+      "visibleWhenLocked": false,
+      "effects": {
+        "setFlags": [
+          "knows_choir_frequency",
+          "tactical_advantage",
+          "ch1_ending_intel",
+          "identified_choirmaster_skill"
+        ],
+        "npcRelationshipChanges": {
+          "interrogator_lira": {
+            "respect": 10
+          },
+          "inquisitor_voss": {
+            "respect": 10,
+            "knowledge": 10
+          }
+        },
+        "nextScene": null
+      }
+    }
+  ]
+}

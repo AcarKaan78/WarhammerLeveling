@@ -1,0 +1,51 @@
+{
+  "id": "ch1_divination_failure",
+  "chapter": "chapter1",
+  "title": "Drowning in Tomorrow",
+  "location": "psyker_sanctum",
+  "conditions": {
+    "requiredFlags": [
+      "chose_divination"
+    ],
+    "forbiddenFlags": [],
+    "minLevel": 1
+  },
+  "isHub": false,
+  "tags": [
+    "branch",
+    "psychic",
+    "failure"
+  ],
+  "blocks": [
+    {
+      "type": "description",
+      "text": "The future opens like a wound and you fall in. Visions cascade without order — fire, screaming, a city burning from within. Your own hands covered in blood that isn't yours. Faces you don't recognize, twisted in agony. A great eye opening in the sky, its gaze a weight that crushes the soul. Everything happens at once and none of it makes sense.",
+      "speaker": ""
+    },
+    {
+      "type": "description",
+      "text": "Someone is screaming. It takes you a moment to realize it's you. Seren's hands are on your temples, cool and steady, pulling you back from the temporal abyss with practiced precision. 'Enough,' she commands, and reality snaps back into focus. You're on your knees on the sanctum floor, shaking. The ward-crystals are humming at a frequency that makes your teeth ache.",
+      "speaker": ""
+    },
+    {
+      "type": "dialogue",
+      "text": "The future is not a river to be navigated. It is an ocean in which you drown. You are not ready for divination of that magnitude. Remember — the Warp shows you what it wants you to see.",
+      "speaker": "Astropath Seren"
+    }
+  ],
+  "choices": [
+    {
+      "id": "continue",
+      "text": "You rise shakily. The visions linger at the edge of your consciousness.",
+      "conditions": {},
+      "visibleWhenLocked": false,
+      "effects": {
+        "setFlags": [
+          "divination_overload",
+          "warp_visions_lingering"
+        ],
+        "nextScene": "ch1_preparation"
+      }
+    }
+  ]
+}

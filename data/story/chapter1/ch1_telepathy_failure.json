@@ -1,0 +1,46 @@
+{
+  "id": "ch1_telepathy_failure",
+  "chapter": "chapter1",
+  "title": "The Fortress Mind",
+  "location": "psyker_sanctum",
+  "conditions": {
+    "requiredFlags": [
+      "chose_telepathy"
+    ],
+    "forbiddenFlags": [],
+    "minLevel": 1
+  },
+  "isHub": false,
+  "tags": [
+    "branch",
+    "psychic",
+    "failure"
+  ],
+  "blocks": [
+    {
+      "type": "description",
+      "text": "You reach for Seren's mind and find a fortress. The Soul Binding that stripped her eyes also forged her consciousness into something diamond-hard, impenetrable. Your probe slides off like water on adamantium — and in the rebound, you catch something unintended: a flash of her pain. The moment the Emperor's light burned through her optic nerves. The sound she made. The smell of her own eyes cooking.",
+      "speaker": ""
+    },
+    {
+      "type": "description",
+      "text": "You stagger back, gasping. The phantom pain fades slowly, leaving a cold ache behind your own eyes. Seren tilts her head, expression unreadable. 'You are not ready for the depths of another's mind,' she says quietly. 'When you face the Whisper, remember this: not every mind can be entered. And not every mind should be.'",
+      "speaker": ""
+    }
+  ],
+  "choices": [
+    {
+      "id": "continue",
+      "text": "A harsh lesson. You will remember it.",
+      "conditions": {},
+      "visibleWhenLocked": false,
+      "effects": {
+        "setFlags": [
+          "telepathy_rejected",
+          "felt_seren_pain"
+        ],
+        "nextScene": "ch1_preparation"
+      }
+    }
+  ]
+}

@@ -1,0 +1,59 @@
+{
+  "id": "ch1_telepathy_success",
+  "chapter": "chapter1",
+  "title": "The Shared Vision",
+  "location": "psyker_sanctum",
+  "conditions": {
+    "requiredFlags": [
+      "chose_telepathy"
+    ],
+    "forbiddenFlags": [],
+    "minLevel": 1
+  },
+  "isHub": false,
+  "tags": [
+    "branch",
+    "psychic",
+    "success"
+  ],
+  "blocks": [
+    {
+      "type": "description",
+      "text": "You open your mind to Seren and she opens hers — a gentle mutual contact, like two hands clasping in the dark. Her consciousness is vast, scarred by the Soul Binding but luminous with faith. And within that light, she shows you something deliberately: a memory. A vision she received three days ago.",
+      "speaker": ""
+    },
+    {
+      "type": "description",
+      "text": "You see them — a circle of psykers, bound in chains of black iron, their mouths open in a soundless scream. They are being *used*. Forced to sing in psychic unison, their combined power forming a beacon — a summoning chorus. At the center stands a figure in robes the color of old blood, conducting them like an orchestra of agony. This is what you're hunting. This is the Choir.",
+      "speaker": ""
+    },
+    {
+      "type": "dialogue",
+      "text": "Now you know what waits below. I could not share this with the Inquisitor — he would not understand. But you, child... you can feel what they feel. Use that.",
+      "speaker": "Astropath Seren"
+    }
+  ],
+  "choices": [
+    {
+      "id": "continue",
+      "text": "Seren has shown you the enemy's true form.",
+      "conditions": {},
+      "visibleWhenLocked": false,
+      "effects": {
+        "setFlags": [
+          "seren_vision_shared",
+          "knows_choir_danger",
+          "knows_choir_master",
+          "shared_vision"
+        ],
+        "npcRelationshipChanges": {
+          "astropath_seren": {
+            "affinity": 10,
+            "knowledge": 15
+          }
+        },
+        "nextScene": "ch1_preparation"
+      }
+    }
+  ]
+}

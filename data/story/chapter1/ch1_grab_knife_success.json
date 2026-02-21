@@ -1,0 +1,51 @@
+{
+  "id": "ch1_grab_knife_success",
+  "chapter": "chapter1",
+  "title": "The Silent Blade",
+  "location": "hab_block",
+  "conditions": {
+    "requiredFlags": [
+      "armed_opener"
+    ],
+    "forbiddenFlags": [],
+    "minLevel": 1
+  },
+  "isHub": false,
+  "tags": [
+    "branch",
+    "combat",
+    "success"
+  ],
+  "blocks": [
+    {
+      "type": "description",
+      "text": "Your hand finds the blade beneath your sleeping mat without sound. Years of survival instinct — honed in the underhive before the Black Ships found you — take over. You move on bare feet across the cold rockcrete floor, positioning yourself beside the door frame, knife held low and close.",
+      "speaker": ""
+    },
+    {
+      "type": "description",
+      "text": "When you open the door, you're behind it — blade ready, body angled to strike. The woman in the grey coat sees the empty room first, then catches movement in her peripheral vision. She turns to find you there, armed and ready. Her hand twitches toward her sidearm, but then she pauses. A thin smile. 'Good instincts,' she says. 'You'll need them.'",
+      "speaker": ""
+    }
+  ],
+  "choices": [
+    {
+      "id": "continue",
+      "text": "She respects your readiness.",
+      "conditions": {},
+      "visibleWhenLocked": false,
+      "effects": {
+        "setFlags": [
+          "ambush_ready",
+          "impressed_lira_combat"
+        ],
+        "npcRelationshipChanges": {
+          "interrogator_lira": {
+            "respect": 10
+          }
+        },
+        "nextScene": "ch1_the_messenger"
+      }
+    }
+  ]
+}

@@ -1,0 +1,59 @@
+{
+  "id": "ch1_whisper_follow_failure",
+  "chapter": "chapter1",
+  "title": "The Hook Sinks Deep",
+  "location": "underhive_entrance",
+  "conditions": {
+    "requiredFlags": [
+      "followed_whisper"
+    ],
+    "forbiddenFlags": [],
+    "minLevel": 1
+  },
+  "isHub": false,
+  "tags": [
+    "branch",
+    "psychic",
+    "failure",
+    "finale"
+  ],
+  "blocks": [
+    {
+      "type": "description",
+      "text": "You open yourself to the Whisper and it rushes in like floodwater through a cracked dam. Too much, too fast — the psychic current doesn't carry you to its source, it drags you under. For a terrible moment you are nowhere, suspended in a void that breathes and watches and hungers.",
+      "speaker": ""
+    },
+    {
+      "type": "description",
+      "text": "Something touches your mind. Not the Choir — something behind it. Something vast and patient that has been waiting for someone exactly like you to open this door. It plants a seed: an urge, subtle as a heartbeat, to walk deeper into the underhive. Alone. Without the team. Without the necklace. The compulsion nestles into your subconscious like a parasite.",
+      "speaker": ""
+    },
+    {
+      "type": "description",
+      "text": "You wrench free, gasping, and find Interrogator Lira gripping your shoulder, her face tight with concern. 'What happened? Your eyes went white.' You tell her you're fine. You're not fine. Something is inside you now, whispering in a voice that sounds like your own.",
+      "speaker": ""
+    },
+    {
+      "type": "system_message",
+      "text": "Chapter 1 Complete. WARNING: The Whisper has planted a psychic compulsion in your mind. This will create complications in Chapter 2.",
+      "speaker": ""
+    }
+  ],
+  "choices": [
+    {
+      "id": "continue",
+      "text": "Something followed you back from the Warp.",
+      "conditions": {},
+      "visibleWhenLocked": false,
+      "effects": {
+        "setFlags": [
+          "whisper_hooked",
+          "compulsion_planted",
+          "ch1_ending_compromised",
+          "warp_parasite"
+        ],
+        "nextScene": null
+      }
+    }
+  ]
+}

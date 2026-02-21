@@ -1,0 +1,52 @@
+{
+  "id": "ch1_psychic_sense_failure",
+  "chapter": "chapter1",
+  "title": "The Warp Bites Back",
+  "location": "hab_block",
+  "conditions": {
+    "requiredFlags": [
+      "psychic_sense_used"
+    ],
+    "forbiddenFlags": [],
+    "minLevel": 1
+  },
+  "isHub": false,
+  "tags": [
+    "branch",
+    "psychic",
+    "failure"
+  ],
+  "blocks": [
+    {
+      "type": "description",
+      "text": "You reach out with your mind — and the hab-block's residual psy-dampening slams into you like a wall of static. Pain lances through your temples. Your nose begins to bleed, warm copper running over your lip. The ambient psychic noise of ten thousand souls living in proximity becomes a deafening roar of fragmented thoughts and emotions.",
+      "speaker": ""
+    },
+    {
+      "type": "description",
+      "text": "You stumble to the door, pressing your sleeve against your bleeding nose, and wrench it open. The woman on the other side — a stranger in a grey storm coat — takes one look at the blood on your face and her eyes narrow with clinical assessment. Your first impression is weakness.",
+      "speaker": ""
+    }
+  ],
+  "choices": [
+    {
+      "id": "continue",
+      "text": "You open the door, blood dripping from your nose.",
+      "conditions": {},
+      "visibleWhenLocked": false,
+      "effects": {
+        "setFlags": [
+          "psychic_backlash",
+          "showed_weakness_to_lira"
+        ],
+        "npcRelationshipChanges": {
+          "interrogator_lira": {
+            "respect": -5,
+            "fear": 5
+          }
+        },
+        "nextScene": "ch1_the_messenger"
+      }
+    }
+  ]
+}

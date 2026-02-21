@@ -1,0 +1,51 @@
+{
+  "id": "ch1_psychic_sense_success",
+  "chapter": "chapter1",
+  "title": "Clarity in the Warp",
+  "location": "hab_block",
+  "conditions": {
+    "requiredFlags": [
+      "psychic_sense_used"
+    ],
+    "forbiddenFlags": [],
+    "minLevel": 1
+  },
+  "isHub": false,
+  "tags": [
+    "branch",
+    "psychic",
+    "success"
+  ],
+  "blocks": [
+    {
+      "type": "description",
+      "text": "Your psychic senses unfurl like tendrils of light, pushing through the hab-block's ambient interference. You feel the person beyond the door with crystalline clarity — a single soul, female, burning with purpose but without hostility. An aura of authority clings to her like perfume. Inquisitorial authority. She carries something metallic against her chest — a rosette.",
+      "speaker": ""
+    },
+    {
+      "type": "description",
+      "text": "You open the door with the calm confidence of someone who already knows the answer. The woman on the other side — auburn hair, grey storm coat — blinks once, surprised by your composure. She expected fear. You gave her certainty.",
+      "speaker": ""
+    }
+  ],
+  "choices": [
+    {
+      "id": "continue",
+      "text": "You know exactly who she is before she speaks.",
+      "conditions": {},
+      "visibleWhenLocked": false,
+      "effects": {
+        "setFlags": [
+          "sensed_visitor_clear",
+          "psychic_confidence"
+        ],
+        "npcRelationshipChanges": {
+          "interrogator_lira": {
+            "respect": 5
+          }
+        },
+        "nextScene": "ch1_the_messenger"
+      }
+    }
+  ]
+}

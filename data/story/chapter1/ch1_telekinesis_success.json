@@ -1,0 +1,57 @@
+{
+  "id": "ch1_telekinesis_success",
+  "chapter": "chapter1",
+  "title": "The Emperor's Hand",
+  "location": "psyker_sanctum",
+  "conditions": {
+    "requiredFlags": [
+      "chose_telekinesis"
+    ],
+    "forbiddenFlags": [],
+    "minLevel": 1
+  },
+  "isHub": false,
+  "tags": [
+    "branch",
+    "psychic",
+    "success"
+  ],
+  "blocks": [
+    {
+      "type": "description",
+      "text": "You reach out with your mind and the crystalline pylon responds like an extension of your own body. It lifts from its mount smoothly, rotating in the air with perfect control. The ward-crystals around the chamber sing in harmonic resonance — your power flowing through the hexagrammic channels rather than fighting them. Even the dampening field seems to part for you.",
+      "speaker": ""
+    },
+    {
+      "type": "dialogue",
+      "text": "Remarkable.",
+      "speaker": "Astropath Seren"
+    },
+    {
+      "type": "description",
+      "text": "Seren's blind face tilts upward, tracking the pylon's movement with senses beyond sight. 'Your control is... unusual for your grade. The Emperor's gift runs deep in you. This will serve you well against the Whisper — if you can maintain this discipline when the Warp pushes back.'",
+      "speaker": ""
+    }
+  ],
+  "choices": [
+    {
+      "id": "continue",
+      "text": "Seren marks you as exceptional.",
+      "conditions": {},
+      "visibleWhenLocked": false,
+      "effects": {
+        "setFlags": [
+          "telekinesis_mastered",
+          "seren_approves",
+          "tk_mastery_shown"
+        ],
+        "npcRelationshipChanges": {
+          "astropath_seren": {
+            "respect": 10
+          }
+        },
+        "nextScene": "ch1_preparation"
+      }
+    }
+  ]
+}

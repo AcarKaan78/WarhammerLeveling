@@ -1,0 +1,26 @@
+{
+  "id": "ch1_grab_knife_failure",
+  "chapter": "chapter1",
+  "title": "Fumbling in the Dark",
+  "location": "hab_block",
+  "conditions": { "requiredFlags": ["armed_opener"], "forbiddenFlags": [], "minLevel": 1 },
+  "isHub": false,
+  "tags": ["branch", "combat", "failure"],
+  "blocks": [
+    { "type": "description", "text": "Your hand fumbles beneath the sleeping mat, fingers clumsy with sleep and adrenaline. You find the knife, but in pulling it free you catch the edge of your water cup. It crashes to the floor, the sound impossibly loud in the silent hab-block. Metal ringing on rockcrete — announcing your position to whoever stands beyond the door.", "speaker": "" },
+    { "type": "description", "text": "The knocking stops. A heartbeat of silence. Then three more knocks, harder this time, followed by a woman's voice: 'I heard that. Open the door. I am not your enemy — but I will not wait.' You pull the door open, knife still in hand, feeling like a cornered rat rather than a trained operative.", "speaker": "" }
+  ],
+  "choices": [
+    {
+      "id": "continue",
+      "text": "Not the first impression you wanted.",
+      "conditions": {},
+      "visibleWhenLocked": false,
+      "effects": {
+        "setFlags": ["clumsy_start", "lira_unimpressed"],
+        "npcRelationshipChanges": { "interrogator_lira": { "respect": -5 } },
+        "nextScene": "ch1_the_messenger"
+      }
+    }
+  ]
+}

@@ -1,0 +1,47 @@
+{
+  "id": "ch1_telekinesis_failure",
+  "chapter": "chapter1",
+  "title": "Shattered Crystal",
+  "location": "psyker_sanctum",
+  "conditions": {
+    "requiredFlags": [
+      "chose_telekinesis"
+    ],
+    "forbiddenFlags": [],
+    "minLevel": 1
+  },
+  "isHub": false,
+  "tags": [
+    "branch",
+    "psychic",
+    "failure"
+  ],
+  "blocks": [
+    {
+      "type": "description",
+      "text": "You reach for the pylon with your mind — and it lurches. Not a smooth lift but a violent wrench, the crystalline structure shaking in its mount as your unfocused power floods through it. One of the ward-crystals cracks with a sound like breaking bone, sending shards of psycho-reactive material skittering across the chamber floor.",
+      "speaker": ""
+    },
+    {
+      "type": "description",
+      "text": "Seren's hand snaps out, and the pylon freezes mid-air — caught by her own telekinetic grip, steady as stone. She lowers it gently back to its mount. 'Control,' she says, her voice not unkind but firm. 'Power without control is merely destruction. The Warp will exploit every crack in your discipline. You must be better than this, or the Whisper will eat you alive.'",
+      "speaker": ""
+    }
+  ],
+  "choices": [
+    {
+      "id": "continue",
+      "text": "You must train harder.",
+      "conditions": {},
+      "visibleWhenLocked": false,
+      "effects": {
+        "setFlags": [
+          "telekinesis_unstable",
+          "seren_concerned",
+          "crystal_shattered"
+        ],
+        "nextScene": "ch1_preparation"
+      }
+    }
+  ]
+}
